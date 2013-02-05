@@ -10,11 +10,14 @@ class Record < Command
     parser = OptionParser.new do |opts|
       opts.banner = "Usage: git record [options]"
       opts.on("-m", "--message MESSAGE",
-              "add a commit message (with story #)") do |m| 
+              "add a commit message (including story #)") do |m| 
         options.message = m
       end
-      opts.on("-f", "--finish", "mark story as finished (with story #)") do |f|
+      opts.on("-f", "--finish", "mark story as finished") do |f|
         options.finish = f
+      end
+      opts.on("-d", "--deliver", "mark story as delivered") do |d|
+        options.deliver = d
       end
       opts.on("-a", "--all", "commit all changed files") do |a|
         options.all = a
@@ -34,7 +37,13 @@ class Record < Command
       # Arranges to fall through to regular 'git commit'
       options.message
     else
-      label = finish? ? "Finishes ##{story_id}" : "##{story_id}"
+      if finish?
+        label = "Finishes ##{story_id}"
+      elsif deliver?
+        label = "Delivers ##{story_id}"
+      else
+        label = "##{story_id}"
+      end
       "[#{label}] #{options.message}"
     end
   end
@@ -58,6 +67,10 @@ class Record < Command
 
     def finish?
       options.finish
+    end
+
+    def deliver?
+      options.deliver
     end
 
     def message?
