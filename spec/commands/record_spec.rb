@@ -76,4 +76,11 @@ describe Record do
       should == %(git commit -m "[Finishes ##{command.story_id}] message")
     end
   end
+
+  describe "command with no story id" do
+    before { command.stub(:current_branch).and_return('tau-manifesto') }
+    its(:cmd) do
+      should == %(git commit -a -m "message" -z --foo)
+    end    
+  end
 end

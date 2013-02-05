@@ -1,5 +1,7 @@
 require 'optparse'
 require 'ostruct'
+require 'pivotal-github/options'
+require 'pivotal-github/command'
 
 class Record < Command
 
@@ -8,14 +10,14 @@ class Record < Command
     parser = OptionParser.new do |opts|
       opts.banner = "Usage: git record [options]"
       opts.on("-m", "--message MESSAGE",
-              "add a commit message (with ticket #)") do |m| 
+              "add a commit message (with story #)") do |m| 
         options.message = m
+      end
+      opts.on("-f", "--finish", "mark story as finished (with story #)") do |f|
+        options.finish = f
       end
       opts.on("-a", "--all", "commit all changed files") do |a|
         options.all = a
-      end
-      opts.on("-f", "--finish", "mark story as finished") do |f|
-        options.finish = f
       end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0
@@ -28,11 +30,18 @@ class Record < Command
   end
 
   def message
-    label = finish? ? "[Finishes ##{story_id}]" : "[##{story_id}]"
-    "#{label} #{options.message}"
+    if story_id.nil?
+      # Arranges to fall through to regular 'git commit'
+      options.message
+    else
+      label = finish? ? "Finishes ##{story_id}" : "##{story_id}"
+      "[#{label}] #{options.message}"
+    end
   end
 
   # Returns a command appropriate for executing at the command line
+  # We take care to insert the story number and, if necessary, an indication
+  # that the commit finishes the story.
   def cmd
     c = ['git commit']
     c << '-a' if all?
@@ -41,19 +50,23 @@ class Record < Command
     c.join(' ')
   end
 
+  def run!
+    `#{cmd}`
+  end
+
   private
 
-  def finish?
-    options.finish
-  end
+    def finish?
+      options.finish
+    end
 
-  def message?
-    !options.message.nil?
-  end
+    def message?
+      !options.message.nil?
+    end
 
-  def all?
-    options.all
-  end
+    def all?
+      options.all
+    end
 
     # Returns an argument string based on given arguments
     # The main trick is to add in quotes for option
