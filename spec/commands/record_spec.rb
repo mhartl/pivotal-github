@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe Record do
 
-  let(:command) { Record.new(['-a']) }
+  let(:command) { Record.new(['-m', 'message', '-a', '-z', '--foo']) }
+
+  before { command.parse }
+
   subject { command }
 
   it { should respond_to(:cmd) }
@@ -14,15 +17,13 @@ describe Record do
   it { should respond_to(:story_id) }
 
   shared_examples "record with known options" do
-    let(:options) { command.parse }
-    before { options }
     subject { command }
 
     its(:message) { should == 'message' }
     its(:all?)    { should be_true }
 
     describe "parse" do
-      subject { options }
+      subject { command.options }
 
       its(:message) { should == 'message' }
       its(:all)     { should be_true }
@@ -54,4 +55,6 @@ describe Record do
     subject { command.story_id }
     it { should == '6283185' }
   end
+
+  its(:cmd) { should == 'git commit -m "message" -a' }
 end

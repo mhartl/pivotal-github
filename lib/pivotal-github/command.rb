@@ -1,5 +1,5 @@
 class Command
-  attr_accessor :args, :cmd, :options
+  attr_accessor :args, :cmd, :options, :known_options, :unknown_options
 
   def initialize(args)
     self.args = args
@@ -11,5 +11,9 @@ class Command
 
   def story_id
     current_branch.scan(/\d+/).first
+  end
+
+  def options
+    @options ||= parse
   end
 end

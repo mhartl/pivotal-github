@@ -21,8 +21,10 @@ class Record < Command
         puts opts.to_s; exit 0
       end
     end
-    parser.parse!(Options::known_options(parser, args))
-    self.options = options
+    self.known_options   =  Options::known_options(parser, args)
+    self.unknown_options = Options::unknown_options(parser, args)
+    parser.parse(known_options)
+    options
   end
 
   def message
@@ -32,4 +34,22 @@ class Record < Command
   def all?
     options.all
   end
+
+  def cmd
+    'git commit ' +
+    argument_string(known_options) #+ cmd_string(unknown_options)
+  end
+
+  private
+
+    # Returns an argument string based on given arguments
+    # The main trick is to add in quotes for option
+    # arguments when necessary.
+    # For example, ['-a', '-m', 'foo bar'] becomes
+    # '-a -m "foo bar"'
+    def argument_string(args)
+      args.inject([]) do |opts, opt|
+        opts << (opt =~ /^-/ ? opt : opt.inspect)
+      end.join(' ')      
+    end
 end
