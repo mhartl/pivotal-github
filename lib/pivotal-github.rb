@@ -1,5 +1,6 @@
 require "pivotal-github/version"
 require "pivotal-github/options"
+require "pivotal-github/record"
 
 module Pivotal
   module Github
