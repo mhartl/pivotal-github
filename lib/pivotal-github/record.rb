@@ -1,5 +1,6 @@
 require 'optparse'
 require 'ostruct'
+require 'pivotal-github/options'
 
 class Record
 
@@ -11,7 +12,7 @@ class Record
 
   def parse
     options = OpenStruct.new
-    opts = OptionParser.new do |opts|
+    parser = OptionParser.new do |opts|
       opts.banner = "Usage: git record [options]"
       opts.on("-m", "--message MESSAGE",
               "add a commit message (with ticket #)") do |m| 
@@ -27,9 +28,7 @@ class Record
         puts opts.to_s; exit 0
       end
     end
-    opts.parse!(args)
+    parser.parse!(Options::known_options(parser, args))
     options
   end
-
-
 end
