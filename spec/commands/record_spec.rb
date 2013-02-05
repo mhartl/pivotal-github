@@ -6,11 +6,21 @@ describe Record do
 
   it { should respond_to(:cmd) }
   it { should respond_to(:args) }
+  it { should respond_to(:options) }
   it { should respond_to(:parse) }
+  it { should respond_to(:all?) }
+  it { should respond_to(:message) }
 
   shared_examples "record with known options" do
+    let(:options) { command.parse }
+    before { options }
+    subject { command }
+
+    its(:message) { should == 'message' }
+    its(:all?)    { should be_true }
+
     describe "parse" do
-      subject { command.parse }
+      subject { options }
 
       its(:message) { should == 'message' }
       its(:all)     { should be_true }

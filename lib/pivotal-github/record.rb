@@ -4,7 +4,7 @@ require 'pivotal-github/options'
 
 class Record
 
-  attr_accessor :args, :cmd
+  attr_accessor :args, :cmd, :options
 
   def initialize(args)
     self.args = args
@@ -29,6 +29,14 @@ class Record
       end
     end
     parser.parse!(Options::known_options(parser, args))
-    options
+    self.options = options
+  end
+
+  def message
+    options.message
+  end
+
+  def all?
+    options.all
   end
 end
