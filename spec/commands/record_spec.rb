@@ -9,7 +9,6 @@ describe Record do
     command.parse
   end
 
-
   subject { command }
 
   it { should respond_to(:cmd) }
@@ -22,6 +21,7 @@ describe Record do
   shared_examples "record with known options" do
     subject { command }
 
+    its(:cmd)      { should =~ /git commit/ }
     its(:message)  { should_not be_empty }
     its(:message?) { should be_true }
     its(:all?)     { should be_true }

@@ -1,12 +1,12 @@
 class Command
   attr_accessor :args, :cmd, :options, :known_options, :unknown_options
 
-  def initialize(args)
+  def initialize(args = [])
     self.args = args
   end
 
   def current_branch
-    `git symbolic-ref HEAD`.chomp.split('/').last
+    `git rev-parse --abbrev-ref HEAD`
   end
 
   def story_id
