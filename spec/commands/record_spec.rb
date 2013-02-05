@@ -4,7 +4,11 @@ describe Record do
 
   let(:command) { Record.new(['-m', 'message', '-a', '-z', '--foo']) }
 
-  before { command.parse }
+  before do
+    command.stub(:current_branch).and_return('6283185-tau-manifesto')
+    command.parse
+  end
+
 
   subject { command }
 
@@ -13,14 +17,16 @@ describe Record do
   it { should respond_to(:options) }
   it { should respond_to(:parse) }
   it { should respond_to(:all?) }
+  it { should respond_to(:message?) }
   it { should respond_to(:message) }
   it { should respond_to(:story_id) }
 
   shared_examples "record with known options" do
     subject { command }
 
-    its(:message) { should == 'message' }
-    its(:all?)    { should be_true }
+    its(:message)  { should == 'message' }
+    its(:message?) { should be_true }
+    its(:all?)     { should be_true }
 
     describe "parse" do
       subject { command.options }
@@ -51,10 +57,18 @@ describe Record do
   end
 
   describe '#story_id' do
-    before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
     subject { command.story_id }
     it { should == '6283185' }
   end
 
-  its(:cmd) { should == 'git commit -m "message" -a' }
+  describe "command with message" do
+    its(:cmd) do
+      should == %(git commit -a -m "[##{command.story_id}] message" -z --foo)
+    end
+  end
+
+  describe "command with no message" do
+    let(:command) { Record.new(['-a', '-z', '--foo']) }
+    its(:cmd) { should == %(git commit -a -z --foo) }      
+  end
 end

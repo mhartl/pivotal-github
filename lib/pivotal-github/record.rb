@@ -31,13 +31,20 @@ class Record < Command
     options.message
   end
 
+  def message?
+    !message.nil?
+  end
+
   def all?
     options.all
   end
 
   def cmd
-    'git commit ' +
-    argument_string(known_options) #+ cmd_string(unknown_options)
+    c = ['git commit']
+    c << '-a' if all?
+    c << %(-m "[##{story_id}] #{message}") if message?
+    c << argument_string(unknown_options)
+    c.join(' ')
   end
 
   private
