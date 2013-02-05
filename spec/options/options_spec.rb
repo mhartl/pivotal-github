@@ -27,16 +27,28 @@ describe Options do
   let(:args) { ['-a', '-m', '"A message"', '--finish', '-z', '--foo', 'b ar'] }
 
   it { should respond_to(:unknown_options) }
+  it { should respond_to(:known_options) }
 
   describe '#unknown_options' do
     subject { Options::unknown_options(parser, args) }
 
-    it { should include('-z') }
-    it { should include('--foo') }
-    it { should include('b ar') }
+    it { should     include('-z') }
+    it { should     include('--foo') }
+    it { should     include('b ar') }
     it { should_not include('-a') }
     it { should_not include('-m') }
     it { should_not include('"A message"') }
     it { should_not include('--finish') }
   end
+
+  describe '#known_options' do
+    subject { Options::known_options(parser, args) }
+
+    it { should_not include('-z') }
+    it { should_not include('--foo') }
+    it { should_not include('b ar') }
+    it { should     include('-a') }
+    it { should     include('-m') }
+    it { should     include('"A message"') }
+    it { should     include('--finish') }  end
 end
