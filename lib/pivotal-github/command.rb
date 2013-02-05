@@ -3,10 +3,15 @@ class Command
 
   def initialize(args = [])
     self.args = args
+    parse
+  end
+
+  def parse
+    raise "Define in derived class"
   end
 
   def current_branch
-    `git rev-parse --abbrev-ref HEAD`
+    `git rev-parse --abbrev-ref HEAD`.strip
   end
 
   def story_id

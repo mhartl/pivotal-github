@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-require 'pivotal-github/record'
+require 'pivotal-github/submit'
 
 debug = ARGV.delete('--debug')
-command = Record.new(ARGV.dup)
+command = Submit.new(ARGV.dup)
 if debug
   puts command.cmd
 else

@@ -6,7 +6,6 @@ describe Record do
 
   before do
     command.stub(:current_branch).and_return('6283185-tau-manifesto')
-    command.parse
   end
 
   subject { command }
@@ -89,5 +88,13 @@ describe Record do
     its(:cmd) do
       should == %(git commit -a -m "message" -z --foo)
     end    
+  end
+
+  describe "command-line command" do
+    subject { `bin/git-record -a -m "message" -z --debug` }
+    it { should =~ /git commit -a -m/ }
+    it { should =~ /message/ }
+    it { should =~ /-z/ }
+    it { should_not =~ /--debug/ }
   end
 end

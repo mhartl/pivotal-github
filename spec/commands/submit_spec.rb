@@ -6,7 +6,6 @@ describe Submit do
 
   before do
     command.stub(:current_branch).and_return('6283185-tau-manifesto')
-    command.parse
   end
 
   subject { command }
@@ -45,5 +44,11 @@ describe Submit do
     let(:command) { Submit.new(['-p', 'develop', '-a', '-z', '--foo']) }
     it_should_behave_like "submit with known options"
     its(:cmd) { should =~ /-a -z --foo/ }
+  end
+
+  describe "command-line command" do
+    subject { `bin/git-submit -t heroku -p develop -z --debug` }
+    it { should =~ /git push heroku/ }
+    it { should =~ /-z/ }
   end
 end

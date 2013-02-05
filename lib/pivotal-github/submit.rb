@@ -5,8 +5,6 @@ require 'pivotal-github/command'
 
 class Submit < Command
 
-  # attr_accessor :branch
-
   def parse
     options = OpenStruct.new
     parser = OptionParser.new do |opts|
