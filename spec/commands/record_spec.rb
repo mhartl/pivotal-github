@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Record do
 
-  subject { Record.new(['-a']) }
+  let(:command) { Record.new(['-a']) }
+  subject { command }
 
   it { should respond_to(:cmd) }
   it { should respond_to(:args) }
@@ -10,6 +11,7 @@ describe Record do
   it { should respond_to(:parse) }
   it { should respond_to(:all?) }
   it { should respond_to(:message) }
+  it { should respond_to(:story_id) }
 
   shared_examples "record with known options" do
     let(:options) { command.parse }
@@ -45,5 +47,11 @@ describe Record do
     it "should not raise an error" do
       expect { command.parse }.not_to raise_error(OptionParser::InvalidOption)
     end
+  end
+
+  describe '#story_id' do
+    before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
+    subject { command.story_id }
+    it { should == '6283185' }
   end
 end

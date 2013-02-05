@@ -39,4 +39,12 @@ class Record
   def all?
     options.all
   end
+
+  def current_branch
+    `git symbolic-ref HEAD`.chomp.split('/').last
+  end
+
+  def story_id
+    current_branch.scan(/\d+/).first
+  end
 end
