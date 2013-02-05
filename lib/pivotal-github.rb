@@ -1,6 +1,6 @@
-$: << File.dirname(__FILE__)
 require "pivotal-github/version"
 require "pivotal-github/options"
+require "pivotal-github/command"
 require "pivotal-github/record"
 
 module Pivotal
