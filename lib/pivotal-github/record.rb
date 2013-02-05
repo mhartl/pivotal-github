@@ -52,6 +52,7 @@ class Record < Command
 
   def run!
     `#{cmd}`
+    return 0
   end
 
   private
