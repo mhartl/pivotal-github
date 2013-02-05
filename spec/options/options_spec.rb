@@ -34,5 +34,9 @@ describe Options do
     it { should include('-z') }
     it { should include('--foo') }
     it { should include('b ar') }
+    it { should_not include('-a') }
+    it { should_not include('-m') }
+    it { should_not include('"A message"') }
+    it { should_not include('--finish') }
   end
 end

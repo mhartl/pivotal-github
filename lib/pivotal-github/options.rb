@@ -24,5 +24,4 @@ module Options
     recursive_parse.call(initial_args)
     unknown
   end
-
 end
