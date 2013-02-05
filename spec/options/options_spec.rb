@@ -23,6 +23,16 @@ describe Options do
       end
     end    
   end
-  
-  it { should respond_to(:parse_known_to) }
+
+  let(:args) { ['-a', '-m', '"A message"', '--finish', '-z', '--foo', 'b ar'] }
+
+  it { should respond_to(:unknown_options) }
+
+  describe '#unknown_options' do
+    subject { Options::unknown_options(parser, args) }
+
+    it { should include('-z') }
+    it { should include('--foo') }
+    it { should include('b ar') }
+  end
 end
