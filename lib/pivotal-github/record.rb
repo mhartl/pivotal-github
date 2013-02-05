@@ -28,26 +28,32 @@ class Record < Command
   end
 
   def message
-    options.message
+    label = finish? ? "[Finishes ##{story_id}]" : "[##{story_id}]"
+    "#{label} #{options.message}"
+  end
+
+  # Returns a command appropriate for executing at the command line
+  def cmd
+    c = ['git commit']
+    c << '-a' if all?
+    c << %(-m "#{message}") if message?
+    c << argument_string(unknown_options) unless unknown_options.empty?
+    c.join(' ')
+  end
+
+  private
+
+  def finish?
+    options.finish
   end
 
   def message?
-    !message.nil?
+    !options.message.nil?
   end
 
   def all?
     options.all
   end
-
-  def cmd
-    c = ['git commit']
-    c << '-a' if all?
-    c << %(-m "[##{story_id}] #{message}") if message?
-    c << argument_string(unknown_options)
-    c.join(' ')
-  end
-
-  private
 
     # Returns an argument string based on given arguments
     # The main trick is to add in quotes for option

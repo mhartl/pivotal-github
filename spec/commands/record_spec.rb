@@ -16,15 +16,13 @@ describe Record do
   it { should respond_to(:args) }
   it { should respond_to(:options) }
   it { should respond_to(:parse) }
-  it { should respond_to(:all?) }
-  it { should respond_to(:message?) }
   it { should respond_to(:message) }
   it { should respond_to(:story_id) }
 
   shared_examples "record with known options" do
     subject { command }
 
-    its(:message)  { should == 'message' }
+    its(:message)  { should_not be_empty }
     its(:message?) { should be_true }
     its(:all?)     { should be_true }
 
@@ -70,5 +68,12 @@ describe Record do
   describe "command with no message" do
     let(:command) { Record.new(['-a', '-z', '--foo']) }
     its(:cmd) { should == %(git commit -a -z --foo) }      
+  end
+
+  describe "command with finish flag" do
+    let(:command) { Record.new(['-m', 'message', '-f']) }
+    its(:cmd) do
+      should == %(git commit -m "[Finishes ##{command.story_id}] message")
+    end
   end
 end
