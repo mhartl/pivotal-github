@@ -2,12 +2,8 @@ require 'spec_helper'
 
 describe Submit do
 
+  before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
   let(:command) { Submit.new }
-
-  before do
-    command.stub(:current_branch).and_return('6283185-tau-manifesto')
-  end
-
   subject { command }
 
   it { should respond_to(:cmd) }

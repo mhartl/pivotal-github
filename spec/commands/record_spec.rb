@@ -2,12 +2,8 @@ require 'spec_helper'
 
 describe Record do
 
+  before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
   let(:command) { Record.new(['-m', 'message', '-a', '-z', '--foo']) }
-
-  before do
-    command.stub(:current_branch).and_return('6283185-tau-manifesto')
-  end
-
   subject { command }
 
   it { should respond_to(:cmd) }
