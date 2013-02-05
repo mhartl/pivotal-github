@@ -80,15 +80,4 @@ class Record < Command
     def all?
       options.all
     end
-
-    # Returns an argument string based on given arguments
-    # The main trick is to add in quotes for option
-    # arguments when necessary.
-    # For example, ['-a', '-m', 'foo bar'] becomes
-    # '-a -m "foo bar"'
-    def argument_string(args)
-      args.inject([]) do |opts, opt|
-        opts << (opt =~ /^-/ ? opt : opt.inspect)
-      end.join(' ')      
-    end
 end
