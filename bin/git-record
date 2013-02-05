@@ -3,7 +3,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'pivotal-github/record'
 
 command = Record.new(ARGV.dup)
-if ARGV.include?('-d') || ARGV.include?('--debug')
+if ARGV.include?('--debug')
   puts command.cmd
 else
   exit command.run!
