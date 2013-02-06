@@ -37,7 +37,7 @@ describe Submit do
   end
 
   describe "command-line command" do
-    subject { `bin/git-submit -t heroku -p develop -z --debug` }
+    subject { `bin/git-create-remote -t heroku -z --debug` }
     it { should =~ /git push heroku/ }
     it { should =~ /-z/ }
   end
