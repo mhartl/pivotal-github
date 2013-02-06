@@ -44,7 +44,7 @@ class Record < Command
       else
         label = "##{story_id}"
       end
-      "[#{label}] #{options.message}"
+      "[#{label}] #{options.message}".strip
     end
   end
 
@@ -74,7 +74,7 @@ class Record < Command
     end
 
     def message?
-      !options.message.nil?
+      !options.message.nil? || finish? || deliver?
     end
 
     def all?

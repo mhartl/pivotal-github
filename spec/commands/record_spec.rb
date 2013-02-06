@@ -66,16 +66,34 @@ describe Record do
   end
 
   describe "command with finish flag" do
-    let(:command) { Record.new(['-m', 'message', '-f']) }
-    its(:cmd) do
-      should == %(git commit -m "[Finishes ##{command.story_id}] message")
+    describe "and a message" do
+      let(:command) { Record.new(['-m', 'message', '-f']) }
+      its(:cmd) do
+        should == %(git commit -m "[Finishes ##{command.story_id}] message")
+      end      
+    end
+
+    describe "with no message" do
+      let(:command) { Record.new(['-f']) }
+      its(:cmd) do
+        should == %(git commit -m "[Finishes ##{command.story_id}]")
+      end
     end
   end
 
   describe "command with deliver flag" do
-    let(:command) { Record.new(['-m', 'message', '-d']) }
-    its(:cmd) do
-      should == %(git commit -m "[Delivers ##{command.story_id}] message")
+    describe "with a message" do
+      let(:command) { Record.new(['-m', 'message', '-d']) }
+      its(:cmd) do
+        should == %(git commit -m "[Delivers ##{command.story_id}] message")
+      end
+    end
+
+    describe "with no message" do
+      let(:command) { Record.new(['-d']) }
+      its(:cmd) do
+        should == %(git commit -m "[Delivers ##{command.story_id}]")
+      end
     end
   end
 
