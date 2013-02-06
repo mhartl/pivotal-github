@@ -10,12 +10,12 @@ class Submit < Command
     parser = OptionParser.new do |opts|
       opts.banner = "Usage: git submit [options]"
       opts.on("-p", "--pull-request [BRANCH]",
-              "submit a pull request (default master)") do |b|
+              "make a pull request to GitHub branch (default master)") do |b|
         options.pull_request = true
         options.pull_request_branch = b || 'master'
       end
       opts.on("-t", "--target TARGET",
-              "push to a target other than origin") do |t|
+              "push to a given target") do |t|
         options.target = t
       end
       opts.on_tail("-h", "--help", "this usage guide") do
