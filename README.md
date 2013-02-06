@@ -22,7 +22,9 @@ Next, configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.
 
 ## Process
 
-### Developer #1:
+The full process involves integrated code review, but the `git record` and `git create-remote` commands are useful even if changes are immediately merged into `master`.
+
+### Developer #1 (Alice)
 
 1. Start an issue in [Pivotal Tracker](http://pivotaltracker.com/)
 2. Create a branch in the local Git repository containing the story number and a brief description: `git checkout -b 6283185-add-markdown-support`
@@ -30,19 +32,27 @@ Next, configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.
 3. Use `git record` to make commits, which includes the story number in the commit message: `git record -am "Add syntax highlighting"`
 4. Continue pushing up after each commit using `git push` as usual
 4. When done with the story, add `-f` to mark the story as finished: `git record -f -am "Add paragraph breaks"` and push up with `git push`
-6. At the GitHub page for the repo, select "Branches" and click on the pull request button
-7. Add a story of type Chore to Pivotal Tracker and assign it to the person who should review the pull request [*This step is experimental*]
+6. **(optional)** At the GitHub page for the repo, select "Branches" and submit a pull request
+7. **(optional)** Add a story of type Chore to Pivotal Tracker and assign it to Developer #2 (Bob) [*This step is experimental*]
 
-Until the pull request is accepted, you can continue working on new stories, taking care to branch off of the current branch if you need its changes to continue. Note that the commits will appear on the story as soon as you create a remote brach (and as you push to it), but it won't be marked 'finished' or 'delivered' until the pull request is merged as described below.
+**TODO**: Update this to use `git fetch` and `git rebase -i origin/master`.
 
-### Developer #2:
+If Alice wants to accept the story immediately, she can simply switch to `master` and merge:
+
+    $ git checkout master
+    $ git merge 6283185-add-markdown-support
+    $ git push
+
+If she wants to use a process with integrated code review, she should follow the steps marked **optional** above, as well as the steps below.
+
+### Developer #2 (Bob)
 
 1. Review the pull request diffs
 2. If acceptable, merge the branch
 3. If not acceptable, manually change the state to Rejected
-4. If there are conflicts, make a Chore to resolve the conflicts and assign to Developer #1
+4. If there are conflicts, make a Chore to resolve the conflicts and assign to Alice [*This step is experimental*]
 
-Step #2 will automatically mark the story as finished or delivered.
+Until Bob accepts the pull request, Alice can continue working on new stories, taking care to branch off of the current branch if she needs its changes to continue. Note that the commits will appear on the story as soon as Alice creates a remote branch (and as she pushes to it), but it won't be marked 'finished' or 'delivered' until Bob merges the pull request into `master`.
 
 ## Merge conflicts
 
@@ -54,7 +64,9 @@ This section contains some suggestions for resolving merge conflicts. First, set
 
 When the branch can't automatically be merged at GitHub, follow these steps:
 
-Devleloper #1:
+### Devleloper #1 (Alice)
+
+**TODO**: Update this to use `git rebase`.
 
 1. Pull the branch in (while on `master`): `git pull`
 2. Check it out (this automatically creates a tracking branch): `git checkout -b 6283185-add-markdown-support`
@@ -62,9 +74,9 @@ Devleloper #1:
 4. Either handle the conflict by hand or use the visual merge tool: `git mergetool`
 5. Commit the change: `git commit -a`
 6. Push up the modified branch: `git push`
-7. Add a Chore to revisit the pull request and assign to Developer #2 [*This step is experimental*]
+7. Add a Chore to revisit the pull request and assign to Developer #2 (Bob) [*This step is experimental*]
 
-Now Developer #2 should be able to merge in the pull request using the nice big green button at GitHub.
+Now Bob should be able to merge in the pull request using the nice big green button at GitHub.
 
 ## Usage
 
