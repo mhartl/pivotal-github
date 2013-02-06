@@ -4,7 +4,7 @@
 
 This gem facilitates the Pivotal Tracker–GitHub workflow used by Logical Reality Design.
 
-## Installation & Configuration
+## Installation
 
 Add this line to your application's Gemfile:
 
@@ -18,7 +18,9 @@ Or install it yourself as:
 
     $ gem install pivotal-github
 
-Next, configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.pivotaltracker.com/help/api?version=v3#github_hooks) for your repository. This will allow commit messages to be associated automatically with Pivotal Tracker stories, and will also allow Git commits to update Pivotal Tracker story statuses.
+## Configuration
+
+In order to use the `git record` command, you need to configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.pivotaltracker.com/help/api?version=v3#github_hooks) for your repository. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) This will allow commit messages to be associated automatically with Pivotal Tracker stories, and will also allow Git commits to update Pivotal Tracker story statuses.
 
 ## Process
 
