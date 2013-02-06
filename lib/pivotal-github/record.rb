@@ -10,7 +10,7 @@ class Record < Command
     parser = OptionParser.new do |opts|
       opts.banner = "Usage: git record [options]"
       opts.on("-m", "--message MESSAGE",
-              "add a commit message (including story #)") do |m| 
+              "add a commit message (including story #)") do |m|
         options.message = m
       end
       opts.on("-f", "--finish", "mark story as finished") do |f|
