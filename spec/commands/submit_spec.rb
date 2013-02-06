@@ -25,16 +25,6 @@ describe Submit do
     its(:cmd) { should == "git push origin #{command.current_branch}" }
   end
 
-  describe "with a pull request, no branch" do
-    let(:command) { Submit.new(['-p']) }
-    its(:pull_request_branch) { should == 'master' }
-  end
-
-  describe "with a pull request branch option" do
-    let(:command) { Submit.new(['-p', 'develop']) }
-    its(:pull_request_branch) { should == 'develop' }
-  end
-
   describe "with a target option" do
     let(:command) { Submit.new(['-t', 'heroku']) }
     its(:cmd) { should =~ /git push heroku/ }
