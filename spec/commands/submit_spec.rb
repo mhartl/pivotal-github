@@ -22,11 +22,15 @@ describe Submit do
   end
 
   describe "with no options" do
-    its(:pull_request_branch) { should == 'master' }
     its(:cmd) { should == "git push origin #{command.current_branch}" }
   end
 
-  describe "with a branch option" do
+  describe "with a pull request, no branch" do
+    let(:command) { Submit.new(['-p']) }
+    its(:pull_request_branch) { should == 'master' }
+  end
+
+  describe "with a pull request branch option" do
     let(:command) { Submit.new(['-p', 'develop']) }
     its(:pull_request_branch) { should == 'develop' }
   end

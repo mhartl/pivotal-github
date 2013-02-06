@@ -9,9 +9,10 @@ class Submit < Command
     options = OpenStruct.new
     parser = OptionParser.new do |opts|
       opts.banner = "Usage: git submit [options]"
-      opts.on("-p", "--pull-request BRANCH",
-              "submit a pull request to a branch other than master") do |b|
-        options.branch = b
+      opts.on("-p", "--pull-request [BRANCH]",
+              "submit a pull request (default master)") do |b|
+        options.pull_request = true
+        options.pull_request_branch = b || 'master'
       end
       opts.on("-t", "--target TARGET",
               "push to a target other than origin") do |t|
@@ -43,7 +44,7 @@ class Submit < Command
   private
 
     def pull_request_branch
-      options.branch || 'master'
+      options.pull_request_branch
     end
 
     def target
