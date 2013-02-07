@@ -1,6 +1,6 @@
 # pivotal-github
 
-This gem facilitates a Pivotal Tracker–GitHub workflow inspired by [Logical Reality](http://lrdesign.com/).
+This gem facilitates a Pivotal Tracker–GitHub workflow inspired by [Logical Reality](http://lrdesign.com/). As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs.
 
 ## Installation
 
@@ -19,7 +19,11 @@ Or install it yourself as:
 
 ## Usage
 
-The `pivotal-github` gem adds several additional Git commands to the local environment.
+The `pivotal-github` gem adds several additional Git commands to the local environment. There is only one non-trivial addition, `git story-commit`; the others are simple (tiny) bash scripts. (In fact, the current Ruby code looks over-engineered: there is a base `Command` class with only one derived class, `StoryCommit`. This is an artifact of history, as there used to be other commands, but I decided that the other cases were better served by plain bash scripts.) The `git story-commit` command automatically incorporates the Pivotal Tracker story id into the commit messages, while adding options to mark the story **Finished** or **Delivered**. 
+
+The `git story-commit` command makes the assumption that the first string of digits in the branch name is the story id. This means that, when the story id is `6283185`, the branch names `6283185-add-markdown-support`, `6283185_add_markdown_support`, and `add-markdown-support-6283185` all work, but `add-42-things-6283185` doesn't.
+
+The full set of commands is as follows:
 
 ### git story-commit
 
@@ -30,6 +34,10 @@ For example, when on a branch called `6283185-add-markdown-support`, the `git st
     $ git story-commit -am "Add foo bars"
 	[6283185-add-markdown-support 6f56414] [#6283185] Add foo bars
 
+To mark a story as **Finished**, add the `-f` flag:
+
+    $ git story-commit -f -am "Remove baz quuxes"
+	[6283185-add-markdown-support 7g56429] [Finishes #6283185] Remove baz quuxes
 
 Here's the full usage info:
 
@@ -41,7 +49,7 @@ Here's the full usage info:
 	        -a, --all                        commit all changed files
 	        -h, --help                       this usage guide
 
-Additionally, `git story-commit` accepts any options valid for `git commit`.
+Additionally, `git story-commit` accepts any options valid for `git commit`. (`git story-commit` supports the `-a` flag so that `git story-commit -am "message"` works.)
 
 ### git story-push
 
@@ -49,8 +57,6 @@ Additionally, `git story-commit` accepts any options valid for `git commit`.
 
     $ git story-push
     * [new branch]      6283185-add-markdown-support -> 6283185-add-markdown-support
-    
-                     this usage guide
 
 `git story-push` accepts any options valid for `git push`.
 
@@ -67,12 +73,12 @@ The purpose of `git story-pull` it to prepare the local story branch for rebasin
     $ git story-pull
     $ git rebase master
 
-This is essentially equivalent to 
+(This is essentially equivalent to 
 
     $ git fetch
     $ git rebase origin/master
 
-but I don't like having `master` and `origin/master` be different since it forces you to remember to run `git pull` on `master` some time down the line. 
+but I don't like having `master` and `origin/master` be different since that means you have to remember to run `git pull` on `master` some time down the line.)
     
 ### git story-merge
 
@@ -85,7 +91,7 @@ but I don't like having `master` and `origin/master` be different since it force
 
 In order to use the `pivotal-github` gem, you need to configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.pivotaltracker.com/help/api?version=v3#github_hooks) for your repository. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) 
 
-The `pivotal-github` command names follow the Git convention of being verbose (it's telling that, unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions:
+The `pivotal-github` command names follow the Git convention of being verbose (e.g., unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions:
 
     $ git config --global alias.sc story-commit
     $ git config --global alias.sp story-push    
@@ -108,34 +114,36 @@ A single-developer workflow would then look like this:
     $ git rebase master
     $ git sm
 
-Note that this workflow uses `git sp` (and subsequent invocations of `git push`) only to create a remote storage backup. The principal purpose of `git story-push` is to support the integrated code review workflow described below.
+Note that this workflow uses `git sp` (and subsequent invocations of `git push`) only to create a remote backup. The principal purpose of `git story-push` is to support the integrated code review workflow described below.
     
-## Workflow
+## Workflow with integrated code reivew
 
-The `pivotal-github` gem is degined to support a workflow that involves integrated code review, which has the usual advantages: at least two pairs of eyes see any committed code, and at least two brains know basically what the committed code does. Here's the process in detail:
+The `pivotal-github` gem is degined to support a workflow involving integrated code review, which has the usual benefits: at least two pairs of eyes see any committed code, and at least two brains know basically what the committed code does. The cost is that having a second developer involved can slow you down. I suggest using your judgment to determine which workflow makes the most sense on a story-by-story basis.
+
+Here's the process in detail:
 
 ### Developer #1 (Alice)
 
-1. Start an issue at [Pivotal Tracker](http://pivotaltracker.com/)
-2. Create a branch in the local Git repository containing the story number and a brief description: `git checkout -b 6283185-add-markdown-support`
+1. Start an issue at [Pivotal Tracker](http://pivotaltracker.com/) and copy the story id to your buffer
+2. Create a branch in the local Git repository containing the story id and a brief description: `git checkout -b 6283185-add-markdown-support`
 3. Create a remote branch at [GitHub](http://github.com/) using `git story-push`
 3. Use `git story-commit` to make commits, which includes the story number in the commit message: `git story-commit -am "Add syntax highlighting"`
 4. Continue pushing up after each commit using `git push` as usual
-4. When done with the story, add `-f` to mark the story as finished: `git story-commit -f -am "Add paragraph breaks"` 
+4. When done with the story, add `-f` to mark the story as **Finished** using `git story-commit -f -am "Add paragraph breaks"` or as **Delivered** using `git story-commit -d -am "Add paragraph breaks"`
 4. Rebase against `master` using `git story-pull` followed by `git rebase master` or `git rebase master --interactive` (optionally squashing commit messages as described in the article [A Git Workflow for Agile Teams](http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html))
 4. Push up with `git push`
-6. At the GitHub page for the repo, select "Branches" and submit a pull request
+6. At the GitHub page for the repo, select **Branches** and submit a pull request
 7. **(experimental)** Add a story of type Chore to Pivotal Tracker and assign it to Developer #2 (Bob)
 
 
 ### Developer #2 (Bob)
 
-1. Review the pull request diffs
-2. If acceptable, merge the branch
-3. If not acceptable, manually change the state at Pivotal Tracker to Rejected
-4. **(experimental)** If there are conflicts, make a Chore to resolve the conflicts and assign it to Alice
+1. Select **Pull Requests** at GitHub and review the pull request diffs
+2. If acceptable, merge the branch by clicking on the button at GitHub
+3. If not acceptable, manually change the state at Pivotal Tracker to Rejected and leave a note (at GitHub or at Pivotal Tracker) indicating the reason
+4. **(experimental)** If the branch cannot be automatically merged, make a Chore to resolve any conflicts and assign it to Alice
 
-Until Bob accepts the pull request, Alice can continue working on new stories, taking care to branch off of the current branch if she needs its changes to continue. Note that the commits will appear on the story as soon as Alice creates a remote branch (and as she pushes to it), but it won't be marked 'finished' or 'delivered' until Bob merges the pull request into `master`.
+Until Bob accepts the pull request, Alice can continue working on new stories, taking care to branch off of the current branch if she needs its changes to continue. Note that the commits will appear on the story as soon as Alice creates a remote branch (and as she pushes to it), but it won't be marked **Finished** or **Delivered** until Bob merges the pull request into `master`.
 
 ## Merge conflicts
 
