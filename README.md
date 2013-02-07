@@ -1,7 +1,5 @@
 # pivotal-github
 
-**NOTE:** This gem is as-yet unreleased. 
-
 This gem facilitates a Pivotal Tracker–GitHub workflow inspired by [Logical Reality](http://lrdesign.com/).
 
 ## Installation
