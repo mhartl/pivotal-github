@@ -48,7 +48,7 @@ Here's the full usage info:
 	        -a, --all                        commit all changed files
 	        -h, --help                       this usage guide
 
-Additionally, `git story-commit` accepts any options valid for `git commit`. (`git story-commit` supports the `-a` flag so that `git story-commit -am "message"` works.)
+Additionally, `git story-commit` accepts any options valid for `git commit`. (`git story-commit` supports the `-a` flag even though that's a valid option to `git commit` so that `git story-commit -am "message"` works.)
 
 ### git story-push
 
