@@ -2,7 +2,7 @@
 
 **NOTE:** This gem is as-yet unreleased. 
 
-This gem facilitates the Pivotal Tracker–GitHub workflow used by Logical Reality Design.
+This gem facilitates a Pivotal Tracker–GitHub workflow inspired by [Logical Reality](http://lrdesign.com/).
 
 ## Installation
 
@@ -18,41 +18,124 @@ Or install it yourself as:
 
     $ gem install pivotal-github
 
-## Configuration
 
-In order to use the `git record` command, you need to configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.pivotaltracker.com/help/api?version=v3#github_hooks) for your repository. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) This will allow commit messages to be associated automatically with Pivotal Tracker stories, and will also allow Git commits to update Pivotal Tracker story statuses.
+## Usage
 
-## Process
+The `pivotal-github` gem adds several additional Git commands to the local environment.
 
-The full process involves integrated code review, but the `git record` and `git create-remote` commands are useful even if changes are immediately merged into `master`.
+### git story-commit
 
-### Developer #1 (Alice)
+`git story-commit` makes a standard `git commit` with the story number added to the commit message. This automatically adds a link at Pivotal Tracker between the story and the diff at GitHub. 
 
-1. Start an issue in [Pivotal Tracker](http://pivotaltracker.com/)
-2. Create a branch in the local Git repository containing the story number and a brief description: `git checkout -b 6283185-add-markdown-support`
-3. Create a remote branch at [GitHub](http://github.com/) using `git create-remote`
-3. Use `git record` to make commits, which includes the story number in the commit message: `git record -am "Add syntax highlighting"`
-4. Continue pushing up after each commit using `git push` as usual
-4. When done with the story, add `-f` to mark the story as finished: `git record -f -am "Add paragraph breaks"` and push up with `git push`
-6. **(optional)** At the GitHub page for the repo, select "Branches" and submit a pull request
-7. **(optional)** Add a story of type Chore to Pivotal Tracker and assign it to Developer #2 (Bob) [*This step is experimental*]
+For example, when on a branch called `6283185-add-markdown-support`, the `git story-commit` command automatically adds `[#6283185]` to the commit message:
+	
+    $ git story-commit -am "Add foo bars"
+	[6283185-add-markdown-support 6f56414] [#6283185] Add foo bars
 
-**TODO**: Update this to use `git fetch` and `git rebase -i origin/master`.
 
-If Alice wants to accept the story immediately, she can simply switch to `master` and merge:
+Here's the full usage info:
+
+	$ git story-commit -h
+	    Usage: git story-commit [options]
+	        -m, --message MESSAGE            add a commit message (including story #)
+	        -f, --finish                     mark story as finished
+	        -d, --deliver                    mark story as delivered
+	        -a, --all                        commit all changed files
+	        -h, --help                       this usage guide
+
+Additionally, `git story-commit` accepts any options valid for `git commit`.
+
+### git story-push
+
+`git story push` creates a remote branch at `origin` with the name of the current branch:
+
+    $ git story-push
+    * [new branch]      6283185-add-markdown-support -> 6283185-add-markdown-support
+    
+                     this usage guide
+
+`git story-push` accepts any options valid for `git push`.
+
+### git story-pull
+
+`git story-pull` syncs the local `master` with the remote `master`. On a branch called `6283185-add-markdown-support`, `git story-pull` is equivalent to the following:
+
+    $ git checkout master
+    $ git pull
+    $ git checkout 6283185-add-markdown-support
+
+The purpose of `git story-pull` it to prepare the local story branch for rebasing against `master`:
+
+    $ git story-pull
+    $ git rebase master
+
+This is essentially equivalent to 
+
+    $ git fetch
+    $ git rebase origin/master
+
+but I don't like having `master` and `origin/master` be different since it forces you to remember to run `git pull` on `master` some time down the line. 
+    
+### git story-merge
+
+`git story-merge` merges the current branch into `master`. On a branch called `6283185-add-markdown-support`, `git story-merge` is equivalent to the following: 
 
     $ git checkout master
     $ git merge 6283185-add-markdown-support
-    $ git push
 
-If she wants to use a process with integrated code review, she should follow the steps marked **optional** above, as well as the steps below.
+## Configuration
+
+In order to use the `pivotal-github` gem, you need to configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.pivotaltracker.com/help/api?version=v3#github_hooks) for your repository. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) 
+
+The `pivotal-github` command names follow the Git convention of being verbose (it's telling that, unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions:
+
+    $ git config --global alias.sc story-commit
+    $ git config --global alias.sp story-push    
+    $ git config --global alias.sl story-pull
+    $ git config --global alias.sm story-merge
+
+A single-developer workflow would then look like this:
+
+    $ git co -b 6283185-add-markdown-support
+    $ git sp
+    <work>
+    $ git sc -am "Added foo"
+    $ git push
+    <more work>
+    $ git sc -am "Added bar"
+    <complete story>
+    $ git sc -f -am "Added baz"
+    $ git push
+    $ git sl
+    $ git rebase master
+    $ git sm
+
+Note that this workflow uses `git sp` (and subsequent invocations of `git push`) only to create a remote storage backup. The principal purpose of `git story-push` is to support the integrated code review workflow described below.
+    
+## Workflow
+
+The `pivotal-github` gem is degined to support a workflow that involves integrated code review, which has the usual advantages: at least two pairs of eyes see any committed code, and at least two brains know basically what the committed code does. Here's the process in detail:
+
+### Developer #1 (Alice)
+
+1. Start an issue at [Pivotal Tracker](http://pivotaltracker.com/)
+2. Create a branch in the local Git repository containing the story number and a brief description: `git checkout -b 6283185-add-markdown-support`
+3. Create a remote branch at [GitHub](http://github.com/) using `git story-push`
+3. Use `git story-commit` to make commits, which includes the story number in the commit message: `git story-commit -am "Add syntax highlighting"`
+4. Continue pushing up after each commit using `git push` as usual
+4. When done with the story, add `-f` to mark the story as finished: `git story-commit -f -am "Add paragraph breaks"` 
+4. Rebase against `master` using `git story-pull` followed by `git rebase master` or `git rebase master --interactive` (optionally squashing commit messages as described in the article [A Git Workflow for Agile Teams](http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html))
+4. Push up with `git push`
+6. At the GitHub page for the repo, select "Branches" and submit a pull request
+7. **(experimental)** Add a story of type Chore to Pivotal Tracker and assign it to Developer #2 (Bob)
+
 
 ### Developer #2 (Bob)
 
 1. Review the pull request diffs
 2. If acceptable, merge the branch
-3. If not acceptable, manually change the state to Rejected
-4. If there are conflicts, make a Chore to resolve the conflicts and assign to Alice [*This step is experimental*]
+3. If not acceptable, manually change the state at Pivotal Tracker to Rejected
+4. **(experimental)** If there are conflicts, make a Chore to resolve the conflicts and assign it to Alice
 
 Until Bob accepts the pull request, Alice can continue working on new stories, taking care to branch off of the current branch if she needs its changes to continue. Note that the commits will appear on the story as soon as Alice creates a remote branch (and as she pushes to it), but it won't be marked 'finished' or 'delivered' until Bob merges the pull request into `master`.
 
@@ -68,48 +151,15 @@ When the branch can't automatically be merged at GitHub, follow these steps:
 
 ### Devleloper #1 (Alice)
 
-**TODO**: Update this to use `git rebase`.
-
-1. Pull the branch in (while on `master`): `git pull`
-2. Check it out (this automatically creates a tracking branch): `git checkout -b 6283185-add-markdown-support`
-3. Merge with `master`: `git merge master`
-4. Either handle the conflict by hand or use the visual merge tool: `git mergetool`
+1. While on the story branch, run `git story-pull`
+2. Rebase against `master` with `git rebase master` **or** merge with `master` using `git merge master`
+4. Either handle resulting conflicts by hand or use the visual merge tool: `git mergetool`
 5. Commit the change: `git commit -a`
 6. Push up the modified branch: `git push`
-7. Add a Chore to revisit the pull request and assign to Developer #2 (Bob) [*This step is experimental*]
+7. **(experimental)** Add a Chore to revisit the pull request and assign to Developer #2 (Bob) 
 
-Now Bob should be able to merge in the pull request using the nice big green button at GitHub.
 
-## Usage
-
-When on a branch called `6283185-add-markdown-support`, the `git record` command automatically adds `[#6283185]` to the commits:
-	
-    $ git record -am "Add foo bars"
-	[6283185-add-markdown-support 6f56414] [#6283185] Add foo bars
-
-Similarly, `git create-remote` automatically creates a remote branch with the name of the current branch:
-
-    $ git create-remote
-    * [new branch]      6283185-add-markdown-support -> 6283185-add-markdown-support
-    
-Here's the full usage info:
-
-	$ git record -h
-	    Usage: git record [options]
-	        -m, --message MESSAGE            add a commit message (including story #)
-	        -f, --finish                     mark story as finished
-	        -d, --deliver                    mark story as delivered
-	        -a, --all                        commit all changed files
-	        -h, --help                       this usage guide
-
-Additionally, `git record` accepts any options valid for `git commit`.
-
-	$ git create-remote -h
-	Usage: git create-remote [options]
-	    -t, --target TARGET              push to a given target (defaults to origin)
-	    -h, --help                       this usage guide
-
-Additionally, `git create-remote` accepts any options valid for `git push`.
+Now Bob should be able to merge in the pull request automatically using the nice big green button at GitHub.
 
 ## Contributing
 
