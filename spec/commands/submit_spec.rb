@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Submit do
+describe StoryPush do
 
   before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
-  let(:command) { Submit.new }
+  let(:command) { StoryPush.new }
   subject { command }
 
   it { should respond_to(:cmd) }
@@ -26,12 +26,12 @@ describe Submit do
   end
 
   describe "with a target option" do
-    let(:command) { Submit.new(['-t', 'heroku']) }
+    let(:command) { StoryPush.new(['-t', 'heroku']) }
     its(:cmd) { should =~ /git push heroku/ }
   end
 
   describe "with some unknown options" do
-    let(:command) { Submit.new(['-p', 'develop', '-a', '-z', '--foo']) }
+    let(:command) { StoryPush.new(['-p', 'develop', '-a', '-z', '--foo']) }
     it_should_behave_like "submit with known options"
     its(:cmd) { should =~ /-a -z --foo/ }
   end
