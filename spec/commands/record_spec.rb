@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Record do
+describe StoryCommit do
 
   before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
-  let(:command) { Record.new(['-m', 'message', '-a', '-z', '--foo']) }
+  let(:command) { StoryCommit.new(['-m', 'message', '-a', '-z', '--foo']) }
   subject { command }
 
   it { should respond_to(:cmd) }
@@ -30,17 +30,17 @@ describe Record do
   end
 
   describe "with only known options" do
-    let(:command) { Record.new(['-m', 'message', '-a']) }
+    let(:command) { StoryCommit.new(['-m', 'message', '-a']) }
     it_should_behave_like "record with known options"
   end
 
   describe "with a compound argument" do
-    let(:command) { Record.new(['-am', 'message']) }
+    let(:command) { StoryCommit.new(['-am', 'message']) }
     it_should_behave_like "record with known options"
   end
 
   describe "with some unknown options" do
-    let(:command) { Record.new(['-m', 'message', '-a', '-z', '--foo']) }
+    let(:command) { StoryCommit.new(['-m', 'message', '-a', '-z', '--foo']) }
     
     it_should_behave_like "record with known options"
     
@@ -61,20 +61,20 @@ describe Record do
   end
 
   describe "command with no message" do
-    let(:command) { Record.new(['-a', '-z', '--foo']) }
+    let(:command) { StoryCommit.new(['-a', '-z', '--foo']) }
     its(:cmd) { should == %(git commit -a -z --foo) }      
   end
 
   describe "command with finish flag" do
     describe "and a message" do
-      let(:command) { Record.new(['-m', 'message', '-f']) }
+      let(:command) { StoryCommit.new(['-m', 'message', '-f']) }
       its(:cmd) do
         should == %(git commit -m "[Finishes ##{command.story_id}] message")
       end      
     end
 
     describe "with no message" do
-      let(:command) { Record.new(['-f']) }
+      let(:command) { StoryCommit.new(['-f']) }
       its(:cmd) do
         should == %(git commit -m "[Finishes ##{command.story_id}]")
       end
@@ -83,14 +83,14 @@ describe Record do
 
   describe "command with deliver flag" do
     describe "with a message" do
-      let(:command) { Record.new(['-m', 'message', '-d']) }
+      let(:command) { StoryCommit.new(['-m', 'message', '-d']) }
       its(:cmd) do
         should == %(git commit -m "[Delivers ##{command.story_id}] message")
       end
     end
 
     describe "with no message" do
-      let(:command) { Record.new(['-d']) }
+      let(:command) { StoryCommit.new(['-d']) }
       its(:cmd) do
         should == %(git commit -m "[Delivers ##{command.story_id}]")
       end

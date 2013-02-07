@@ -3,7 +3,7 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'pivotal-github/record'
 
 debug = ARGV.delete('--debug')
-command = Record.new(ARGV.dup)
+command = StoryCommit.new(ARGV.dup)
 if debug
   puts command.cmd
 else

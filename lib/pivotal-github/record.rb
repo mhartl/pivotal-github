@@ -3,7 +3,7 @@ require 'ostruct'
 require 'pivotal-github/options'
 require 'pivotal-github/command'
 
-class Record < Command
+class StoryCommit < Command
 
   def parse
     options = OpenStruct.new
