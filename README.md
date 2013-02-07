@@ -1,6 +1,6 @@
 # pivotal-github
 
-This gem facilitates a Pivotal Tracker–GitHub workflow inspired by [Logical Reality](http://lrdesign.com/). As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs.
+The `pivotal-github` gem facilitates a Pivotal Tracker–GitHub workflow inspired by [Logical Reality](http://lrdesign.com/). As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs.
 
 ## Installation
 
@@ -16,7 +16,6 @@ Or install it yourself as:
 
     $ gem install pivotal-github
 
-
 ## Usage
 
 The `pivotal-github` gem adds several additional Git commands to the local environment. There is only one non-trivial addition, `git story-commit`; the others are simple (tiny) bash scripts. (In fact, the current Ruby code looks over-engineered: there is a base `Command` class with only one derived class, `StoryCommit`. This is an artifact of history, as there used to be other commands, but I decided that the other cases were better served by plain bash scripts.) The `git story-commit` command automatically incorporates the Pivotal Tracker story id into the commit messages, while adding options to mark the story **Finished** or **Delivered**. 
@@ -27,7 +26,7 @@ The full set of commands is as follows:
 
 ### git story-commit
 
-`git story-commit` makes a standard `git commit` with the story number added to the commit message. This automatically adds a link at Pivotal Tracker between the story and the diff at GitHub. 
+`git story-commit` makes a standard `git commit` with the story number added to the commit message. This automatically adds a link at Pivotal Tracker between the story and the diff when the branch gets pushed up to GitHub. 
 
 For example, when on a branch called `6283185-add-markdown-support`, the `git story-commit` command automatically adds `[#6283185]` to the commit message:
 	
