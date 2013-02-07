@@ -22,6 +22,21 @@ class Command
     @options ||= parse
   end
 
+  # Runs a command
+  # If the argument array contains '--debug', returns the command that would
+  # have been run
+  def self.run!(command_class, args)
+    debug = args.delete('--debug')
+    command = command_class.new(args)
+    if debug
+      puts command.cmd 
+      return 1
+    else
+      command.run!
+      return 0
+    end
+  end    
+
   private
 
     # Returns an argument string based on given arguments

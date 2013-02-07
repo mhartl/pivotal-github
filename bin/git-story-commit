@@ -2,10 +2,4 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require 'pivotal-github/story_commit'
 
-debug = ARGV.delete('--debug')
-command = StoryCommit.new(ARGV.dup)
-if debug
-  puts command.cmd
-else
-  exit command.run!
-end
+exit Command.run!(StoryCommit, ARGV.dup)
