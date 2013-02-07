@@ -8,7 +8,7 @@ class StoryCommit < Command
   def parse
     options = OpenStruct.new
     parser = OptionParser.new do |opts|
-      opts.banner = "Usage: git record [options]"
+      opts.banner = "Usage: git story-commit [options]"
       opts.on("-m", "--message MESSAGE",
               "add a commit message (including story #)") do |m|
         options.message = m
