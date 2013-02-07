@@ -44,7 +44,7 @@ class StoryCommit < Command
       else
         label = "##{story_id}"
       end
-      "[#{label}] #{options.message}".strip
+      "[#{label}] #{options.message}"
     end
   end
 
@@ -74,7 +74,7 @@ class StoryCommit < Command
     end
 
     def message?
-      !options.message.nil? || finish? || deliver?
+      !options.message.nil?
     end
 
     def all?

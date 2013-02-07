@@ -1,4 +1,4 @@
-require 'spec_helper'
+  require 'spec_helper'
 
 describe StoryCommit do
 
@@ -66,34 +66,16 @@ describe StoryCommit do
   end
 
   describe "command with finish flag" do
-    describe "and a message" do
-      let(:command) { StoryCommit.new(['-m', 'message', '-f']) }
-      its(:cmd) do
-        should == %(git commit -m "[Finishes ##{command.story_id}] message")
-      end      
-    end
-
-    describe "with no message" do
-      let(:command) { StoryCommit.new(['-f']) }
-      its(:cmd) do
-        should == %(git commit -m "[Finishes ##{command.story_id}]")
-      end
-    end
+    let(:command) { StoryCommit.new(['-m', 'message', '-f']) }
+    its(:cmd) do
+      should == %(git commit -m "[Finishes ##{command.story_id}] message")
+    end      
   end
 
   describe "command with deliver flag" do
-    describe "with a message" do
-      let(:command) { StoryCommit.new(['-m', 'message', '-d']) }
-      its(:cmd) do
-        should == %(git commit -m "[Delivers ##{command.story_id}] message")
-      end
-    end
-
-    describe "with no message" do
-      let(:command) { StoryCommit.new(['-d']) }
-      its(:cmd) do
-        should == %(git commit -m "[Delivers ##{command.story_id}]")
-      end
+    let(:command) { StoryCommit.new(['-m', 'message', '-d']) }
+    its(:cmd) do
+      should == %(git commit -m "[Delivers ##{command.story_id}] message")
     end
   end
 
