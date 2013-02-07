@@ -37,7 +37,7 @@ describe StoryPush do
   end
 
   describe "command-line command" do
-    subject { `bin/git-story-push -t heroku -z --debug` }
+    subject { `bin/git-create-remote -t heroku -z --debug` }
     it { should =~ /git push heroku/ }
     it { should =~ /-z/ }
   end

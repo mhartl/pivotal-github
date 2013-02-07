@@ -8,7 +8,7 @@ class StoryPush < Command
   def parse
     options = OpenStruct.new
     parser = OptionParser.new do |opts|
-      opts.banner = "Usage: git story-push [options]"
+      opts.banner = "Usage: git story-push [options] [<refspec>]"
       opts.on("-t", "--target TARGET",
               "push to a given target (defaults to origin)") do |t|
         options.target = t
