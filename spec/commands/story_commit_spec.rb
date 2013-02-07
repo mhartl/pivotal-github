@@ -105,7 +105,8 @@ describe StoryCommit do
   end
 
   describe "command-line command" do
-    subject { `bin/git-record -a -m "message" -z --debug` }
+    let(:command) { `bin/git-story-commit -a -m "message" -z --debug` }
+    subject { command }
     it { should =~ /git commit -a -m/ }
     it { should =~ /message/ }
     it { should =~ /-z/ }

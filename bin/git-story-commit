@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
-require 'pivotal-github/record'
+require 'pivotal-github/story_commit'
 
 debug = ARGV.delete('--debug')
 command = StoryCommit.new(ARGV.dup)
