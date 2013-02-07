@@ -9,8 +9,8 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Michael Hartl"]
   gem.email         = ["michael@michaelhartl.com"]
   gem.description   = %q{Add commands for Pivotal Tracker–GitHub integration}
-  gem.summary       = %q{New commands are 'git record' and 'git submit'}
-  gem.homepage      = ""
+  gem.summary       = %q{See the README for full documentation}
+  gem.homepage      = "https://github.com/mhartl/pivotal-github"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
