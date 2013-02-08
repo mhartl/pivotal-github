@@ -1,13 +1,20 @@
+require 'optparse'
+require 'ostruct'
+require 'pivotal-github/options'
+
 class Command
   attr_accessor :args, :cmd, :options, :known_options, :unknown_options
 
   def initialize(args = [])
     self.args = args
+    self.options = OpenStruct.new
     parse
   end
 
   def parse
-    raise "Define in derived class"
+    self.known_options   = Options::known_options(parser, args)
+    self.unknown_options = Options::unknown_options(parser, args)
+    parser.parse(known_options)
   end
 
   def current_branch
@@ -16,10 +23,6 @@ class Command
 
   def story_id
     current_branch.scan(/\d+/).first
-  end
-
-  def options
-    @options ||= parse
   end
 
   # Runs a command

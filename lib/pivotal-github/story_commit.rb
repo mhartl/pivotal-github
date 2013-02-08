@@ -1,35 +1,27 @@
-require 'optparse'
-require 'ostruct'
-require 'pivotal-github/options'
 require 'pivotal-github/command'
 
 class StoryCommit < Command
 
-  def parse
-    options = OpenStruct.new
-    parser = OptionParser.new do |opts|
+  def parser
+    OptionParser.new do |opts|
       opts.banner = "Usage: git story-commit [options]"
       opts.on("-m", "--message MESSAGE",
               "add a commit message (including story #)") do |m|
-        options.message = m
+        self.options.message = m
       end
       opts.on("-f", "--finish", "mark story as finished") do |f|
-        options.finish = f
+        self.options.finish = f
       end
       opts.on("-d", "--deliver", "mark story as delivered") do |d|
-        options.deliver = d
+        self.options.deliver = d
       end
       opts.on("-a", "--all", "commit all changed files") do |a|
-        options.all = a
+        self.options.all = a
       end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0
       end
     end
-    self.known_options   =  Options::known_options(parser, args)
-    self.unknown_options = Options::unknown_options(parser, args)
-    parser.parse(known_options)
-    options
   end
 
   def message
