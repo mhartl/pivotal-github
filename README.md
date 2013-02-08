@@ -114,6 +114,13 @@ Because of the way options are chained, passing the option `--ff` to `git story-
 
 Additionally, `git story-merge` accepts any options valid for `git merge`.
 
+### story-open
+
+The `story-open` command (*note*: no `git`) opens the current story in the default browser (OS X&ndash;only):
+
+    $ story-open
+
+
 ## Configuration
 
 In order to use the `pivotal-github` gem, you need to configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.pivotaltracker.com/help/api?version=v3#github_hooks) for your repository. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) 
