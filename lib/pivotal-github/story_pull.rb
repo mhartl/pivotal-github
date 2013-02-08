@@ -6,7 +6,7 @@ class StoryPull < Command
     OptionParser.new do |opts|
       opts.banner = "Usage: git story-pull [options]"
       opts.on("-d", "--development BRANCH",
-              "name of development branch (defaults to master)") do |opt|
+              "development branch (defaults to master)") do |opt|
         self.options.development = opt
       end
       opts.on_tail("-h", "--help", "this usage guide") do

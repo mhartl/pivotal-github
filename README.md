@@ -38,7 +38,7 @@ To mark a story as **Finished**, add the `-f` flag:
     $ git story-commit -f -am "Remove baz quuxes"
 	[6283185-add-markdown-support 7g56429] [Finishes #6283185] Remove baz quuxes
 
-Here's the full usage info:
+#### Options
 
 	$ git story-commit -h
 	    Usage: git story-commit [options]
@@ -48,7 +48,7 @@ Here's the full usage info:
 	        -a, --all                        commit all changed files
 	        -h, --help                       this usage guide
 
-Additionally, `git story-commit` accepts any options valid for `git commit`. (`git story-commit` supports the `-a` flag even though that's a valid option to `git commit` so that `git story-commit -am "message"` works.)
+Additionally, `git story-commit` accepts any options valid for `git commit`. (`git story-commit` supports the `-a` flag even though that's a valid option to `git commit` so that the compound flag in `git story-commit -am "message"` works.)
 
 ### git story-push
 
@@ -57,7 +57,13 @@ Additionally, `git story-commit` accepts any options valid for `git commit`. (`g
     $ git story-push
     * [new branch]      6283185-add-markdown-support -> 6283185-add-markdown-support
 
-`git story-push` accepts any options valid for `git push`.
+#### Options
+
+	Usage: git story-push [options]
+	    -t, --target TARGET              push to a given target (defaults to origin)
+	    -h, --help                       this usage guide
+
+Additionall, `git story-push` accepts any options valid for `git push`.
 
 ### git story-pull
 
@@ -78,6 +84,14 @@ The purpose of `git story-pull` it to prepare the local story branch for rebasin
     $ git rebase origin/master
 
 but I don't like having `master` and `origin/master` be different since that means you have to remember to run `git pull` on `master` some time down the line.)
+
+#### Options
+
+    Usage: git story-pull [options]
+        -d, --development BRANCH         development branch (defaults to master)
+        -h, --help                       this usage guide
+
+Additionally, `git story-pull` accepts any options valid for `git pull`.
     
 ### git story-merge
 
