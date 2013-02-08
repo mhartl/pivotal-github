@@ -2,19 +2,13 @@ require 'spec_helper'
 
 describe StoryPush do
 
-  before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
   let(:command) { StoryPush.new }
+  before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
   subject { command }
-
-  it { should respond_to(:cmd) }
-  it { should respond_to(:args) }
-  it { should respond_to(:options) }
-  it { should respond_to(:parse) }
-  it { should respond_to(:story_id) }
 
   its(:cmd) { should =~ /git push/ }
 
-  shared_examples "submit with known options" do
+  shared_examples "story-push with known options" do
     subject { command }
     it "should not raise an error" do
       expect { command.parse }.not_to raise_error(OptionParser::InvalidOption)
@@ -32,7 +26,7 @@ describe StoryPush do
 
   describe "with some unknown options" do
     let(:command) { StoryPush.new(['-p', 'develop', '-a', '-z', '--foo']) }
-    it_should_behave_like "submit with known options"
+    it_should_behave_like "story-push with known options"
     its(:cmd) { should =~ /-a -z --foo/ }
   end
 

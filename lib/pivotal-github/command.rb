@@ -17,6 +17,10 @@ class Command
     parser.parse(known_options)
   end
 
+  def parser
+    OptionParser.new
+  end
+
   def current_branch
     `git rev-parse --abbrev-ref HEAD`.strip
   end
