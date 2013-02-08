@@ -20,7 +20,7 @@ class StoryPush < Command
     c = ['git push']
     c << argument_string(unknown_options) unless unknown_options.empty?
     c << target
-    c << current_branch
+    c << story_branch
     c.join(' ')
   end
 

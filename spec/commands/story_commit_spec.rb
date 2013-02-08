@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StoryCommit do
 
   let(:command) { StoryCommit.new(['-m', 'message', '-a', '-z', '--foo']) }
-  before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
+  before { command.stub(:story_branch).and_return('6283185-tau-manifesto') }
   subject { command }
 
   it { should respond_to(:message) }
@@ -75,7 +75,7 @@ describe StoryCommit do
   end
 
   describe "command with no story id" do
-    before { command.stub(:current_branch).and_return('tau-manifesto') }
+    before { command.stub(:story_branch).and_return('tau-manifesto') }
     its(:cmd) do
       should == %(git commit -a -m "message" -z --foo)
     end    

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StoryPush do
 
   let(:command) { StoryPush.new }
-  before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
+  before { command.stub(:story_branch).and_return('6283185-tau-manifesto') }
   subject { command }
 
   its(:cmd) { should =~ /git push/ }
@@ -16,7 +16,7 @@ describe StoryPush do
   end
 
   describe "with no options" do
-    its(:cmd) { should == "git push origin #{command.current_branch}" }
+    its(:cmd) { should == "git push origin #{command.story_branch}" }
   end
 
   describe "with a target option" do

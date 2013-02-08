@@ -25,7 +25,7 @@ class StoryPull < Command
     c = ['git pull']
     c << argument_string(unknown_options) unless unknown_options.empty?
     lines << c.join(' ')
-    lines << ["git checkout #{current_branch}"]
+    lines << ["git checkout #{story_branch}"]
     lines.join("\n")
   end
 

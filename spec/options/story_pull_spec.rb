@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StoryPull do
 
   let(:command) { StoryPull.new }
-  before { command.stub(:current_branch).and_return('6283185-tau-manifesto') }
+  before { command.stub(:story_branch).and_return('6283185-tau-manifesto') }
   subject { command }
 
   its(:cmd) { should =~ /git pull/ }
@@ -18,7 +18,7 @@ describe StoryPull do
   describe "with no options" do
     its(:cmd) { should =~ /git checkout master/ }
     its(:cmd) { should =~ /git pull/ }
-    its(:cmd) { should =~ /git checkout #{command.current_branch}/ }
+    its(:cmd) { should =~ /git checkout #{command.story_branch}/ }
   end
 
   describe "with a target option" do

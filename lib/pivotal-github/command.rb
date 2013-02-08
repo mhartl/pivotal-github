@@ -21,12 +21,12 @@ class Command
     OptionParser.new
   end
 
-  def current_branch
+  def story_branch
     `git rev-parse --abbrev-ref HEAD`.strip
   end
 
   def story_id
-    current_branch.scan(/\d+/).first
+    story_branch.scan(/\d+/).first
   end
 
   # Runs a command
