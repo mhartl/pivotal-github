@@ -84,7 +84,14 @@ but I don't like having `master` and `origin/master` be different since that mea
 `git story-merge` merges the current branch into `master`. On a branch called `6283185-add-markdown-support`, `git story-merge` is equivalent to the following: 
 
     $ git checkout master
-    $ git merge 6283185-add-markdown-support
+    $ git merge --no-ff 6283185-add-markdown-support
+
+As noted in [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/): 
+
+> The `--no-ff` flag causes the merge to always create a new commit
+> object, even if the merge could be performed with a fast-forward.
+
+`git story-push` accepts any options valid for `git push`.
 
 ## Configuration
 
