@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'pivotal-github/story_merge'
 
-branch=`git rev-parse --abbrev-ref HEAD`
-git checkout master
-git merge --no-ff $@ $branch
+exit Command.run!(StoryMerge, ARGV.dup)

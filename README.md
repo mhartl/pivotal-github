@@ -100,12 +100,19 @@ Additionally, `git story-pull` accepts any options valid for `git pull`.
     $ git checkout master
     $ git merge --no-ff 6283185-add-markdown-support
 
-As noted in [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/): 
+Note that this effectively changes the default merge behavior from fast-forward to no-fast-forward, which makes it possible to see from `git log` which of the commit objects together have implemented a story. As noted in [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/),
 
-> The `--no-ff` flag causes the merge to always create a new commit
-> object, even if the merge could be performed with a fast-forward.
+> The `--no-ff` flag causes the merge to always create a new commit object, even if the merge could be performed with a fast-forward. This avoids losing information about the historical existence of a feature branch and groups together all commits that together added the feature… Yes, it will create a few more (empty) commit objects, but the gain is much bigger that that cost.
 
-`git story-push` accepts any options valid for `git push`.
+Because of the way options are chained, passing the option `--ff` to `git story-merge` will override the `--no-ff` flag and restore the fast-forward behavior.
+
+#### Options
+
+		Usage: git story-merge [options]
+		    -d, --development BRANCH         development branch (defaults to master)
+		    -h, --help                       this usage guide
+
+Additionally, `git story-merge` accepts any options valid for `git merge`.
 
 ## Configuration
 

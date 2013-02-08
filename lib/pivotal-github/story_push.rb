@@ -30,10 +30,6 @@ class StoryPush < Command
 
   private
 
-    def pull_request_branch
-      options.pull_request_branch
-    end
-
     def target
       options.target || 'origin'
     end
