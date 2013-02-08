@@ -32,8 +32,9 @@ describe StoryPull do
     its(:cmd) { should =~ /git pull -a -z --foo/ }
   end
 
-  # describe "command-line command" do
-  #   subject { `bin/git-story-pull --debug -z -t heroku` }
-  #   it { should =~ /git pull -z heroku/ }
-  # end
+  describe "command-line command" do
+    subject { `bin/git-story-pull --debug -z -d develop` }
+    it { should =~ /git checkout develop/ }
+    it { should =~ /git pull -z/ }
+  end
 end

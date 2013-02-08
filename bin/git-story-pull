@@ -1,6 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'pivotal-github/story_pull'
 
-branch=`git rev-parse --abbrev-ref HEAD`
-git checkout master
-git pull $@
-git checkout $branch
+exit Command.run!(StoryPull, ARGV.dup)
