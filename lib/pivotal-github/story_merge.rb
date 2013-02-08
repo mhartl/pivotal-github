@@ -1,10 +1,10 @@
 require 'pivotal-github/command'
 
-class StoryPull < Command
+class StoryMerge < Command
 
   def parser
     OptionParser.new do |opts|
-      opts.banner = "Usage: git story-pull [options]"
+      opts.banner = "Usage: git story-merge [options]"
       opts.on("-d", "--development BRANCH",
               "development branch (defaults to master)") do |opt|
         self.options.development = opt
@@ -18,14 +18,13 @@ class StoryPull < Command
   # Returns a command appropriate for executing at the command line
   # For example:
   #   git checkout master
-  #   git pull
-  #   git checkout <story branch>
+  #   git merge --no-ff <story branch>
   def cmd
     lines = ["git checkout #{development_branch}"]
-    c = ['git pull']
+    c = ['git merge --no-ff']
     c << argument_string(unknown_options) unless unknown_options.empty?
+    c << story_branch
     lines << c.join(' ')
-    lines << ["git checkout #{story_branch}"]
     lines.join("\n")
   end
 
@@ -34,7 +33,7 @@ class StoryPull < Command
   end
 
   private
-  
+
     def development_branch
       options.development || 'master'
     end
