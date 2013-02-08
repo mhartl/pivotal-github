@@ -6,13 +6,13 @@ The `pivotal-github` gem facilitates a Pivotal Tracker–GitHub workflow inspire
 
 Add this line to your application's Gemfile:
 
-    gem 'pivotal-github'
+    gem 'pivotal-github', '~> 0.5.0'
 
-And then execute:
+Then install the gem with Bundler:
 
-    $ bundle
+    $ bundle install
 
-Or install it yourself as:
+You can also install it directly as follows:
 
     $ gem install pivotal-github
 
@@ -133,16 +133,16 @@ Here's the process in detail:
 4. Push up with `git push`
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
 7. **(experimental)** Add a story of type Chore to Pivotal Tracker and assign it to Developer #2 (Bob)
-
+8. Continue working, taking care to branch off of the current story branch if its changes are required to continue
 
 ### Developer #2 (Bob)
 
 1. Select **Pull Requests** at GitHub and review the pull request diffs
 2. If acceptable, merge the branch by clicking on the button at GitHub
-3. If not acceptable, manually change the state at Pivotal Tracker to Rejected and leave a note (at GitHub or at Pivotal Tracker) indicating the reason
-4. **(experimental)** If the branch cannot be automatically merged, make a Chore to resolve any conflicts and assign it to Alice
+3. If not acceptable, manually change the state at Pivotal Tracker to **Rejected** and leave a note (at GitHub or at Pivotal Tracker) indicating the reason
+4. **(experimental)** If the branch can't be automatically merged, make a Chore to resolve any conflicts and assign it to Alice
 
-Until Bob accepts the pull request, Alice can continue working on new stories, taking care to branch off of the current branch if she needs its changes to continue. Note that the commits will appear on the story as soon as Alice creates a remote branch (and as she pushes to it), but it won't be marked **Finished** or **Delivered** until Bob merges the pull request into `master`.
+Note that the commits will appear on the story as soon as Alice creates a remote branch (and as she pushes to it), but it won't be marked **Finished** or **Delivered** until Bob merges the pull request into `master`.
 
 ## Merge conflicts
 
