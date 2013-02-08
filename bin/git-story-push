@@ -1,3 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'pivotal-github/story_push'
 
-git push $@ origin `git rev-parse --abbrev-ref HEAD`
+exit Command.run!(StoryPush, ARGV.dup)
