@@ -18,7 +18,7 @@ You can also install it directly as follows:
 
 ## Usage
 
-The `pivotal-github` gem adds several additional Git commands to the local environment. There is only one non-trivial addition, `git story-commit`; the others are simple (tiny) bash scripts. (In fact, the current Ruby code looks over-engineered: there is a base `Command` class with only one derived class, `StoryCommit`. This is an artifact of history, as there used to be other commands, but I decided that the other cases were better served by plain bash scripts.) The `git story-commit` command automatically incorporates the Pivotal Tracker story id into the commit messages, while adding options to mark the story **Finished** or **Delivered**. 
+The `pivotal-github` gem adds several additional Git commands to the local environment. The main addition, `git story-commit`, automatically incorporates the Pivotal Tracker story id into the commit messages, while adding options to mark the story **Finished** or **Delivered**. 
 
 The `git story-commit` command makes the assumption that the first string of digits in the branch name is the story id. This means that, when the story id is `6283185`, the branch names `6283185-add-markdown-support`, `6283185_add_markdown_support`, and `add-markdown-support-6283185` all work, but `add-42-things-6283185` doesn't.
 
