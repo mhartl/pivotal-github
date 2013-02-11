@@ -123,7 +123,7 @@ The `story-open` command (*note*: no `git`) opens the current story in the defau
 
 ## Configuration
 
-In order to use the `pivotal-github` gem, you need to configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.pivotaltracker.com/help/api?version=v3#github_hooks) for your repository. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) 
+In order to use the `pivotal-github` gem, you need to configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.pivotaltracker.com/help/api?version=v3#github_hooks) for your repository. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) Be sure to check the **Active** box to activate the post-receive hook.
 
 The `pivotal-github` command names follow the Git convention of being verbose (e.g., unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions:
 
