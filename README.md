@@ -4,17 +4,10 @@ The `pivotal-github` gem facilitates a Pivotal Tracker–GitHub workflow inspire
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'pivotal-github', '~> 0.5.0'
-
-Then install the gem with Bundler:
-
-    $ bundle install
-
-You can also install it directly as follows:
+You can install the `pivotal-github` gem directly as follows:
 
     $ gem install pivotal-github
+
 
 ## Usage
 
