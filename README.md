@@ -167,7 +167,7 @@ Here's the process in detail:
 4. Rebase against `master` using `git story-pull` followed by `git rebase master` or `git rebase master --interactive` (optionally squashing commit messages as described in the article [A Git Workflow for Agile Teams](http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html))
 4. Push up with `git push`
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
-7. **(experimental)** Add a story of type Chore to Pivotal Tracker and assign it to Developer #2 (Bob)
+7. Go the story at Pivotal Tracker and change the **Owner** to Developer #2 (Bob)
 8. Continue working, taking care to branch off of the current story branch if its changes are required to continue
 
 ### Developer #2 (Bob)
@@ -175,9 +175,7 @@ Here's the process in detail:
 1. Select **Pull Requests** at GitHub and review the pull request diffs
 2. If acceptable, merge the branch by clicking on the button at GitHub
 3. If not acceptable, manually change the state at Pivotal Tracker to **Rejected** and leave a note (at GitHub or at Pivotal Tracker) indicating the reason
-4. **(experimental)** If the branch can't be automatically merged, make a Chore to resolve any conflicts and assign it to Alice
-
-Note that the commits will appear on the story as soon as Alice creates a remote branch (and as she pushes to it), but it won't be marked **Finished** or **Delivered** until Bob merges the pull request into `master`.
+4. If the branch can't be automatically merged, mark the story as **Rejected** and change the **Owner** back to Alice
 
 ## Merge conflicts
 
