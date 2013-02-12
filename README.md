@@ -101,9 +101,9 @@ Because of the way options are chained, passing the option `--ff` to `git story-
 
 #### Options
 
-		Usage: git story-merge [options]
-		    -d, --development BRANCH         development branch (defaults to master)
-		    -h, --help                       this usage guide
+    Usage: git story-merge [options]
+        -d, --development BRANCH         development branch (defaults to master)
+        -h, --help                       this usage guide
 
 Additionally, `git story-merge` accepts any options valid for `git merge`.
 
@@ -120,10 +120,10 @@ In order to use the `pivotal-github` gem, you need to configure a [post-receive 
 
 The `pivotal-github` command names follow the Git convention of being verbose (e.g., unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions:
 
-    $ git config --global alias.sc story-commit
-    $ git config --global alias.sp story-push    
-    $ git config --global alias.sl story-pull
-    $ git config --global alias.sm story-merge
+    git config --global alias.sc story-commit
+    git config --global alias.sp story-push    
+    git config --global alias.sl story-pull
+    git config --global alias.sm story-merge
 
 A single-developer workflow would then look like this:
 
