@@ -163,6 +163,9 @@ Here's the process in detail:
 7. Go the story at Pivotal Tracker and change the **Owner** to Developer #2 (Bob)
 8. Continue working, taking care to branch off of the current story branch if its changes are required to continue
 
+Rather than immediately submitting a pull request, Alice can also continue by branching off the previous story branch, working on a set of related features, and then issue Bob a pull request for the final branch when she reaches a natural stopping place.
+
+
 ### Developer #2 (Bob)
 
 1. Select **Pull Requests** at GitHub and review the pull request diffs
