@@ -109,13 +109,13 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
 ### git story-pull-request
 
-`git story-pull-request` opens the proper remote URI to issue a pull request for the current branch (OS&ndash;X only):
+`git story-pull-request` opens the proper remote URI to issue a pull request for the current branch (OS&nbsp;X&ndash;only):
 
     $ git story-pull-request
 
 ### story-open
 
-The `story-open` command (*note*: no `git`) opens the current story in the default browser (OS X&ndash;only):
+The `story-open` command (*note*: no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
 
     $ story-open
 
