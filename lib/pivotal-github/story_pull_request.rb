@@ -21,6 +21,6 @@ class StoryPullRequest < Command
     # Returns the remote URI for the repository
     # E.g., https://github.com/mhartl/pivotal-github
     def origin_uri
-      File.basename(`git config --get remote.origin.url`.strip, '.git')
+      `git config --get remote.origin.url`.strip.chomp('.git')
     end  
 end
