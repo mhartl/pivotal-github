@@ -107,6 +107,12 @@ Because of the way options are chained, passing the option `--ff` to `git story-
 
 Additionally, `git story-merge` accepts any options valid for `git merge`.
 
+### git story-pull-request
+
+`git story-pull-request` opens the proper remote URI to issue a pull request for the current branch (OS&ndash;X only):
+
+    $ git story-pull-request
+
 ### story-open
 
 The `story-open` command (*note*: no `git`) opens the current story in the default browser (OS X&ndash;only):
@@ -124,6 +130,7 @@ The `pivotal-github` command names follow the Git convention of being verbose (e
     git config --global alias.sp story-push    
     git config --global alias.sl story-pull
     git config --global alias.sm story-merge
+    git config --global alias.spr story-pull-request
 
 A single-developer workflow would then look like this:
 
@@ -162,6 +169,9 @@ Here's the process in detail:
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
 7. Go the story at Pivotal Tracker and change the **Owner** to Developer #2 (Bob)
 8. Continue working, taking care to branch off of the current story branch if its changes are required to continue
+
+Rather than immediately submitting a pull request, Alice can also continue by branching off the previous story branch, working on a set of related features, and then issue Bob a pull request for the final branch when she reaches a natural stopping place.
+
 
 ### Developer #2 (Bob)
 
