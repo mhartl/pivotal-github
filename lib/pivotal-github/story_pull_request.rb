@@ -1,6 +1,6 @@
 require 'pivotal-github/command'
 
-class PullRequest < Command
+class StoryPullRequest < Command
 
   # Returns a command appropriate for executing at the command line
   # I.e., 'open https://www.pivotaltracker.com/story/show/6283185'
@@ -21,6 +21,6 @@ class PullRequest < Command
     # Returns the remote URI for the repository
     # E.g., https://github.com/mhartl/pivotal-github
     def origin_uri
-      `git remote show origin`.scan(/https.*$/).first.sub('.git', '')
+      File.basename(`git config --get remote.origin.url`.strip, '.git')
     end  
 end

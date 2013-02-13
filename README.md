@@ -107,6 +107,12 @@ Because of the way options are chained, passing the option `--ff` to `git story-
 
 Additionally, `git story-merge` accepts any options valid for `git merge`.
 
+### git story-pull-request
+
+`git story-pull-request` opens the proper remote URI to issue a pull request for the current branch (OS&ndash;X only):
+
+    $ git story-pull-request
+
 ### story-open
 
 The `story-open` command (*note*: no `git`) opens the current story in the default browser (OS X&ndash;only):
@@ -124,6 +130,7 @@ The `pivotal-github` command names follow the Git convention of being verbose (e
     git config --global alias.sp story-push    
     git config --global alias.sl story-pull
     git config --global alias.sm story-merge
+    git config --global alias.spr story-pull-request
 
 A single-developer workflow would then look like this:
 
