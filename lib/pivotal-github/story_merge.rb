@@ -21,7 +21,7 @@ class StoryMerge < Command
   #   git merge --no-ff <story branch>
   def cmd
     lines = ["git checkout #{development_branch}"]
-    c = ['git merge --no-ff']
+    c = ['git merge --no-ff --log']
     c << argument_string(unknown_options) unless unknown_options.empty?
     c << story_branch
     lines << c.join(' ')
