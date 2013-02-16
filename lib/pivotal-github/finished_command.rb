@@ -1,4 +1,4 @@
-# By devault, command runs only when story is finished
+# By default, command runs only when story is finished
 class FinishedCommand < Command
 
   def run!
