@@ -1,6 +1,7 @@
 require 'pivotal-github/command'
+require 'pivotal-github/finished_command'
 
-class StoryMerge < Command
+class StoryMerge < FinishedCommand
 
   def parser
     OptionParser.new do |opts|
