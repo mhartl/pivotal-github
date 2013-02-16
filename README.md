@@ -1,6 +1,6 @@
 # pivotal-github
 
-The `pivotal-github` gem facilitates a Pivotal Tracker–GitHub workflow inspired by [Logical Reality](http://lrdesign.com/). As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs.
+The `pivotal-github` gem facilitates a Pivotal Tracker–GitHub workflow inspired by the workflow used by [Logical Reality](http://lrdesign.com/). As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs.
 
 ## Installation
 
@@ -93,7 +93,7 @@ Additionally, `git story-pull` accepts any options valid for `git pull`.
     $ git checkout master
     $ git merge --no-ff --log 6283185-add-markdown-support
 
-Note that this effectively changes the default merge behavior from fast-forward to no-fast-forward, which makes it possible to see from `git log` which of the commit objects together have implemented a story. As noted in [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/),
+Note that this effectively changes the default merge behavior from fast-forward to no-fast-forward, which makes it possible to use `git log` to see which of the commit objects together have implemented a story. As noted in [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/),
 
 > The `--no-ff` flag causes the merge to always create a new commit object, even if the merge could be performed with a fast-forward. This avoids losing information about the historical existence of a feature branch and groups together all commits that together added the feature… Yes, it will create a few more (empty) commit objects, but the gain is much bigger that that cost.
 
@@ -101,10 +101,13 @@ In addition, the `--log` option puts the commit messages from the individual com
 
 Because of the way options are chained, passing `--ff` or `--no-log` to `git story-merge` will override the `--no-ff` or `--log` flags (respectively) and thus restore the default behavior of `git merge`.
 
+Finally, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-merge` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished' or 'Delivered'). This behavior can be overriden with the `--run` option. (I wanted to use `-f` and `--force`, but those interact badly with the default `git merge` options.)
+
 #### Options
 
     Usage: git story-merge [options]
         -d, --development BRANCH         development branch (defaults to master)
+	    -r, --run                        run without marking story finished
         -h, --help                       this usage guide
 
 Additionally, `git story-merge` accepts any options valid for `git merge`.
@@ -117,12 +120,12 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
 By default, `git story-pull-request` issues a `git story-push` as well, just in case the local branch hasn't yet been pushed up to the remote repository. This step can be skipped with the `--skip` option.
 
-In addition, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-pull-request` command exits with a warning (and doesn't open the pull request window) if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished' or 'Delivered'). This behavior can be overriden with the `--force` option.
+As with `git story-merge`, by default `git story-pull-request` exits with a warning if the most recent commit doesn't finish the story.
 
 #### Options
 
     Usage: git story-pull-request [options]
-        -f, --force                      run without marking story finished
+    	-r, --run                        run without marking story finished
         -s, --skip                       skip `git story-push`
         -h, --help                       this usage guide
 
