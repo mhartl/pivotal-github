@@ -101,13 +101,13 @@ In addition, the `--log` option puts the commit messages from the individual com
 
 Because of the way options are chained, passing `--ff` or `--no-log` to `git story-merge` will override the `--no-ff` or `--log` flags (respectively) and thus restore the default behavior of `git merge`.
 
-Finally, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-merge` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished', 'Delivered', 'Fixes', or 'Fixed'). This behavior can be overriden with the `--run` option. (I wanted to use `-f` and `--force`, but those interact badly with the default `git merge` options.)
+Finally, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-merge` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished', 'Delivered', 'Fixes', or 'Fixed'). This behavior can be overriden with the `--force` option.
 
 #### Options
 
     Usage: git story-merge [options]
         -d, --development BRANCH         development branch (defaults to master)
-	    -r, --run                        run without marking story finished
+	    -f, --force                      override unfinished story warning
         -h, --help                       this usage guide
 
 Additionally, `git story-merge` accepts any options valid for `git merge`.
@@ -125,7 +125,7 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
 #### Options
 
     Usage: git story-pull-request [options]
-    	-r, --run                        run without marking story finished
+    	-f, --force                      override unfinished story warning
         -s, --skip                       skip `git story-push`
         -h, --help                       this usage guide
 
