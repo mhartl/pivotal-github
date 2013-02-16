@@ -1,6 +1,7 @@
 require 'pivotal-github/command'
+require 'pivotal-github/finished_command'
 
-class StoryPullRequest < Command
+class StoryPullRequest < FinishedCommand
 
   def parser
     OptionParser.new do |opts|
@@ -30,11 +31,6 @@ class StoryPullRequest < Command
 
   def uri
     "#{origin_uri}/pull/new/#{story_branch}"
-  end
-
-  def run!
-    check_finishes unless run?
-    system cmd
   end
 
   private
