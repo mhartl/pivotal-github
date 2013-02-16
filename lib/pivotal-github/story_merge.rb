@@ -1,6 +1,7 @@
 require 'pivotal-github/command'
+require 'pivotal-github/finished_command'
 
-class StoryMerge < Command
+class StoryMerge < FinishedCommand
 
   def parser
     OptionParser.new do |opts|
@@ -8,6 +9,12 @@ class StoryMerge < Command
       opts.on("-d", "--development BRANCH",
               "development branch (defaults to master)") do |opt|
         self.options.development = opt
+      end
+      # I wanted to use '-f' and '--force', but those interact
+      # badly with the default `git merge` options.
+      opts.on("-r", "--run", 
+              "run without marking story finished") do |opt|
+        self.options.run = opt
       end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0
@@ -26,10 +33,6 @@ class StoryMerge < Command
     c << story_branch
     lines << c.join(' ')
     lines.join("\n")
-  end
-
-  def run!
-    system cmd
   end
 
   private
