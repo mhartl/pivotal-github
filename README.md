@@ -115,6 +115,14 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
     $ git story-pull-request
 
+Experience shows that, when using `git story-commit` it's easy to forget to mark the story finished when making the last commit. As a reminder, the `git story-pull-request` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished' or 'Delivered'). This warning can be overriden with the `--force` flag.
+
+#### Options
+
+    Usage: git story-pull-request [options]
+        -f, --force                      run without marking story finished
+        -h, --help                       this usage guide
+
 ### story-open
 
 The `story-open` command (*note*: no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
