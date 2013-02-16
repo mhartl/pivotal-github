@@ -5,12 +5,12 @@ class StoryPullRequest < Command
   def parser
     OptionParser.new do |opts|
       opts.banner = "Usage: git story-pull-request [options]"
-      opts.on("-f", "--force", 
-              "run without marking story finished") do |f|
-        self.options.force = f
+      opts.on("-r", "--run",
+              "run without marking story finished") do |opt|
+        self.options.run = opt
       end
-      opts.on("-s", "--skip", "skip `git story-push`") do |s|
-        self.options.skip = s
+      opts.on("-s", "--skip", "skip `git story-push`") do |opt|
+        self.options.skip = opt
       end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0
@@ -33,7 +33,7 @@ class StoryPullRequest < Command
   end
 
   def run!
-    check_finishes unless force?
+    check_finishes unless run?
     system cmd
   end
 
@@ -43,24 +43,6 @@ class StoryPullRequest < Command
     # E.g., https://github.com/mhartl/pivotal-github
     def origin_uri
       `git config --get remote.origin.url`.strip.chomp('.git')
-    end
-
-    # Checks to see if the most recent commit finishes the story
-    # We look for 'Finishes' or 'Delivers' and issue a warning if neither is
-    # in the most recent commit. (Also supports 'Finished' and 'Delivered'.)
-    def check_finishes
-      unless `git log -1` =~ /Finishe(s|d)|Deliver(s|ed)/
-        warning =  "Warning: Unfinished story\n"
-        warning += "Run `git commit --amend` to add 'Finishes' or 'Delivers' "
-        warning += "to the commit message\n"
-        warning += "Use --force to override"
-        $stderr.puts warning
-        exit 1
-      end
-    end
-
-    def force?
-      options.force
     end
 
     def skip?

@@ -55,5 +55,5 @@ class Command
       args.inject([]) do |opts, opt|
         opts << (opt =~ /^-/ ? opt : opt.inspect)
       end.join(' ')      
-    end  
+    end
 end
