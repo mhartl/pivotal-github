@@ -12,6 +12,12 @@ module Options
     unknown = []                                     
     recursive_parse = Proc.new do |arg_list|                   
       begin
+        # Hack to handle an unknown '-ff' argument
+        # The issue here is that OptParse interprets '-ff' as a '-f' option
+        # applied twice. This is sort-of a feature, as it allows, e.g., '-am'
+        # to set both the '-a' and '-m' options, but it interacts badly
+        # with '-ff' (as used by 'git merge') when '-f' is one of the options.
+        unknown << arg_list.delete('-ff') if arg_list.include?('-ff')
         parser.parse!(arg_list)
       rescue OptionParser::InvalidOption => e
         unknown.concat(e.args)

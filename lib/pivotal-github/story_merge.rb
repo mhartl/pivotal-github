@@ -10,10 +10,7 @@ class StoryMerge < FinishedCommand
               "development branch (defaults to master)") do |opt|
         self.options.development = opt
       end
-      # I wanted to use '-f' and '--force', but those interact
-      # badly with the default `git merge` options.
-      opts.on("-r", "--run", 
-              "run without marking story finished") do |opt|
+      opts.on("-f", "--force", "override unfinished story warning") do |opt|
         self.options.run = opt
       end
       opts.on_tail("-h", "--help", "this usage guide") do
