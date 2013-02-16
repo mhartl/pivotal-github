@@ -9,6 +9,9 @@ class StoryPullRequest < Command
               "run without marking story finished") do |f|
         self.options.force = f
       end
+      opts.on("-s", "--skip", "skip `git story-push`") do |s|
+        self.options.skip = s
+      end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0
       end
@@ -18,7 +21,11 @@ class StoryPullRequest < Command
   # Returns a command appropriate for executing at the command line
   # I.e., 'open https://www.pivotaltracker.com/story/show/6283185'
   def cmd
-    "open #{uri}"
+    if skip?
+      "open #{uri}"
+    else
+      "git story-push && open #{uri}"
+    end
   end
 
   def uri
@@ -54,5 +61,9 @@ class StoryPullRequest < Command
 
     def force?
       options.force
+    end
+
+    def skip?
+      options.skip
     end
 end
