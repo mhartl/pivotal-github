@@ -115,12 +115,15 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
     $ git story-pull-request
 
-Experience shows that, when using `git story-commit` it's easy to forget to mark the story finished when making the last commit. As a reminder, the `git story-pull-request` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished' or 'Delivered'). This warning can be overriden with the `--force` flag.
+By default, `git story-pull-request` issues a `git story-push` as well, just in case the local branch hasn't yet been pushed up to the remote repository. This step can be skipped with the `--skip` option.
+
+In addition, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-pull-request` command exits with a warning (and doesn't open the pull request window) if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished' or 'Delivered'). This behavior can be overriden with the `--force` option.
 
 #### Options
 
     Usage: git story-pull-request [options]
         -f, --force                      run without marking story finished
+        -s, --skip                       skip `git story-push`
         -h, --help                       this usage guide
 
 ### story-open
