@@ -9,7 +9,7 @@ class StoryMerge < Command
               "development branch (defaults to master)") do |opt|
         self.options.development = opt
       end
-      # I wanted to use '-f' and '--force', but that interacts
+      # I wanted to use '-f' and '--force', but those interact
       # badly with the default `git merge` options.
       opts.on("-r", "--run", 
               "run without marking story finished") do |opt|
