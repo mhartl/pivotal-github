@@ -101,7 +101,7 @@ In addition, the `--log` option puts the commit messages from the individual com
 
 Because of the way options are chained, passing `--ff` or `--no-log` to `git story-merge` will override the `--no-ff` or `--log` flags (respectively) and thus restore the default behavior of `git merge`.
 
-Finally, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-merge` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished' or 'Delivered'). This behavior can be overriden with the `--run` option. (I wanted to use `-f` and `--force`, but those interact badly with the default `git merge` options.)
+Finally, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-merge` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished', 'Delivered', 'Fixes', or 'Fixed'). This behavior can be overriden with the `--run` option. (I wanted to use `-f` and `--force`, but those interact badly with the default `git merge` options.)
 
 #### Options
 
