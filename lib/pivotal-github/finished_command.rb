@@ -16,7 +16,7 @@ class FinishedCommand < Command
         warning =  "Warning: Unfinished story\n"
         warning += "Run `git commit --amend` to add 'Finishes' or 'Delivers' "
         warning += "to the commit message\n"
-        warning += "Use --force to override"
+        warning += "Use --run to override"
         $stderr.puts warning
         exit 1
       end
