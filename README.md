@@ -66,7 +66,7 @@ Additionall, `git story-push` accepts any options valid for `git push`.
     $ git pull
     $ git checkout 6283185-add-markdown-support
 
-The purpose of `git story-pull` it to prepare the local story branch for rebasing against `master`:
+The purpose of `git story-pull` is to prepare the local story branch for rebasing against `master`:
 
     $ git story-pull
     $ git rebase master
