@@ -99,7 +99,7 @@ Note that this effectively changes the default merge behavior from fast-forward 
 
 In addition, the `--log` option puts the commit messages from the individual commits in the merge message, which arranges for the merge commit itself to appear in the activity log at Pivotal Tracker. This is especially useful for viewing the full diff represented by the commit.
 
-Because of the way options are chained, passing `--ff` or `--no-log` to `git story-merge` will override the `--no-ff` or `--log` flags (respectively) and thus restore the default behavior of `git merge`.
+Because of the way options are chained, passing `-ff` or `--no-log` to `git story-merge` will override the `--no-ff` or `--log` flags (respectively) and thus restore the default behavior of `git merge`.
 
 Finally, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-merge` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished', 'Delivered', 'Fixes', or 'Fixed'). This behavior can be overriden with the `--force` option.
 
