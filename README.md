@@ -131,7 +131,7 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
 
 ### story-open
 
-The `story-open` command (*note*: no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
+The `story-open` command (without `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
 
     $ story-open
 
