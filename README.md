@@ -1,6 +1,6 @@
 # pivotal-github
 
-The `pivotal-github` gem facilitates a [Pivotal&nbsp;Tracker](http://pivotaltracker.com/)–[GitHub](http://github.com/) workflow inspired by the workflow used by [Logical Reality](http://lrdesign.com/). As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs.
+The `pivotal-github` gem facilitates a [Pivotal&nbsp;Tracker](http://pivotaltracker.com/)–[GitHub](http://github.com/) workflow inspired by the workflow used by [Logical Reality](http://lrdesign.com/). (It also works fine with [BitBucket](http://bitbucket.com/); see **Configuration** below.) As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs, so I rolled my own.
 
 ## Installation
 
@@ -138,7 +138,7 @@ The `story-open` command (without `git`) opens the current story in the default 
 
 ## Configuration
 
-In order to use the `pivotal-github` gem, you need to configure a [post-receive hook for Pivotal Tracker at GitHub](https://www.pivotaltracker.com/help/api?version=v3#github_hooks) for your repository. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) Be sure to check the **Active** box to activate the post-receive hook.
+In order to use the `pivotal-github` gem, you need to configure a post-receive hook for your repository. At GitHub, navigate to `Settings > Service Hooks > Pivotal Tracker` and past in your Pivotal Tracker API token. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) Be sure to check the **Active** box to activate the post-receive hook. At BitBucket, click on the gear icon to view the settings, click on `Services`, select `Pivotal Tracker`, and paste in your Pivotal Tracker API key.
 
 The `pivotal-github` command names follow the Git convention of being verbose (e.g., unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions:
 
@@ -221,7 +221,9 @@ Now Bob should be able to merge in the pull request automatically using the nice
 ## Contributing
 
 1. Fork it
+2. Run the tests with `rspec spec/`
 2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Add failing tests, then add the feature
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
