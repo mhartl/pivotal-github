@@ -11,7 +11,7 @@ class StoryMerge < FinishedCommand
         self.options.development = opt
       end
       opts.on("-f", "--force", "override unfinished story warning") do |opt|
-        self.options.run = opt
+        self.options.force = opt
       end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0

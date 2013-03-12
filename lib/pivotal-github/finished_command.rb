@@ -2,7 +2,7 @@
 class FinishedCommand < Command
 
   def run!
-    check_finishes unless run?
+    check_finishes unless force?
     system cmd
   end
 
@@ -22,7 +22,7 @@ class FinishedCommand < Command
       end
     end
 
-    def run?
-      options.run
+    def force?
+      options.force
     end
 end
