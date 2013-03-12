@@ -8,7 +8,7 @@ Gem::Specification.new do |gem|
   gem.version       = Pivotal::Github::VERSION
   gem.authors       = ["Michael Hartl"]
   gem.email         = ["michael@michaelhartl.com"]
-  gem.description   = %q{Add commands for Pivotal Tracker–GitHub integration}
+  gem.description   = %q{Add commands for Pivotal Tracker-GitHub integration}
   gem.summary       = %q{See the README for full documentation}
   gem.homepage      = "https://github.com/mhartl/pivotal-github"
 
