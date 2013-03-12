@@ -12,7 +12,7 @@ class FinishedCommand < Command
     # We look for 'Finishes' or 'Delivers' and issue a warning if neither is
     # in the most recent commit. (Also supports 'Finished' and 'Delivered'.)
     def check_finishes
-      unless `git log -1` =~ /Finishe(s|d)|Deliver(s|ed)|Fixe(s|d)/i
+      unless finished?
         warning =  "Warning: Unfinished story\n"
         warning += "Run `git commit --amend` to add 'Finishes' or 'Delivers' "
         warning += "to the commit message\n"
@@ -20,6 +20,10 @@ class FinishedCommand < Command
         $stderr.puts warning
         exit 1
       end
+    end
+
+    def finished?
+      !!(`git log -1`.match(/Finishe(s|d)|Deliver(s|ed)|Fixe(s|d) #\d+/i))
     end
 
     def force?
