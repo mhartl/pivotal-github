@@ -7,7 +7,7 @@ class StoryPullRequest < FinishedCommand
     OptionParser.new do |opts|
       opts.banner = "Usage: git story-pull-request [options]"
       opts.on("-f", "--force", "override unfinished story warning") do |opt|
-        self.options.run = opt
+        self.options.force = opt
       end
       opts.on("-s", "--skip", "skip `git story-push`") do |opt|
         self.options.skip = opt
