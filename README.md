@@ -183,7 +183,8 @@ Here's the process in detail:
 4. Rebase against `master` using `git story-pull` followed by `git rebase master` or `git rebase master --interactive` (optionally squashing commit messages as described in the article [A Git Workflow for Agile Teams](http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html))
 4. Push up with `git push`
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
-7. Go the story at Pivotal Tracker and change the **Owner** to Developer #2 (Bob) and add a comment with the pull request URL
+6. (On OS X, replace the previous two steps with `git story-pull-request`)
+7. On the Pivotal Tracker story, change the **Owner** to Developer #2 (Bob) and add a comment with the pull request URL
 8. Continue working, taking care to branch off of the current story branch if its changes are required to continue
 
 Rather than immediately submitting a pull request, Alice can also continue by branching off the previous story branch, working on a set of related features, and then issue Bob a pull request for the final branch when she reaches a natural stopping place.
