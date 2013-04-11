@@ -184,6 +184,7 @@ Here's the process in detail:
 4. Push up with `git push`
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
 6. (On OS X, replace the previous two steps with `git story-pull-request`)
+6. Assign the pull request to Bob at GitHub
 7. On the Pivotal Tracker story, change the **Owner** to Developer #2 (Bob) and add a comment with the pull request URL
 8. Continue working, taking care to branch off of the current story branch if its changes are required to continue
 
