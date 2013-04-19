@@ -29,9 +29,9 @@ class Command
     story_branch.scan(/\d+/).first
   end
 
-  # Runs a command
+  # Runs a command.
   # If the argument array contains '--debug', returns the command that would
-  # have been run
+  # have been run.
   def self.run!(command_class, args)
     debug = args.delete('--debug')
     command = command_class.new(args)
@@ -46,7 +46,7 @@ class Command
 
   private
 
-    # Returns an argument string based on given arguments
+    # Returns an argument string based on given arguments.
     # The main trick is to add in quotes for option
     # arguments when necessary.
     # For example, ['-a', '-m', 'foo bar'] becomes
@@ -55,5 +55,5 @@ class Command
       args.inject([]) do |opts, opt|
         opts << (opt =~ /^-/ ? opt : opt.inspect)
       end.join(' ')      
-    end  
+    end
 end

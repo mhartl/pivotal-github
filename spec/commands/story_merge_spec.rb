@@ -17,7 +17,7 @@ describe StoryMerge do
 
   describe "with no options" do
     its(:cmd) { should =~ /git checkout master/ }
-    its(:cmd) { should =~ /git merge --no-ff #{command.story_branch}/ }
+    its(:cmd) { should =~ /git merge --no-ff --log #{command.story_branch}/ }
   end
 
   describe "with a custom development branch" do
@@ -34,6 +34,6 @@ describe StoryMerge do
   describe "command-line command" do
     subject { `bin/git-story-merge --debug -ff -d develop` }
     it { should =~ /git checkout develop/ }
-    it { should =~ /git merge --no-ff -ff/ }
+    it { should =~ /git merge --no-ff --log -ff/ }
   end
 end

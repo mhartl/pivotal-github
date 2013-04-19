@@ -9,14 +9,14 @@ describe Options do
     OptionParser.new do |opts|
       opts.banner = "Usage: git record [options]"
       opts.on("-m", "--message MESSAGE",
-              "add a commit message (with ticket #)") do |m| 
-        options.message = m
+              "add a commit message (with ticket #)") do |opt| 
+        options.message = opt
       end
-      opts.on("-a", "--all", "commit all changed files") do |a|
-        options.all = a
+      opts.on("-a", "--all", "commit all changed files") do |opt|
+        options.all = opt
       end
-      opts.on("-f", "--finish", "mark story as finished") do |f|
-        options.finish = f
+      opts.on("-f", "--finish", "mark story as finished") do |opt|
+        options.finish = opt
       end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0
@@ -24,7 +24,9 @@ describe Options do
     end    
   end
 
-  let(:args) { ['-a', '-m', '"A message"', '--finish', '-z', '--foo', 'b ar'] }
+  # The presence of '-ff' in this list is important to test the custom
+  # handling of the interaction of '-ff' and '-f'.
+  let(:args) { ['-a', '-m', '"A message"', '--finish', '-ff', '--foo', 'b ar'] }
 
   it { should respond_to(:unknown_options) }
   it { should respond_to(:known_options) }
@@ -32,7 +34,7 @@ describe Options do
   describe '#unknown_options' do
     subject { Options::unknown_options(parser, args) }
 
-    it { should     include('-z') }
+    it { should     include('-ff') }
     it { should     include('--foo') }
     it { should     include('b ar') }
     it { should_not include('-a') }
@@ -44,7 +46,7 @@ describe Options do
   describe '#known_options' do
     subject { Options::known_options(parser, args) }
 
-    it { should_not include('-z') }
+    it { should_not include('-ff') }
     it { should_not include('--foo') }
     it { should_not include('b ar') }
     it { should     include('-a') }
