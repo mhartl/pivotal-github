@@ -36,8 +36,14 @@ class StoryPullRequest < FinishedCommand
 
     # Returns the remote URI for the repository
     # E.g., https://github.com/mhartl/pivotal-github
+    def raw_origin_uri
+      `git config --get remote.origin.url`
+    end
+
     def origin_uri
-      `git config --get remote.origin.url`.strip.chomp('.git')
+      uri = raw_origin_uri.strip.chomp('.git')
+      uri.gsub!(/^(.+?)@(.+?):(.+)$/, 'https://\2/\3') if uri =~ /^git/
+      uri
     end
 
     def skip?
