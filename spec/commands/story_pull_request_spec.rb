@@ -5,8 +5,8 @@ describe StoryPullRequest do
   let(:command) { StoryPullRequest.new }
   before { command.stub(:story_branch).and_return('6283185-tau-manifesto') }
   before do
-    command.stub(:raw_origin_uri).
-            and_return('https://github.com/mhartl/foo.git')
+    command.stub(:remote_location).
+            and_return('https://github.com/mhartl/foo')
   end
   subject { command }
 
@@ -23,8 +23,8 @@ describe StoryPullRequest do
 
     context 'git protocol' do
       before do
-        command.stub(:raw_origin_uri).
-                and_return('git@github.com:mhartl/foo.git')
+        command.stub(:remote_location).
+                and_return('git@github.com:mhartl/foo')
       end
 
       it { should eq correct_origin }
