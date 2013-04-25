@@ -149,7 +149,7 @@ The `story-open` command (without `git`) opens the current story in the default 
 
 ## Configuration
 
-In order to use the `pivotal-github` gem, you need to configure a post-receive hook for your repository. At GitHub, navigate to `Settings > Service Hooks > Pivotal Tracker` and past in your Pivotal Tracker API token. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) Be sure to check the **Active** box to activate the post-receive hook. At BitBucket, click on the gear icon to view the settings, click on `Services`, select `Pivotal Tracker`, and paste in your Pivotal Tracker API key.
+In order to use the `pivotal-github` gem, you need to configure a post-receive hook for your repository. At GitHub, navigate to `Settings > Service Hooks > Pivotal Tracker` and paste in your Pivotal Tracker API token. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) Be sure to check the **Active** box to activate the post-receive hook. At BitBucket, click on the gear icon to view the settings, click on `Services`, select `Pivotal Tracker`, and paste in your Pivotal Tracker API key.
 
 The `pivotal-github` command names follow the Git convention of being verbose (e.g., unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions:
 
