@@ -78,6 +78,17 @@ The purpose of `git story-pull` is to prepare the local story branch for rebasin
 
 but I don't like having `master` and `origin/master` be different since that means you have to remember to run `git pull` on `master` some time down the line.)
 
+If you've already pushed the story, you'll have to force a subsequent push using
+
+    $ git push --force
+
+If someone else might already have pulled the branch, you should probably merge `master` instead of rebasing against it:
+
+    $ git story-push
+    $ git story-pull
+    $ git merge master
+ 
+
 #### Options
 
     Usage: git story-pull [options]
