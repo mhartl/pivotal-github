@@ -21,15 +21,15 @@ The full set of commands is as follows:
 
 `git story-commit` makes a standard `git commit` with the story number added to the commit message. This automatically adds a link at Pivotal Tracker between the story and the diff when the branch gets pushed up to GitHub. 
 
-For example, when on a branch called `6283185-add-markdown-support`, the `git story-commit` command automatically adds `[#6283185]` to the commit message:
+For example, when on a branch called `add-markdown-support-6283185`, the `git story-commit` command automatically adds `[#6283185]` to the commit message:
 	
     $ git story-commit -am "Add foo bars"
-	[6283185-add-markdown-support 6f56414] [#6283185] Add foo bars
+	[add-markdown-support-6283185 6f56414] [#6283185] Add foo bars
 
 To mark a story as **Finished**, add the `-f` flag:
 
     $ git story-commit -f -am "Remove baz quuxes"
-	[6283185-add-markdown-support 7g56429] [Finishes #6283185] Remove baz quuxes
+	[add-markdown-support-6283185 7g56429] [Finishes #6283185] Remove baz quuxes
 
 #### Options
 
@@ -48,7 +48,7 @@ Additionally, `git story-commit` accepts any options valid for `git commit`. (`g
 `git story push` creates a remote branch at `origin` with the name of the current branch:
 
     $ git story-push
-    * [new branch]      6283185-add-markdown-support -> 6283185-add-markdown-support
+    * [new branch]      add-markdown-support-6283185 -> add-markdown-support-6283185
 
 #### Options
 
@@ -60,11 +60,11 @@ Additionall, `git story-push` accepts any options valid for `git push`.
 
 ### git story-pull
 
-`git story-pull` syncs the local `master` with the remote `master`. On a branch called `6283185-add-markdown-support`, `git story-pull` is equivalent to the following:
+`git story-pull` syncs the local `master` with the remote `master`. On a branch called `add-markdown-support-6283185`, `git story-pull` is equivalent to the following:
 
     $ git checkout master
     $ git pull
-    $ git checkout 6283185-add-markdown-support
+    $ git checkout add-markdown-support-6283185
 
 The purpose of `git story-pull` is to prepare the local story branch for rebasing against `master`:
 
@@ -99,10 +99,10 @@ Additionally, `git story-pull` accepts any options valid for `git pull`.
     
 ### git story-merge
 
-`git story-merge` merges the current branch into `master`. On a branch called `6283185-add-markdown-support`, `git story-merge` is equivalent to the following: 
+`git story-merge` merges the current branch into `master`. On a branch called `add-markdown-support-6283185`, `git story-merge` is equivalent to the following: 
 
     $ git checkout master
-    $ git merge --no-ff --log 6283185-add-markdown-support
+    $ git merge --no-ff --log add-markdown-support-6283185
 
 Note that this effectively changes the default merge behavior from fast-forward to no-fast-forward, which makes it possible to use `git log` to see which of the commit objects together have implemented a story. As noted in [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/),
 
@@ -161,7 +161,7 @@ The `pivotal-github` command names follow the Git convention of being verbose (e
 
 A single-developer workflow would then look like this:
 
-    $ git co -b 6283185-add-markdown-support
+    $ git co -b add-markdown-support-6283185
     $ git sp
     <work>
     $ git sc -am "Added foo"
@@ -186,7 +186,7 @@ Here's the process in detail:
 ### Developer #1 (Alice)
 
 1. Start an issue at [Pivotal Tracker](http://pivotaltracker.com/) and copy the story id to your buffer
-2. Create a branch in the local Git repository containing the story id and a brief description: `git checkout -b 6283185-add-markdown-support`
+2. Create a branch in the local Git repository containing the story id and a brief description: `git checkout -b add-markdown-support-6283185`
 3. Create a remote branch at [GitHub](http://github.com/) using `git story-push`
 3. Use `git story-commit` to make commits, which includes the story number in the commit message: `git story-commit -am "Add syntax highlighting"`
 4. Continue pushing up after each commit using `git push` as usual
