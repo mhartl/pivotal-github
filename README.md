@@ -196,7 +196,7 @@ Here's the process in detail:
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
 6. (On OS X, replace the previous two steps with `git story-pull-request`)
 6. Assign the pull request to Bob at GitHub
-7. On the Pivotal Tracker story, change the **Owner** to Developer #2 (Bob) and add a comment with the pull request URL
+7. On the Pivotal Tracker story, add a comment with the pull request URL
 8. Continue working, taking care to branch off of the current story branch if its changes are required to continue
 
 Rather than immediately submitting a pull request, Alice can also continue by branching off the previous story branch, working on a set of related features, and then issue Bob a pull request for the final branch when she reaches a natural stopping place.
@@ -207,7 +207,13 @@ Rather than immediately submitting a pull request, Alice can also continue by br
 1. Select **Pull Requests** at GitHub and review the pull request diffs
 2. If acceptable, merge the branch by clicking on the button at GitHub
 3. If not acceptable, manually change the state at Pivotal Tracker to **Rejected** and leave a note (at GitHub or at Pivotal Tracker) indicating the reason
-4. If the branch can't be automatically merged, mark the story as **Rejected** and change the **Owner** back to Alice
+4. If the branch can't be automatically merged, mark the story as **Rejected**
+
+### Developer #1 (Alice)
+
+1. After getting the GitHub notification that the pull request has been merged, mark the Pivotal Tracker story finished. (In principle, Bob could do this, but Alice probably knows the PR-to-story mapping better than Bob, and experience shows that it is difficult for Bob to remember to update Pivotal Tracker after accepting the pull request.)
+2. If the pull request was rejected, make the necessary changes and follow the previous steps above.
+
 
 ## Merge conflicts
 
