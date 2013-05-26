@@ -120,7 +120,7 @@ Additionally, `git story-pull` accepts any options valid for `git pull`.
 
 Note that this effectively changes the default merge behavior from fast-forward to no-fast-forward, which makes it possible to use `git log` to see which of the commit objects together have implemented a story. As noted in [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/),
 
-> The `--no-ff` flag causes the merge to always create a new commit object, even if the merge could be performed with a fast-forward. This avoids losing information about the historical existence of a feature branch and groups together all commits that together added the feature… Yes, it will create a few more (empty) commit objects, but the gain is much bigger that that cost.
+> The `--no-ff` flag causes the merge to always create a new commit object, even if the merge could be performed with a fast-forward. This avoids losing information about the historical existence of a feature branch and groups together all commits that together added the feature… Yes, it will create a few more (empty) commit objects, but the gain is much bigger than that cost.
 
 In addition, the `--log` option puts the commit messages from the individual commits in the merge message, which arranges for the merge commit itself to appear in the activity log at Pivotal Tracker. This is especially useful for viewing the full diff represented by the commit.
 
