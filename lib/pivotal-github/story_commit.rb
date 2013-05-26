@@ -25,19 +25,27 @@ class StoryCommit < Command
   end
 
   def message
-    if story_id.nil?
+    if story_ids.empty?
       # Arranges to fall through to regular 'git commit'
       options.message
     else
       if finish?
-        label = "Finishes ##{story_id}"
+        label = "Finishes #{message_ids}"
       elsif deliver?
-        label = "Delivers ##{story_id}"
+        label = "Delivers #{message_ids}"
       else
-        label = "##{story_id}"
+        label = message_ids
       end
       "[#{label}] #{options.message}"
     end
+  end
+
+  # Returns the story ids formatted for story commits.
+  # For single-id stories, this is just the number preceded by '#', as in
+  # '#6283185'. For multiple-id stories, each story id is precede by '#', as in
+  # '#6283185 #3141592'
+  def message_ids
+    story_ids.map { |id| "##{id}" }.join(' ')
   end
 
   # Returns a command appropriate for executing at the command line.

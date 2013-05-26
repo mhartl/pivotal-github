@@ -8,9 +8,4 @@ describe StoryOpen do
   subject { command }
 
   its(:cmd) { should == "open #{uri}" }
-
-  describe "command-line command" do
-    subject { `bin/story-open --debug` }
-    it { should =~ /open https:\/\/www.pivotaltracker.com\/story\/show/ }
-  end
 end
