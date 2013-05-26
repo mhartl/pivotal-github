@@ -53,6 +53,16 @@ describe StoryCommit do
     its(:cmd) do
       should == %(git commit -a -m "[##{command.story_id}] message" -z --foo)
     end
+
+    describe "when used with branches containing multiple stories" do
+      before do
+        command.stub(:story_branch).and_return('6283185-tau-manifesto-3141592')
+      end
+      its(:cmd) do
+        delivered_ids = '#6283185 #3141592'
+        should == %(git commit -a -m "[#{delivered_ids}] message" -z --foo)
+      end
+    end
   end
 
   describe "command with no message" do
@@ -65,12 +75,32 @@ describe StoryCommit do
     its(:cmd) do
       should == %(git commit -m "[Finishes ##{command.story_id}] message")
     end      
+
+    describe "when used with branches containing multiple stories" do
+      before do
+        command.stub(:story_branch).and_return('6283185-tau-manifesto-3141592')
+      end
+      its(:cmd) do
+        delivered_ids = '#6283185 #3141592'
+        should == %(git commit -m "[Finishes #{delivered_ids}] message")
+      end
+    end
   end
 
   describe "command with deliver flag" do
     let(:command) { StoryCommit.new(['-m', 'message', '-d']) }
     its(:cmd) do
       should == %(git commit -m "[Delivers ##{command.story_id}] message")
+    end
+
+    describe "when used with branches containing multiple stories" do
+      before do
+        command.stub(:story_branch).and_return('6283185-tau-manifesto-3141592')
+      end
+      its(:cmd) do
+        delivered_ids = '#6283185 #3141592'
+        should == %(git commit -m "[Delivers #{delivered_ids}] message")
+      end
     end
   end
 
