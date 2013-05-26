@@ -25,8 +25,19 @@ class Command
     `git rev-parse --abbrev-ref HEAD`.strip
   end
 
+  # Returns the story id (or ids).
+  # We extract the story id(s) from the branch name, so that, e.g.,
+  # the branch `add-markdown-support-6283185` gives story_id '6283185'.
+  # New as of version 0.7, we support multiple story ids in a single 
+  # branch name, so that `add-markdown-support-6283185-3141592` can be used
+  # to update story 6283185 and story 3141592 simultaneously.
+  def story_ids
+    story_branch.scan(/\d+/)
+  end
+
+  # Returns the single story id for the common case of one id.
   def story_id
-    story_branch.scan(/\d+/).first
+    story_ids.first
   end
 
   # Runs a command.
