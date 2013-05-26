@@ -25,14 +25,13 @@ For example, when on a branch called `add-markdown-support-6283185`, the `git st
 	
     $ git story-commit -am "Add foo bars"
 	[add-markdown-support-6283185 6f56414] [#6283185] Add foo bars
-	
 
 To mark a story as **Finished**, add the `-f` flag:
 
     $ git story-commit -f -am "Remove baz quuxes"
 	[add-markdown-support-6283185 7g56429] [Finishes #6283185] Remove baz quuxes
 
-To mark a story as **Delivered** (*recommended*), add the `-d` flag:
+To mark a story as **Delivered**, add the `-d` flag:
 
     $ git story-commit -d -am "Remove baz quuxes"
 	[add-markdown-support-6283185 7g56429] [Delivers #6283185] Remove baz quuxes
