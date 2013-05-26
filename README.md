@@ -11,9 +11,9 @@ You can install the `pivotal-github` gem directly as follows:
 
 ## Usage
 
-The `pivotal-github` gem adds several additional Git commands to the local environment. The main addition, `git story-commit`, automatically incorporates the Pivotal Tracker story id into the commit messages, while adding options to mark the story **Finished** or **Delivered**. 
+The `pivotal-github` gem adds several additional Git commands to the local environment. The main addition, `git story-commit`, automatically incorporates the Pivotal Tracker story id(s) into the commit messages, while adding options to mark the story **Finished** or **Delivered**. 
 
-The `git story-commit` command makes the assumption that the first string of digits in the branch name is the story id. This means that, when the story id is `6283185`, the branch names `6283185-add-markdown-support`, `6283185_add_markdown_support`, and `add-markdown-support-6283185` all work, but `add-42-things-6283185` doesn't.
+The `git story-commit` command makes the assumption that any string of digits in the branch name is a story id. This means that, when the story id is `6283185`, the branch names `6283185-add-markdown-support`, `6283185_add_markdown_support`, and `add-markdown-support-6283185` all correspond to story id `6283185`, while `add-things-6283185-3141592` corresponds to both `6283185` *and* `3141592`.
 
 The full set of commands is as follows:
 
@@ -30,6 +30,20 @@ To mark a story as **Finished**, add the `-f` flag:
 
     $ git story-commit -f -am "Remove baz quuxes"
 	[add-markdown-support-6283185 7g56429] [Finishes #6283185] Remove baz quuxes
+
+To mark a story as **Delivered**, add the `-d` flag:
+
+    $ git story-commit -d -am "Remove baz quuxes"
+	[add-markdown-support-6283185 7g56429] [Delivers #6283185] Remove baz quuxes
+
+Either the `-f` flag or the `-d` flag can be combined with other flags, yielding commands like
+
+    $ git story-commit -dam "Remove baz quuxes"
+
+`git story commit` supports multiple story numbers as well. For example, with a branch called `add-things-6283185-3141592`, we could deliver both stories as follows 
+
+    $ git story-commit -dam "Remove baz quuxes"
+	[add-things-6283185-3141592 7g56429] [Delivers #6283185 #3141592] Remove baz quuxes
 
 #### Options
 
