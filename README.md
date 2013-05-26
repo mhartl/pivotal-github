@@ -40,7 +40,6 @@ Either the `-f` flag or the `-d` flag can be combined with other flags, yielding
 
     $ git story-commit -dam "Remove baz quuxes"
 
-
 `git story commit` supports multiple story numbers as well. For example, with a branch called `add-things-6283185-3141592`, we could deliver both stories as follows 
 
     $ git story-commit -dam "Remove baz quuxes"
