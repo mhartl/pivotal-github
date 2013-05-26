@@ -1,6 +1,6 @@
 # pivotal-github
 
-The `pivotal-github` gem facilitates a [Pivotal&nbsp;Tracker](http://pivotaltracker.com/)–[GitHub](http://github.com/) workflow inspired by the workflow used by [Logical Reality](http://lrdesign.com/). (It also works fine with [BitBucket](http://bitbucket.com/); see **Configuration** below.) As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs, so I rolled my own.
+The `pivotal-github` gem facilitates a [Pivotal&nbsp;Tracker](http://pivotaltracker.com/)–[GitHub](http://github.com/) workflow inspired by the workflow used by [Logical Reality](http://lrdesign.com/). (Despite its name, `pivotal-github` also works fine with [BitBucket](http://bitbucket.com/); see **Configuration** below.) As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs, so I rolled my own.
 
 ## Installation
 
