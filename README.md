@@ -11,7 +11,7 @@ You can install the `pivotal-github` gem directly as follows:
 
 ## Usage
 
-The `pivotal-github` gem adds several additional Git commands to the local environment. The main addition, `git story-commit`, automatically incorporates the Pivotal Tracker story id(s) into the commit messages, while adding options to mark the story **Finished** or **Delivered**. 
+The `pivotal-github` gem adds several additional Git commands to the local environment. The main addition, `git story-commit`, automatically incorporates the Pivotal Tracker story id(s) into the commit messages, while adding options to mark the story **Finished** or **Delivered**.
 
 The `git story-commit` command makes the assumption that any string of digits in the branch name is a story id. This means that the branch names `6283185-add-markdown-support`, `6283185_add_markdown_support`, and `add-markdown-support-6283185` all correspond to story id `6283185`, while `add-things-6283185-3141592` corresponds to both `6283185` *and* `3141592`.
 
@@ -19,10 +19,10 @@ The full set of commands is as follows:
 
 ### git story-commit
 
-`git story-commit` makes a standard `git commit` with the story number added to the commit message. This automatically adds a link at Pivotal Tracker between the story and the diff when the branch gets pushed up to GitHub. 
+`git story-commit` makes a standard `git commit` with the story number added to the commit message. This automatically adds a link at Pivotal Tracker between the story and the diff when the branch gets pushed up to GitHub.
 
 For example, when on a branch called `add-markdown-support-6283185`, the `git story-commit` command automatically adds `[#6283185]` to the commit message:
-	
+
     $ git story-commit -am "Add foo bars"
 	[add-markdown-support-6283185 6f56414] [#6283185] Add foo bars
 
@@ -85,7 +85,7 @@ The purpose of `git story-pull` is to prepare the local story branch for rebasin
     $ git story-pull
     $ git rebase master
 
-(This is essentially equivalent to 
+(This is essentially equivalent to
 
     $ git fetch
     $ git rebase origin/master
@@ -101,7 +101,7 @@ If someone else might already have pulled the branch, you should probably merge 
     $ git story-push
     $ git story-pull
     $ git merge master
- 
+
 
 #### Options
 
@@ -110,10 +110,10 @@ If someone else might already have pulled the branch, you should probably merge 
         -h, --help                       this usage guide
 
 Additionally, `git story-pull` accepts any options valid for `git pull`.
-    
+
 ### git story-merge
 
-`git story-merge` merges the current branch into `master`. On a branch called `add-markdown-support-6283185`, `git story-merge` is equivalent to the following: 
+`git story-merge` merges the current branch into `master`. On a branch called `add-markdown-support-6283185`, `git story-merge` is equivalent to the following:
 
     $ git checkout master
     $ git merge --no-ff --log add-markdown-support-6283185
@@ -168,7 +168,7 @@ In order to use the `pivotal-github` gem, you need to configure a post-receive h
 The `pivotal-github` command names follow the Git convention of being verbose (e.g., unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions, formatted so that they can be pasted directly into a terminal window:
 
     git config --global alias.sc story-commit
-    git config --global alias.sp story-push    
+    git config --global alias.sp story-push
     git config --global alias.sl story-pull
     git config --global alias.sm story-merge
     git config --global alias.spr story-pull-request
@@ -190,7 +190,7 @@ A single-developer workflow would then look like this:
     $ git sm
 
 Note that this workflow uses `git sp` (and subsequent invocations of `git push`) only to create a remote backup. The principal purpose of `git story-push` is to support the integrated code review workflow described below.
-    
+
 ## Workflow with integrated code reivew
 
 The `pivotal-github` gem is degined to support a workflow involving integrated code review, which has the usual benefits: at least two pairs of eyes see any committed code, and at least two brains know basically what the committed code does. The cost is that having a second developer involved can slow you down. I suggest using your judgment to determine which workflow makes the most sense on a story-by-story basis.
@@ -210,7 +210,7 @@ Here's the process in detail:
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
 6. (On OS X, replace the previous two steps with `git story-pull-request`)
 6. Assign the pull request to Bob at GitHub
-7. On the Pivotal Tracker story, add a comment with the pull request URL
+7. On the Pivotal Tracker story, add a comment with the pull request URL, and optionally change the **Owner** to Bob
 8. Continue working, taking care to branch off of the current story branch if its changes are required to continue
 
 Rather than immediately submitting a pull request, Alice can also continue by branching off the previous story branch, working on a set of related features, and then issue Bob a pull request for the final branch when she reaches a natural stopping place.
@@ -219,14 +219,14 @@ Rather than immediately submitting a pull request, Alice can also continue by br
 ### Developer #2 (Bob)
 
 1. Select **Pull Requests** at GitHub and review the pull request diffs
-2. If acceptable, merge the branch by clicking on the button at GitHub
+2. If acceptable, merge the branch by clicking on the button at GitHub, and optionally accept the story at Pivotal Tracker
 3. If not acceptable, manually change the state at Pivotal Tracker to **Rejected** and leave a note (at GitHub or at Pivotal Tracker) indicating the reason
 4. If the branch can't be automatically merged, mark the story as **Rejected**
 
 ### Developer #1 (Alice)
 
-1. After getting the GitHub notification that the pull request has been merged, mark the Pivotal Tracker story finished. (In principle, Bob could do this, but Alice probably knows the PR-to-story mapping better than Bob, and experience shows that it is difficult for Bob to remember to update Pivotal Tracker after accepting the pull request.)
-2. If the pull request was rejected, make the necessary changes and follow the previous steps above.
+1. After getting the GitHub notification that the pull request has been merged, mark the Pivotal Tracker story finished (unless assigned to Bob)
+2. If the pull request was rejected, make the necessary changes and follow the previous steps above
 
 
 ## Merge conflicts
@@ -246,7 +246,7 @@ When the branch can't automatically be merged at GitHub, follow these steps:
 4. Either handle resulting conflicts by hand or use the visual merge tool: `git mergetool`
 5. Commit the change: `git commit -a`
 6. Push up the modified branch: `git push`
-7. **(experimental)** Add a Chore to revisit the pull request and assign to Developer #2 (Bob) 
+7. **(experimental)** Add a Chore to revisit the pull request and assign to Developer #2 (Bob)
 
 
 Now Bob should be able to merge in the pull request automatically using the nice big green button at GitHub.
