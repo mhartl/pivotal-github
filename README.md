@@ -94,7 +94,7 @@ Additionally, `git story-commit` accepts any options valid for `git commit`. (`g
 	    -t, --target TARGET              push to a given target (defaults to origin)
 	    -h, --help                       this usage guide
 
-Additionall, `git story-push` accepts any options valid for `git push`.
+Additionally, `git story-push` accepts any options valid for `git push`.
 
 ### git story-pull
 
