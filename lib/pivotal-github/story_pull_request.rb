@@ -39,5 +39,4 @@ class StoryPullRequest < FinishedCommand
     def origin_uri
       remote_location.sub(/^git@(.+?):(.+)$/, 'https://\1/\2')
     end
-
 end
