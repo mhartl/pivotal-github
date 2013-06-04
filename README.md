@@ -27,7 +27,7 @@ For example, when on a branch called `add-markdown-support-6283185`, the `git st
     $ git story-commit -am "Add foo bars"
 	[add-markdown-support-6283185 6f56414] Add foo bars
 
-The commit message is multiline:
+The commit message is multiline and includes the story id:
 
     Add foo bars
 
@@ -114,7 +114,7 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
     $ git story-pull-request
 
-By default, `git story-pull-request` issues a `git push-branch` as well, just in case the local branch hasn't yet been pushed up to the remote repository. This step can be skipped with the `--skip` option.
+By default, `git story-pull-request` issues a `git push-branch` as well, just in case the local branch hasn't yet been pushed up to the remote repository. 
 
 As with `git story-merge`, by default `git story-pull-request` exits with a warning if the most recent commit doesn't finish the story.
 
@@ -122,12 +122,11 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
 
     Usage: git story-pull-request [options]
     	-f, --force                      override unfinished story warning
-        -s, --skip                       skip `git story-push`
         -h, --help                       this usage guide
 
 ### story-open
 
-The `story-open` command (without `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
+The `story-open` command (*note*: no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
 
     $ story-open
 
@@ -139,7 +138,6 @@ In order to use the `pivotal-github` gem, you need to configure a post-receive h
 The `pivotal-github` command names follow the Git convention of being verbose (e.g., unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions, formatted so that they can be pasted directly into a terminal window:
 
     git config --global alias.sc story-commit
-    git config --global alias.sp story-push
     git config --global alias.sm story-merge
     git config --global alias.spr story-pull-request
 

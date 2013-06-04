@@ -34,10 +34,5 @@ describe StoryPullRequest do
     subject { `bin/git-story-pull-request --debug` }
     it { should_not =~ /\.git/ }
     it { should =~ /git pull-request/ }
-
-    describe "with a skip option" do
-      subject { `bin/git-story-pull-request --skip --debug` }
-      it { should_not =~ /git story-push/ }
-    end
   end
 end

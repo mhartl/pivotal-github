@@ -28,7 +28,7 @@ class Command
   # Returns the story id (or ids).
   # We extract the story id(s) from the branch name, so that, e.g.,
   # the branch `add-markdown-support-6283185` gives story_id '6283185'.
-  # New as of version 0.7, we support multiple story ids in a single 
+  # New as of version 0.7, we support multiple story ids in a single
   # branch name, so that `add-markdown-support-6283185-3141592` can be used
   # to update story 6283185 and story 3141592 simultaneously.
   def story_ids
@@ -47,13 +47,14 @@ class Command
     debug = args.delete('--debug')
     command = command_class.new(args)
     if debug
-      puts command.cmd 
+      puts command.cmd
       return 1
     else
+      check_git_utils
       command.run!
       return 0
     end
-  end    
+  end
 
   private
 
@@ -65,6 +66,15 @@ class Command
     def argument_string(args)
       args.inject([]) do |opts, opt|
         opts << (opt =~ /^-/ ? opt : opt.inspect)
-      end.join(' ')      
+      end.join(' ')
+    end
+
+    # Exits if the git-utils aren't installed.
+    def self.check_git_utils
+      if `which git-pull-request`.empty?
+        msg = "Install git-utils (https://github.com/mhartl/git-utils)"
+        $stderr.puts msg
+        exit 1
+      end
     end
 end
