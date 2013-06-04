@@ -24,20 +24,16 @@ class StoryCommit < Command
     end
   end
 
+  # Returns the message for the story id(s) and action (if any).
   def message
-    if story_ids.empty?
-      # Arranges to fall through to regular 'git commit'
-      options.message
+    if finish?
+      label = "Finishes #{message_ids}"
+    elsif deliver?
+      label = "Delivers #{message_ids}"
     else
-      if finish?
-        label = "Finishes #{message_ids}"
-      elsif deliver?
-        label = "Delivers #{message_ids}"
-      else
-        label = message_ids
-      end
-      "[#{label}] #{options.message}"
+      label = message_ids
     end
+    "[#{label}]"
   end
 
   # Returns the story ids formatted for story commits.
@@ -54,7 +50,8 @@ class StoryCommit < Command
   def cmd
     c = ['git commit']
     c << '-a' if all?
-    c << %(-m "#{message}") if message?
+    c << %(-m "#{options.message}") if message?
+    c << %(-m "#{message}") unless story_ids.empty?
     c << argument_string(unknown_options) unless unknown_options.empty?
     c.join(' ')
   end
