@@ -24,17 +24,35 @@ The full set of commands is as follows:
 For example, when on a branch called `add-markdown-support-6283185`, the `git story-commit` command automatically adds `[#6283185]` to the commit message:
 
     $ git story-commit -am "Add foo bars"
-	[add-markdown-support-6283185 6f56414] [#6283185] Add foo bars
+	[add-markdown-support-6283185 6f56414] Add foo bars
+
+The commit message is multiline:
+
+    Add foo bars
+
+    [#6283185]
+
+(Previous versions of `pivotal-github` put the story id on the same line as the commit summary (per the usage at the [Pivotal Tracker API](https://www.pivotaltracker.com/help/api?version=v3)), but placing it in a separate line gives the user direct control over the length of the message. It also looks less cluttered.)
 
 To mark a story as **Finished**, add the `-f` flag:
 
     $ git story-commit -f -am "Remove baz quuxes"
-	[add-markdown-support-6283185 7g56429] [Finishes #6283185] Remove baz quuxes
+
+This gives the message
+
+    Remove baz quuxes
+
+    [Finishes #6283185]
 
 To mark a story as **Delivered**, add the `-d` flag:
 
     $ git story-commit -d -am "Remove baz quuxes"
-	[add-markdown-support-6283185 7g56429] [Delivers #6283185] Remove baz quuxes
+
+The message in this case is
+
+    Remove baz quuxes
+
+    [Delivers #6283185]
 
 Either the `-f` flag or the `-d` flag can be combined with other flags, yielding commands like
 
@@ -43,7 +61,13 @@ Either the `-f` flag or the `-d` flag can be combined with other flags, yielding
 `git story commit` supports multiple story numbers as well. For example, with a branch called `add-things-6283185-3141592`, we could deliver both stories as follows:
 
     $ git story-commit -dam "Remove baz quuxes"
-	[add-things-6283185-3141592 7g56429] [Delivers #6283185 #3141592] Remove baz quuxes
+	[add-things-6283185-3141592 7g56429] Remove baz quuxes
+
+The message here is
+
+    Remove baz quuxes
+
+    [Delivers #6283185 #3141592]
 
 #### Options
 
