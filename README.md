@@ -8,6 +8,7 @@ You can install the `pivotal-github` gem directly as follows:
 
     $ gem install pivotal-github
 
+The full workflow described herein requires some of the Git utilities from [git-utils](https://github.com/mhartl/git-utils), so it is recommended to install those as well.
 
 ## Usage
 
@@ -81,60 +82,6 @@ The message here is
 
 Additionally, `git story-commit` accepts any options valid for `git commit`. (`git story-commit` supports the `-a` flag even though that's a valid option to `git commit` so that the compound flag in `git story-commit -am "message"` works.)
 
-### git story-push
-
-`git story push` creates a remote branch at `origin` with the name of the current branch:
-
-    $ git story-push
-    * [new branch]      add-markdown-support-6283185 -> add-markdown-support-6283185
-
-#### Options
-
-	Usage: git story-push [options]
-	    -t, --target TARGET              push to a given target (defaults to origin)
-	    -h, --help                       this usage guide
-
-Additionally, `git story-push` accepts any options valid for `git push`.
-
-### git story-pull
-
-`git story-pull` syncs the local `master` with the remote `master`. On a branch called `add-markdown-support-6283185`, `git story-pull` is equivalent to the following:
-
-    $ git checkout master
-    $ git pull
-    $ git checkout add-markdown-support-6283185
-
-The purpose of `git story-pull` is to prepare the local story branch for rebasing against `master`:
-
-    $ git story-pull
-    $ git rebase master
-
-(This is essentially equivalent to
-
-    $ git fetch
-    $ git rebase origin/master
-
-but I don't like having `master` and `origin/master` be different since that means you have to remember to run `git pull` on `master` some time down the line.)
-
-If you've already pushed the story, you'll have to force a subsequent push using
-
-    $ git push --force
-
-If someone else might already have pulled the branch, you should probably merge `master` instead of rebasing against it:
-
-    $ git story-push
-    $ git story-pull
-    $ git merge master
-
-
-#### Options
-
-    Usage: git story-pull [options]
-        -d, --development BRANCH         development branch (defaults to master)
-        -h, --help                       this usage guide
-
-Additionally, `git story-pull` accepts any options valid for `git pull`.
-
 ### git story-merge
 
 `git story-merge` merges the current branch into `master`. On a branch called `add-markdown-support-6283185`, `git story-merge` is equivalent to the following:
@@ -167,7 +114,7 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
     $ git story-pull-request
 
-By default, `git story-pull-request` issues a `git story-push` as well, just in case the local branch hasn't yet been pushed up to the remote repository. This step can be skipped with the `--skip` option.
+By default, `git story-pull-request` issues a `git push-branch` as well, just in case the local branch hasn't yet been pushed up to the remote repository. This step can be skipped with the `--skip` option.
 
 As with `git story-merge`, by default `git story-pull-request` exits with a warning if the most recent commit doesn't finish the story.
 
@@ -193,14 +140,17 @@ The `pivotal-github` command names follow the Git convention of being verbose (e
 
     git config --global alias.sc story-commit
     git config --global alias.sp story-push
-    git config --global alias.sl story-pull
     git config --global alias.sm story-merge
     git config --global alias.spr story-pull-request
+
+I also recommend setting up an alias for `git push-branch` from [git-utils](https://github.com/mhartl/git-utils):
+
+    git config --global alias.pb push-branch
 
 A single-developer workflow would then look like this:
 
     $ git co -b add-markdown-support-6283185
-    $ git sp
+    $ git pb
     <work>
     $ git sc -am "Added foo"
     $ git push
@@ -209,11 +159,9 @@ A single-developer workflow would then look like this:
     <complete story>
     $ git sc -f -am "Added baz"
     $ git push
-    $ git sl
+    $ git sync
     $ git rebase master
     $ git sm
-
-Note that this workflow uses `git sp` (and subsequent invocations of `git push`) only to create a remote backup. The principal purpose of `git story-push` is to support the integrated code review workflow described below.
 
 ## Workflow with integrated code reivew
 
@@ -225,11 +173,11 @@ Here's the process in detail:
 
 1. Start an issue at [Pivotal Tracker](http://pivotaltracker.com/) and copy the story id to your buffer
 2. Create a branch in the local Git repository containing the story id and a brief description: `git checkout -b add-markdown-support-6283185`
-3. Create a remote branch at [GitHub](http://github.com/) using `git story-push`
+3. Create a remote branch at [GitHub](http://github.com/) using `git push-branch`
 3. Use `git story-commit` to make commits, which includes the story number in the commit message: `git story-commit -am "Add syntax highlighting"`
 4. Continue pushing up after each commit using `git push` as usual
 4. When done with the story, add `-f` to mark the story as **Finished** using `git story-commit -f -am "Add paragraph breaks"` or as **Delivered** using `git story-commit -d -am "Add paragraph breaks"`
-4. Rebase against `master` using `git story-pull` followed by `git rebase master` or `git rebase master --interactive` (optionally squashing commit messages as described in the article [A Git Workflow for Agile Teams](http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html))
+4. Rebase against `master` using `git sync` followed by `git rebase master` or `git rebase master --interactive` (optionally squashing commit messages as described in the article [A Git Workflow for Agile Teams](http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html))
 4. Push up with `git push`
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
 6. (On OS X, replace the previous two steps with `git story-pull-request`)
@@ -265,7 +213,7 @@ When the branch can't automatically be merged at GitHub, follow these steps:
 
 ### Devleloper #1 (Alice)
 
-1. While on the story branch, run `git story-pull`
+1. While on the story branch, run `git sync`
 2. Rebase against `master` with `git rebase master` **or** merge with `master` using `git merge master`
 4. Either handle resulting conflicts by hand or use the visual merge tool: `git mergetool`
 5. Commit the change: `git commit -a`

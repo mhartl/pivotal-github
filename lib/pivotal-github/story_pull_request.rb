@@ -9,9 +9,6 @@ class StoryPullRequest < FinishedCommand
       opts.on("-f", "--force", "override unfinished story warning") do |opt|
         self.options.force = opt
       end
-      opts.on("-s", "--skip", "skip `git story-push`") do |opt|
-        self.options.skip = opt
-      end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0
       end
@@ -21,11 +18,7 @@ class StoryPullRequest < FinishedCommand
   # Returns a command appropriate for executing at the command line
   # I.e., 'open https://www.pivotaltracker.com/story/show/6283185'
   def cmd
-    if skip?
-      "open #{uri}"
-    else
-      "git story-push && open #{uri}"
-    end
+    "git pull-request"
   end
 
   def uri
@@ -47,7 +40,4 @@ class StoryPullRequest < FinishedCommand
       remote_location.sub(/^git@(.+?):(.+)$/, 'https://\1/\2')
     end
 
-    def skip?
-      options.skip
-    end
 end

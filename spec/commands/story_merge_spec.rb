@@ -21,14 +21,14 @@ describe StoryMerge do
   end
 
   describe "with a custom development branch" do
-    let(:command) { StoryPull.new(['-d', 'develop']) }
+    let(:command) { StoryMerge.new(['-d', 'develop']) }
     its(:cmd) { should =~ /git checkout develop/ }
   end
 
   describe "with some unknown options" do
-    let(:command) { StoryPull.new(['-d', 'develop', '-a', '-z', '--foo']) }
+    let(:command) { StoryMerge.new(['-d', 'develop', '-a', '-z', '--foo']) }
     it_should_behave_like "story-merge with known options"
-    its(:cmd) { should =~ /git pull -a -z --foo/ }
+    its(:cmd) { should =~ /-a -z --foo/ }
   end
 
   describe "command-line command" do

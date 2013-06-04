@@ -10,8 +10,7 @@ describe StoryPullRequest do
   end
   subject { command }
 
-  its(:cmd) { should =~ /open #{command.uri}/ }
-  its(:cmd) { should =~ /git story-push/ }
+  its(:cmd) { should =~ /git pull-request/ }
 
   describe 'origin uri parsing' do
     let(:correct_origin) { 'https://github.com/mhartl/foo' }
@@ -33,9 +32,8 @@ describe StoryPullRequest do
 
   describe "command-line command" do
     subject { `bin/git-story-pull-request --debug` }
-    it { should =~ /pull\/new/ }
     it { should_not =~ /\.git/ }
-    it { should =~ /git story-push/ }
+    it { should =~ /git pull-request/ }
 
     describe "with a skip option" do
       subject { `bin/git-story-pull-request --skip --debug` }
