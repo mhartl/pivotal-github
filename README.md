@@ -110,7 +110,7 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
 ### git story-pull-request
 
-`git story-pull-request` opens the proper remote URI to issue a pull request for the current branch (OS&nbsp;X&ndash;only):
+`git story-pull-request` opens the proper remote URL to issue a pull request for the current branch (OS&nbsp;X&ndash;only):
 
     $ git story-pull-request
 
