@@ -114,7 +114,7 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
     $ git story-pull-request
 
-By default, `git story-pull-request` issues a `git push-branch` as well, just in case the local branch hasn't yet been pushed up to the remote repository.
+By default, `git story-pull-request` issues a `git push-branch` as well (from [git-utils](https://github.com/mhartl/git-utils)), just in case the local branch hasn't yet been pushed up to the remote repository.
 
 As with `git story-merge`, by default `git story-pull-request` exits with a warning if the most recent commit doesn't finish the story.
 
@@ -126,7 +126,7 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
 
 ### story-open
 
-The `story-open` command (*note*: no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
+The `story-open` command (no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
 
     $ story-open
 
@@ -161,6 +161,8 @@ A single-developer workflow would then look like this:
     $ git rebase master
     $ git sm
 
+Here `git sync` is also from [git-utils](https://github.com/mhartl/git-utils).
+
 ## Workflow with integrated code reivew
 
 The `pivotal-github` gem is degined to support a workflow involving integrated code review, which has the usual benefits: at least two pairs of eyes see any committed code, and at least two brains know basically what the committed code does. The cost is that having a second developer involved can slow you down. I suggest using your judgment to determine which workflow makes the most sense on a story-by-story basis.
@@ -174,7 +176,7 @@ Here's the process in detail:
 3. Create a remote branch at [GitHub](http://github.com/) using `git push-branch`
 3. Use `git story-commit` to make commits, which includes the story number in the commit message: `git story-commit -am "Add syntax highlighting"`
 4. Continue pushing up after each commit using `git push` as usual
-4. When done with the story, add `-f` to mark the story as **Finished** using `git story-commit -f -am "Add paragraph breaks"` or as **Delivered** using `git story-commit -d -am "Add paragraph breaks"`
+4. When done with the story, add `-f` to mark the story as **Finished** using `git story-commit -fam "Add paragraph breaks"` or as **Delivered** using `git story-commit -dam "Add paragraph breaks"`
 4. Rebase against `master` using `git sync` followed by `git rebase master` or `git rebase master --interactive` (optionally squashing commit messages as described in the article [A Git Workflow for Agile Teams](http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html))
 4. Push up with `git push`
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
