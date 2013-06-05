@@ -1,6 +1,6 @@
 # pivotal-github
 
-The `pivotal-github` gem facilitates a [Pivotal&nbsp;Tracker](http://pivotaltracker.com/)–[GitHub](http://github.com/) workflow inspired by the workflow used by [Logical Reality](http://lrdesign.com/). (Despite its name, `pivotal-github` also works fine with [BitBucket](http://bitbucket.com/); see **Configuration** below.) As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs, so I rolled my own.
+The `pivotal-github` gem facilitates a [Pivotal&nbsp;Tracker](http://pivotaltracker.com/)–[GitHub](http://github.com/) workflow inspired by the workflow used by [Logical Reality](http://lrdesign.com/). (Despite its name, `pivotal-github` also works fine with [Bitbucket](http://bitbucket.com/); see **Configuration** below.) As per usual, there are several projects (notably [git-flow](https://github.com/nvie/gitflow) and [git-pivotal](https://github.com/trydionel/git-pivotal)) that implement similar solutions, but none met my exact needs, so I rolled my own.
 
 ## Installation
 
@@ -114,7 +114,7 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
     $ git story-pull-request
 
-By default, `git story-pull-request` issues a `git push-branch` as well, just in case the local branch hasn't yet been pushed up to the remote repository. 
+By default, `git story-pull-request` issues a `git push-branch` as well, just in case the local branch hasn't yet been pushed up to the remote repository.
 
 As with `git story-merge`, by default `git story-pull-request` exits with a warning if the most recent commit doesn't finish the story.
 
@@ -133,7 +133,7 @@ The `story-open` command (*note*: no `git`) opens the current story in the defau
 
 ## Configuration
 
-In order to use the `pivotal-github` gem, you need to configure a post-receive hook for your repository. At GitHub, navigate to `Settings > Service Hooks > Pivotal Tracker` and paste in your Pivotal Tracker API token. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) Be sure to check the **Active** box to activate the post-receive hook. At BitBucket, click on the gear icon to view the settings, click on `Services`, select `Pivotal Tracker`, and paste in your Pivotal Tracker API key.
+In order to use the `pivotal-github` gem, you need to configure a post-receive hook for your repository. At GitHub, navigate to `Settings > Service Hooks > Pivotal Tracker` and paste in your Pivotal Tracker API token. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) Be sure to check the **Active** box to activate the post-receive hook. At Bitbucket, click on the gear icon to view the settings, click on `Services`, select `Pivotal Tracker`, and paste in your Pivotal Tracker API key.
 
 The `pivotal-github` command names follow the Git convention of being verbose (e.g., unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions, formatted so that they can be pasted directly into a terminal window:
 
