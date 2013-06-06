@@ -10,7 +10,7 @@ describe StoryPullRequest do
   end
   subject { command }
 
-  its(:cmd) { should =~ /git pull-request/ }
+  its(:cmd) { should match /git pull-request/ }
 
   describe 'origin uri parsing' do
     let(:correct_origin) { 'https://github.com/mhartl/foo' }
@@ -32,7 +32,7 @@ describe StoryPullRequest do
 
   describe "command-line command" do
     subject { `bin/git-story-pull-request --debug` }
-    it { should_not =~ /\.git/ }
-    it { should =~ /git pull-request/ }
+    it { should_not match /\.git/ }
+    it { should match /git pull-request/ }
   end
 end

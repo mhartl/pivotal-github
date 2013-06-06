@@ -11,7 +11,7 @@ describe StoryCommit do
   shared_examples "story-commit with known options" do
     subject { command }
 
-    its(:cmd)      { should =~ /git commit/ }
+    its(:cmd)      { should match /git commit/ }
     its(:message)  { should_not be_empty }
     its(:message?) { should be_true }
     its(:all?)     { should be_true }
@@ -19,7 +19,7 @@ describe StoryCommit do
     describe "parse" do
       subject { command.options }
 
-      its(:message) { should == 'msg' }
+      its(:message) { should eq 'msg' }
       its(:all)     { should be_true }
     end
   end
@@ -46,12 +46,12 @@ describe StoryCommit do
 
   describe '#story_id' do
     subject { command.story_id }
-    it { should == '6283185' }
+    it { should eq '6283185' }
   end
 
   describe "command with message" do
     its(:cmd) do
-      should == %(git commit -a -m "msg" -m "[##{command.story_id}]" -z --foo)
+      should eq %(git commit -a -m "msg" -m "[##{command.story_id}]" -z --foo)
     end
 
     describe "when used with branches containing multiple stories" do
@@ -60,7 +60,7 @@ describe StoryCommit do
       end
       its(:cmd) do
         delivered_ids = '#6283185 #3141592'
-        should == %(git commit -a -m "msg" -m "[#{delivered_ids}]" -z --foo)
+        should eq %(git commit -a -m "msg" -m "[#{delivered_ids}]" -z --foo)
       end
     end
   end
@@ -68,14 +68,14 @@ describe StoryCommit do
   describe "command with no message" do
     let(:command) { StoryCommit.new(['-a', '-z', '--foo']) }
     its(:cmd) do
-      should == %(git commit -a -m "[##{command.story_id}]" -z --foo)
+      should eq %(git commit -a -m "[##{command.story_id}]" -z --foo)
     end
   end
 
   describe "command with finish flag" do
     let(:command) { StoryCommit.new(['-m', 'msg', '-f']) }
     its(:cmd) do
-      should == %(git commit -m "msg" -m "[Finishes ##{command.story_id}]")
+      should eq %(git commit -m "msg" -m "[Finishes ##{command.story_id}]")
     end
 
     describe "when used with branches containing multiple stories" do
@@ -84,7 +84,7 @@ describe StoryCommit do
       end
       its(:cmd) do
         delivered_ids = '#6283185 #3141592'
-        should == %(git commit -m "msg" -m "[Finishes #{delivered_ids}]")
+        should eq %(git commit -m "msg" -m "[Finishes #{delivered_ids}]")
       end
     end
   end
@@ -92,7 +92,7 @@ describe StoryCommit do
   describe "command with deliver flag" do
     let(:command) { StoryCommit.new(['-m', 'msg', '-d']) }
     its(:cmd) do
-      should == %(git commit -m "msg" -m "[Delivers ##{command.story_id}]")
+      should eq %(git commit -m "msg" -m "[Delivers ##{command.story_id}]")
     end
 
     describe "when used with branches containing multiple stories" do
@@ -101,7 +101,7 @@ describe StoryCommit do
       end
       its(:cmd) do
         delivered_ids = '#6283185 #3141592'
-        should == %(git commit -m "msg" -m "[Delivers #{delivered_ids}]")
+        should eq %(git commit -m "msg" -m "[Delivers #{delivered_ids}]")
       end
     end
   end
@@ -109,16 +109,16 @@ describe StoryCommit do
   describe "command with no story id" do
     before { command.stub(:story_branch).and_return('tau-manifesto') }
     its(:cmd) do
-      should == %(git commit -a -m "msg" -z --foo)
+      should eq %(git commit -a -m "msg" -z --foo)
     end
   end
 
   describe "command-line command" do
     let(:command) { `bin/git-story-commit -a -m "msg" -z --debug` }
     subject { command }
-    it { should =~ /git commit -a -m/ }
-    it { should =~ /msg/ }
-    it { should =~ /-z/ }
-    it { should_not =~ /--debug/ }
+    it { should match /git commit -a -m/ }
+    it { should match /msg/ }
+    it { should match /-z/ }
+    it { should_not match /--debug/ }
   end
 end
