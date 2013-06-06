@@ -38,8 +38,8 @@ class StoryCommit < Command
 
   # Returns the story ids formatted for story commits.
   # For single-id stories, this is just the number preceded by '#', as in
-  # '#6283185'. For multiple-id stories, each story id is precede by '#', as in
-  # '#6283185 #3141592'
+  # '#62831853'. For multiple-id stories, each story id is precede by '#', as in
+  # '#62831853 #31415926'
   def message_ids
     story_ids.map { |id| "##{id}" }.join(' ')
   end

@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StoryMerge do
 
   let(:command) { StoryMerge.new }
-  before { command.stub(:story_branch).and_return('6283185-tau-manifesto') }
+  before { command.stub(:story_branch).and_return('62831853-tau-manifesto') }
   subject { command }
 
   its(:cmd) { should match /git merge/ }

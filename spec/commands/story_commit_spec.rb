@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StoryCommit do
 
   let(:command) { StoryCommit.new(['-m', 'msg', '-a', '-z', '--foo']) }
-  before { command.stub(:story_branch).and_return('6283185-tau-manifesto') }
+  before { command.stub(:story_branch).and_return('62831853-tau-manifesto') }
   subject { command }
 
   it { should respond_to(:message) }
@@ -46,7 +46,7 @@ describe StoryCommit do
 
   describe '#story_id' do
     subject { command.story_id }
-    it { should eq '6283185' }
+    it { should eq '62831853' }
   end
 
   describe "command with message" do
@@ -56,10 +56,10 @@ describe StoryCommit do
 
     describe "when used with branches containing multiple stories" do
       before do
-        command.stub(:story_branch).and_return('6283185-tau-manifesto-3141592')
+        command.stub(:story_branch).and_return('62831853-tau-manifesto-31415926')
       end
       its(:cmd) do
-        delivered_ids = '#6283185 #3141592'
+        delivered_ids = '#62831853 #31415926'
         should eq %(git commit -a -m "msg" -m "[#{delivered_ids}]" -z --foo)
       end
     end
@@ -80,10 +80,10 @@ describe StoryCommit do
 
     describe "when used with branches containing multiple stories" do
       before do
-        command.stub(:story_branch).and_return('6283185-tau-manifesto-3141592')
+        command.stub(:story_branch).and_return('62831853-tau-manifesto-31415926')
       end
       its(:cmd) do
-        delivered_ids = '#6283185 #3141592'
+        delivered_ids = '#62831853 #31415926'
         should eq %(git commit -m "msg" -m "[Finishes #{delivered_ids}]")
       end
     end
@@ -97,10 +97,10 @@ describe StoryCommit do
 
     describe "when used with branches containing multiple stories" do
       before do
-        command.stub(:story_branch).and_return('6283185-tau-manifesto-3141592')
+        command.stub(:story_branch).and_return('62831853-tau-manifesto-31415926')
       end
       its(:cmd) do
-        delivered_ids = '#6283185 #3141592'
+        delivered_ids = '#62831853 #31415926'
         should eq %(git commit -m "msg" -m "[Delivers #{delivered_ids}]")
       end
     end
