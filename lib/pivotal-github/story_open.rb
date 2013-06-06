@@ -3,7 +3,7 @@ require 'pivotal-github/command'
 class StoryOpen < Command
 
   # Returns a command appropriate for executing at the command line
-  # I.e., 'open https://www.pivotaltracker.com/story/show/6283185'
+  # I.e., 'open https://www.pivotaltracker.com/story/show/62831853'
   def cmd
     story_ids.map do |id|
       "open https://www.pivotaltracker.com/story/show/#{id}"

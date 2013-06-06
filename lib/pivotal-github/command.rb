@@ -27,12 +27,12 @@ class Command
 
   # Returns the story id (or ids).
   # We extract the story id(s) from the branch name, so that, e.g.,
-  # the branch `add-markdown-support-6283185` gives story_id '6283185'.
+  # the branch `add-markdown-support-62831853` gives story_id '62831853'.
   # New as of version 0.7, we support multiple story ids in a single
-  # branch name, so that `add-markdown-support-6283185-3141592` can be used
-  # to update story 6283185 and story 3141592 simultaneously.
+  # branch name, so that `add-markdown-support-62831853-31415926` can be used
+  # to update story 62831853 and story 31415926 simultaneously.
   def story_ids
-    story_branch.scan(/\d+/)
+    story_branch.scan(/[0-9]{8,}/)
   end
 
   # Returns the single story id for the common case of one id.

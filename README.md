@@ -14,7 +14,7 @@ The full workflow described herein requires some of the Git utilities from [git-
 
 The `pivotal-github` gem adds several additional Git commands to the local environment. The main addition, `git story-commit`, automatically incorporates the Pivotal Tracker story id(s) into the commit messages, while adding options to mark the story **Finished** or **Delivered**.
 
-The `git story-commit` command makes the assumption that any string of digits in the branch name is a story id. This means that the branch names `6283185-add-markdown-support`, `6283185_add_markdown_support`, and `add-markdown-support-6283185` all correspond to story id `6283185`, while `add-things-6283185-3141592` corresponds to both `6283185` *and* `3141592`.
+The `git story-commit` command makes the assumption that any string of eight or more digits in the branch name is a story id. (As of this writing, Pivotal Tracker ids are eight digits long, so shorter digit strings aren't valid ids.) This means that the branch names `62831853-add-markdown-support`, `62831853_add_markdown_support`, `add-markdown-support-62831853`, and `rails_4_0_62831853` all correspond to story id `62831853`, while `add-things-62831853-31415926` corresponds to both `62831853` *and* `31415926`.
 
 The full set of commands is as follows:
 
@@ -22,16 +22,16 @@ The full set of commands is as follows:
 
 `git story-commit` makes a standard `git commit` with the story number added to the commit message. This automatically adds a link at Pivotal Tracker between the story and the diff when the branch gets pushed up to GitHub.
 
-For example, when on a branch called `add-markdown-support-6283185`, the `git story-commit` command automatically adds `[#6283185]` to the commit message:
+For example, when on a branch called `add-markdown-support-62831853`, the `git story-commit` command automatically adds `[#62831853]` to the commit message:
 
     $ git story-commit -am "Add foo bars"
-	[add-markdown-support-6283185 6f56414] Add foo bars
+	[add-markdown-support-62831853 6f56414] Add foo bars
 
 The commit message is multiline and includes the story id:
 
     Add foo bars
 
-    [#6283185]
+    [#62831853]
 
 (Previous versions of `pivotal-github` put the story id on the same line as the commit summary (per the usage at the [Pivotal Tracker API](https://www.pivotaltracker.com/help/api?version=v3)), but placing it in a separate line gives the user direct control over the length of the message. It also looks less cluttered.)
 
@@ -43,7 +43,7 @@ This gives the message
 
     Remove baz quuxes
 
-    [Finishes #6283185]
+    [Finishes #62831853]
 
 To mark a story as **Delivered**, add the `-d` flag:
 
@@ -53,22 +53,22 @@ The message in this case is
 
     Remove baz quuxes
 
-    [Delivers #6283185]
+    [Delivers #62831853]
 
 Either the `-f` flag or the `-d` flag can be combined with other flags, yielding commands like
 
     $ git story-commit -dam "Remove baz quuxes"
 
-`git story commit` supports multiple story numbers as well. For example, with a branch called `add-things-6283185-3141592`, we could deliver both stories as follows:
+`git story commit` supports multiple story numbers as well. For example, with a branch called `add-things-62831853-31415926`, we could deliver both stories as follows:
 
     $ git story-commit -dam "Remove baz quuxes"
-	[add-things-6283185-3141592 7g56429] Remove baz quuxes
+	[add-things-62831853-31415926 7g56429] Remove baz quuxes
 
 The message here is
 
     Remove baz quuxes
 
-    [Delivers #6283185 #3141592]
+    [Delivers #62831853 #31415926]
 
 #### Options
 
@@ -84,10 +84,10 @@ Additionally, `git story-commit` accepts any options valid for `git commit`. (`g
 
 ### git story-merge
 
-`git story-merge` merges the current branch into `master`. On a branch called `add-markdown-support-6283185`, `git story-merge` is equivalent to the following:
+`git story-merge` merges the current branch into `master`. On a branch called `add-markdown-support-62831853`, `git story-merge` is equivalent to the following:
 
     $ git checkout master
-    $ git merge --no-ff --log add-markdown-support-6283185
+    $ git merge --no-ff --log add-markdown-support-62831853
 
 Note that this effectively changes the default merge behavior from fast-forward to no-fast-forward, which makes it possible to use `git log` to see which of the commit objects together have implemented a story. As noted in [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/),
 
@@ -147,7 +147,7 @@ I also recommend setting up an alias for `git push-branch` from [git-utils](http
 
 A single-developer workflow would then look like this:
 
-    $ git co -b add-markdown-support-6283185
+    $ git co -b add-markdown-support-62831853
     $ git pb
     <work>
     $ git sc -am "Added foo"
@@ -172,7 +172,7 @@ Here's the process in detail:
 ### Developer #1 (Alice)
 
 1. Start an issue at [Pivotal Tracker](http://pivotaltracker.com/) and copy the story id to your buffer
-2. Create a branch in the local Git repository containing the story id and a brief description: `git checkout -b add-markdown-support-6283185`
+2. Create a branch in the local Git repository containing the story id and a brief description: `git checkout -b add-markdown-support-62831853`
 3. Create a remote branch at [GitHub](http://github.com/) using `git push-branch`
 3. Use `git story-commit` to make commits, which includes the story number in the commit message: `git story-commit -am "Add syntax highlighting"`
 4. Continue pushing up after each commit using `git push` as usual
