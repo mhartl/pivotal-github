@@ -16,7 +16,7 @@ class StoryPullRequest < FinishedCommand
   end
 
   # Returns a command appropriate for executing at the command line
-  # I.e., 'open https://www.pivotaltracker.com/story/show/6283185'
+  # I.e., 'open https://www.pivotaltracker.com/story/show/62831853'
   def cmd
     "git pull-request"
   end
