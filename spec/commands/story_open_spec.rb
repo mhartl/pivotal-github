@@ -7,5 +7,5 @@ describe StoryOpen do
   before { command.stub(:story_branch).and_return('6283185-tau-manifesto') }
   subject { command }
 
-  its(:cmd) { should == "open #{uri}" }
+  its(:cmd) { should eq "open #{uri}" }
 end

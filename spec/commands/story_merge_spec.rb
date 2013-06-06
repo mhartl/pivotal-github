@@ -6,7 +6,7 @@ describe StoryMerge do
   before { command.stub(:story_branch).and_return('6283185-tau-manifesto') }
   subject { command }
 
-  its(:cmd) { should =~ /git merge/ }
+  its(:cmd) { should match /git merge/ }
 
   shared_examples "story-merge with known options" do
     subject { command }
@@ -16,24 +16,24 @@ describe StoryMerge do
   end
 
   describe "with no options" do
-    its(:cmd) { should =~ /git checkout master/ }
-    its(:cmd) { should =~ /git merge --no-ff --log #{command.story_branch}/ }
+    its(:cmd) { should match /git checkout master/ }
+    its(:cmd) { should match /git merge --no-ff --log #{command.story_branch}/ }
   end
 
   describe "with a custom development branch" do
     let(:command) { StoryMerge.new(['-d', 'develop']) }
-    its(:cmd) { should =~ /git checkout develop/ }
+    its(:cmd) { should match /git checkout develop/ }
   end
 
   describe "with some unknown options" do
     let(:command) { StoryMerge.new(['-d', 'develop', '-a', '-z', '--foo']) }
     it_should_behave_like "story-merge with known options"
-    its(:cmd) { should =~ /-a -z --foo/ }
+    its(:cmd) { should match /-a -z --foo/ }
   end
 
   describe "command-line command" do
     subject { `bin/git-story-merge --debug -ff -d develop` }
-    it { should =~ /git checkout develop/ }
-    it { should =~ /git merge --no-ff --log -ff/ }
+    it { should match /git checkout develop/ }
+    it { should match /git merge --no-ff --log -ff/ }
   end
 end
