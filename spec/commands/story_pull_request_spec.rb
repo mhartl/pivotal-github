@@ -3,7 +3,7 @@ require 'spec_helper'
 describe StoryPullRequest do
 
   let(:command) { StoryPullRequest.new }
-  before { command.stub(:story_branch).and_return('6283185-tau-manifesto') }
+  before { command.stub(:story_branch).and_return('62831853-tau-manifesto') }
   before do
     command.stub(:remote_location).
             and_return('https://github.com/mhartl/foo')
