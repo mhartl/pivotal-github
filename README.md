@@ -25,7 +25,7 @@ The full set of commands is as follows:
 For example, when on a branch called `add-markdown-support-62831853`, the `git story-commit` command automatically adds `[#62831853]` to the commit message:
 
     $ git story-commit -am "Add foo bars"
-	[add-markdown-support-62831853 6f56414] Add foo bars
+    [add-markdown-support-62831853 6f56414] Add foo bars
 
 The commit message is multiline and includes the story id:
 
@@ -62,7 +62,7 @@ Either the `-f` flag or the `-d` flag can be combined with other flags, yielding
 `git story commit` supports multiple story numbers as well. For example, with a branch called `add-things-62831853-31415926`, we could deliver both stories as follows:
 
     $ git story-commit -dam "Remove baz quuxes"
-	[add-things-62831853-31415926 7g56429] Remove baz quuxes
+    [add-things-62831853-31415926 7g56429] Remove baz quuxes
 
 The message here is
 
@@ -72,13 +72,13 @@ The message here is
 
 #### Options
 
-	$ git story-commit -h
-	    Usage: git story-commit [options]
-	        -m, --message MESSAGE            add a commit message (including story #)
-	        -f, --finish                     mark story as finished
-	        -d, --deliver                    mark story as delivered
-	        -a, --all                        commit all changed files
-	        -h, --help                       this usage guide
+    $ git story-commit -h
+        Usage: git story-commit [options]
+            -m, --message MESSAGE            add a commit message (including story #)
+            -f, --finish                     mark story as finished
+            -d, --deliver                    mark story as delivered
+            -a, --all                        commit all changed files
+            -h, --help                       this usage guide
 
 Additionally, `git story-commit` accepts any options valid for `git commit`. (`git story-commit` supports the `-a` flag even though that's a valid option to `git commit` so that the compound flag in `git story-commit -am "message"` works.)
 
@@ -97,12 +97,12 @@ In addition, the `--log` option puts the commit messages from the individual com
 
 Because of the way options are chained, passing `-ff` or `--no-log` to `git story-merge` will override the `--no-ff` or `--log` flags (respectively) and thus restore the default behavior of `git merge`.
 
-Finally, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-merge` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished', 'Delivered', 'Fixes', or 'Fixed'). This behavior can be overriden with the `--force` option.
+Finally, experience shows that it's easy to forget to mark a story finished when making the final commit. As a reminder, the `git story-merge` command exits with a warning if the most recent commit doesn't contain 'Finishes' or 'Delivers' (or 'Finished', 'Delivered', 'Fixes', or 'Fixed'). This behavior can be overriden with the `--override` option.
 
 #### Options
 
     Usage: git story-merge [target_branch] [options]
-	    -f, --force                      override unfinished story warning
+        -o, --override                   override unfinished story warning
         -h, --help                       this usage guide
 
 Additionally, `git story-merge` accepts any options valid for `git merge`.
@@ -120,7 +120,7 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
 #### Options
 
     Usage: git story-pull-request [options]
-    	-f, --force                      override unfinished story warning
+        -o, --override                   override unfinished story warning
         -h, --help                       this usage guide
 
 ### story-open

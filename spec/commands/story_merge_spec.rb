@@ -26,7 +26,7 @@ describe StoryMerge do
   end
 
   describe "with some unknown options" do
-    let(:command) { StoryMerge.new(['development', '-f', '-a', '-z', '--foo']) }
+    let(:command) { StoryMerge.new(['development', '-o', '-a', '-z', '--foo']) }
     it_should_behave_like "story-merge with known options"
     its(:cmd) { should match /-a -z --foo/ }
   end

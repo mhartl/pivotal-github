@@ -6,8 +6,8 @@ class StoryPullRequest < FinishedCommand
   def parser
     OptionParser.new do |opts|
       opts.banner = "Usage: git story-pull-request [options]"
-      opts.on("-f", "--force", "override unfinished story warning") do |opt|
-        self.options.force = opt
+      opts.on("-o", "--override", "override unfinished story warning") do |opt|
+        self.options.override = opt
       end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0

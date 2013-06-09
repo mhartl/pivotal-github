@@ -40,6 +40,26 @@ class Command
     story_ids.first
   end
 
+  # Returns the message for the story id(s) and action (if any).
+  def message
+    if finish?
+      label = "Finishes #{message_ids}"
+    elsif deliver?
+      label = "Delivers #{message_ids}"
+    else
+      label = message_ids
+    end
+    "[#{label}]"
+  end
+
+  # Returns the story ids formatted for story commits.
+  # For single-id stories, this is just the number preceded by '#', as in
+  # '#62831853'. For multiple-id stories, each story id is precede by '#', as in
+  # '#62831853 #31415926'
+  def message_ids
+    story_ids.map { |id| "##{id}" }.join(' ')
+  end
+
   # Runs a command.
   # If the argument array contains '--debug', returns the command that would
   # have been run.
@@ -76,5 +96,13 @@ class Command
         $stderr.puts msg
         exit 1
       end
+    end
+
+    def finish?
+      options.finish
+    end
+
+    def deliver?
+      options.deliver
     end
 end
