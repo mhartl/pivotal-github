@@ -17,7 +17,29 @@ describe StoryMerge do
 
   describe "with no options" do
     its(:cmd) { should match /git checkout master/ }
-    its(:cmd) { should match /git merge --no-ff --log #{command.story_branch}/ }
+    its(:cmd) do
+      msg = Regexp.escape("[##{command.story_id}]")
+      branch = command.story_branch
+      should match /git merge --no-ff --log -m "#{msg}" #{branch}/
+    end
+  end
+
+  describe "with the finish option" do
+    let(:command) { StoryMerge.new(['-f']) }
+    its(:cmd) do
+      msg = Regexp.escape("[Finishes ##{command.story_id}]")
+      branch = command.story_branch
+      should match /git merge --no-ff --log -m "#{msg}" #{branch}/
+    end
+  end
+
+  describe "with the delivers option" do
+    let(:command) { StoryMerge.new(['-d']) }
+    its(:cmd) do
+      msg = Regexp.escape("[Delivers ##{command.story_id}]")
+      branch = command.story_branch
+      should match /git merge --no-ff --log -m "#{msg}" #{branch}/
+    end
   end
 
   describe "with a custom development branch" do
@@ -32,8 +54,8 @@ describe StoryMerge do
   end
 
   describe "command-line command" do
-    subject { `bin/git-story-merge --debug -ff development` }
+    subject { `bin/git-story-merge --debug development` }
     it { should match /git checkout development/ }
-    it { should match /git merge --no-ff --log -ff/ }
+    it { should match /git merge --no-ff --log/ }
   end
 end
