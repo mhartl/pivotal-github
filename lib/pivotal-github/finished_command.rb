@@ -2,7 +2,7 @@
 class FinishedCommand < Command
 
   def run!
-    check_finishes unless force?
+    check_finishes unless override?
     system cmd
   end
 
@@ -26,7 +26,7 @@ class FinishedCommand < Command
       !!(`git log -1`.match(/Finishe(s|d)|Deliver(s|ed)|Fixe(s|d) #\d+/i))
     end
 
-    def force?
-      options.force
+    def override?
+      options.override
     end
 end
