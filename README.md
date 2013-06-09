@@ -84,7 +84,7 @@ Additionally, `git story-commit` accepts any options valid for `git commit`. (`g
 
 ### git story-merge
 
-`git story-merge` merges the current branch into `master`. On a branch called `add-markdown-support-62831853`, `git story-merge` is equivalent to the following:
+`git story-merge` merges the current branch into the target branch (defaults to `master`). On a branch called `add-markdown-support-62831853`, `git story-merge` is equivalent to the following:
 
     $ git checkout master
     $ git merge --no-ff --log add-markdown-support-62831853
@@ -101,8 +101,7 @@ Finally, experience shows that it's easy to forget to mark a story finished when
 
 #### Options
 
-    Usage: git story-merge [options]
-        -d, --development BRANCH         development branch (defaults to master)
+    Usage: git story-merge [target_branch] [options]
 	    -f, --force                      override unfinished story warning
         -h, --help                       this usage guide
 

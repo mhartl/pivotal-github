@@ -14,7 +14,7 @@ class Command
   def parse
     self.known_options   = Options::known_options(parser, args)
     self.unknown_options = Options::unknown_options(parser, args)
-    parser.parse(known_options)
+    parser.parse!(known_options)
   end
 
   def parser
