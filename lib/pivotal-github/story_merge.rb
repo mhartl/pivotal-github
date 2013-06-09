@@ -9,6 +9,14 @@ class StoryMerge < FinishedCommand
       opts.on("-o", "--override", "override unfinished story warning") do |opt|
         self.options.override = opt
       end
+      opts.on("-f", "--finish", "mark story as finished") do |opt|
+        self.options.finish = opt
+        self.options.override = opt
+      end
+      opts.on("-d", "--deliver", "mark story as delivered") do |opt|
+        self.options.deliver = opt
+        self.options.override = opt
+      end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0
       end
@@ -22,7 +30,7 @@ class StoryMerge < FinishedCommand
   def cmd
     lines = ["git checkout #{target_branch}"]
     c = ["git merge --no-ff --log"]
-    # c << "-m #{message}"
+    c << %(-m "#{message}")
     c << argument_string(unknown_options) unless unknown_options.empty?
     c << story_branch
     lines << c.join(' ')

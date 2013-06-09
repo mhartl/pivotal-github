@@ -87,13 +87,13 @@ Additionally, `git story-commit` accepts any options valid for `git commit`. (`g
 `git story-merge` merges the current branch into the target branch (defaults to `master`). On a branch called `add-markdown-support-62831853`, `git story-merge` is equivalent to the following:
 
     $ git checkout master
-    $ git merge --no-ff --log add-markdown-support-62831853
+    $ git merge --no-ff --log add-markdown-support-62831853 -m "#[62831853]"
 
 Note that this effectively changes the default merge behavior from fast-forward to no-fast-forward, which makes it possible to use `git log` to see which of the commit objects together have implemented a story. As noted in [A successful Git branching model](http://nvie.com/posts/a-successful-git-branching-model/),
 
 > The `--no-ff` flag causes the merge to always create a new commit object, even if the merge could be performed with a fast-forward. This avoids losing information about the historical existence of a feature branch and groups together all commits that together added the feature… Yes, it will create a few more (empty) commit objects, but the gain is much bigger than that cost.
 
-In addition, the `--log` option puts the commit messages from the individual commits in the merge message, which arranges for the merge commit itself to appear in the activity log at Pivotal Tracker. This is especially useful for viewing the full diff represented by the commit.
+The `--log` option puts the commit messages from the individual commits in the merge message, while the `-m` flag adds the story id to the commit (optionally marking it finished or delivered with the `-f` or `-d` flag, respectively). Including the story id arranges for the merge commit itself to appear in the activity log at Pivotal Tracker, which is especially useful for viewing the full diff represented by the story.
 
 Because of the way options are chained, passing `-ff` or `--no-log` to `git story-merge` will override the `--no-ff` or `--log` flags (respectively) and thus restore the default behavior of `git merge`.
 
@@ -101,8 +101,10 @@ Finally, experience shows that it's easy to forget to mark a story finished when
 
 #### Options
 
-    Usage: git story-merge [target_branch] [options]
+    Usage: git story-merge [branch] [options]
         -o, --override                   override unfinished story warning
+        -f, --finish                     mark story as finished
+        -d, --deliver                    mark story as delivered
         -h, --help                       this usage guide
 
 Additionally, `git story-merge` accepts any options valid for `git merge`.
