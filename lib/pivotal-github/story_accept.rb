@@ -26,7 +26,8 @@ class StoryAccept < Command
   # [Delivers #<story id> #<another story id>].
   def ids_to_accept
     delivered_regex = /\[Deliver(?:s|ed) (.*?)\]/
-    Git.open('.').log.inject([]) do |delivered_ids, commit|
+    n_commits = `git rev-list HEAD --count`
+    Git.open('.').log(n_commits).inject([]) do |delivered_ids, commit|
       message = commit.message
       delivered = message.scan(delivered_regex).flatten
       commit_ids = delivered.inject([]) do |ids, element|
