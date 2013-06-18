@@ -12,7 +12,7 @@ class StoryAccept < Command
       opts.on("-o", "--override", "override master branch requirement") do |opt|
         self.options.override = opt
       end
-      opts.on("-a", "--all", "process all stories") do |opt|
+      opts.on("-a", "--all", "process all stories (entire log)") do |opt|
         self.options.all = opt
       end
       opts.on_tail("-h", "--help", "this usage guide") do

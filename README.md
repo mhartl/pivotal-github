@@ -127,11 +127,19 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
 
 ### git story-accept
 
-When used on the `master` branch, `git story-accept` examines the repository log and changes every **Delivered** story to **Accepted**. This makes it possible to accept a pull request by merging into master and then run `git story-accept` to mark all the associated stories **Accepted** without having to manually keep track of the correspondence.
+`git story-accept` examines the repository log and changes every **Delivered** story to **Accepted**. This makes it possible to accept a pull request by merging into master and then run `git story-accept` to mark all the associated stories **Accepted** without having to manually keep track of the correspondence.
+
+The purpose of `git story-accept` is to accept stories that have been merged into `master`, so by default it only works on the master branch. This requirement can be overridden by the `--override` option.
+
+In order to avoid reading the entire Git log every time it's run, by default `git story-accept` stops immediately after finding a story that has already been accepted.
+
+`git story-accept` requires the existence of `.api_token` and `.project_id` files containing the Pivotal Tracker API token and project id, respectively. The user is prompted if they are not present. (They aren't read from the command line using `gets` due to an incompatibility with options passing.)
 
 #### Options
 
     Usage: git story-accept
+        -o, --override                   override master branch requirement
+        -a, --all                        process all stories (entire log)
         -h, --help                       this usage guide
 
 ### story-open
@@ -175,7 +183,7 @@ Here `git sync` is also from [git-utils](https://github.com/mhartl/git-utils).
 
 ## Workflow with integrated code reivew
 
-The `pivotal-github` gem is degined to support a workflow involving integrated code review, which has the usual benefits: at least two pairs of eyes see any committed code, and at least two brains know basically what the committed code does. The cost is that having a second developer involved can slow you down. I suggest using your judgment to determine which workflow makes the most sense on a story-by-story basis.
+The `pivotal-github` gem is designed to support a workflow involving integrated code review, which has the usual benefits: at least two pairs of eyes see any committed code, and at least two brains know basically what the committed code does. The cost is that having a second developer involved can slow you down. I suggest using your judgment to determine which workflow makes the most sense on a story-by-story basis.
 
 Here's the process in detail:
 
