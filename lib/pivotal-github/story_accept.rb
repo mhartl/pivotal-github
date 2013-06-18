@@ -25,11 +25,15 @@ class StoryAccept < Command
   # [Delivers #<story id> #<another story id>].
   def ids_to_accept
     delivered_regex = /\[Deliver(?:s|ed) (.*?)\]/
-    messages  = Git.open('.').log.map(&:message)
-    delivered = messages.join.scan(delivered_regex).flatten
-    delivered.inject([]) do |ids, element|
-      ids.concat(element.scan(/[0-9]{8,}/).flatten)
-      ids.uniq
+    Git.open('.').log.inject([]) do |return_ids, commit|
+      message = commit.message
+      delivered = message.scan(delivered_regex).flatten
+      commit_ids = delivered.inject([]) do |ids, element|
+        ids.concat(element.scan(/[0-9]{8,}/).flatten)
+        ids
+      end
+      return_ids += commit_ids
+      return_ids.uniq
     end
   end
 
