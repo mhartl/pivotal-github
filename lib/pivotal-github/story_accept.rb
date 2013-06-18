@@ -2,6 +2,7 @@ require 'pivotal-github/command'
 require 'git'
 require 'net/http'
 require 'uri'
+require 'nokogiri'
 
 class StoryAccept < Command
 
@@ -25,16 +26,30 @@ class StoryAccept < Command
   # [Delivers #<story id> #<another story id>].
   def ids_to_accept
     delivered_regex = /\[Deliver(?:s|ed) (.*?)\]/
-    Git.open('.').log.inject([]) do |return_ids, commit|
+    Git.open('.').log.inject([]) do |delivered_ids, commit|
       message = commit.message
       delivered = message.scan(delivered_regex).flatten
       commit_ids = delivered.inject([]) do |ids, element|
         ids.concat(element.scan(/[0-9]{8,}/).flatten)
         ids
       end
-      return_ids += commit_ids
-      return_ids.uniq
+      commit_ids.each do |commit_id|
+        return delivered_ids if already_accepted?(commit_id) && !options['all']
+        delivered_ids << commit_id
+        delivered_ids.uniq!
+      end
+      delivered_ids
     end
+  end
+
+  # Returns true if a story has already been accepted.
+  def already_accepted?(story_id)
+    data = { 'X-TrackerToken' => api_token,
+             'Content-type' => "application/xml" }
+    response = Net::HTTP.start(story_uri.host, story_uri.port) do |http|
+      http.get(story_uri.path, data)
+    end
+    Nokogiri::XML(response.body).at_css('current_state').content == "accepted"
   end
 
   def api_token
@@ -61,8 +76,6 @@ class StoryAccept < Command
 
   # Changes a story's state to **Accepted**.
   def accept!(story_id)
-    api = 'http://www.pivotaltracker.com/services/v3'
-    story_uri = URI.parse("#{api}/projects/#{project_id}/stories/#{story_id}")
     accepted = "<story><current_state>accepted</current_state></story>"
     data =  { 'X-TrackerToken' => api_token,
               'Content-type' => "application/xml" }
@@ -79,4 +92,14 @@ class StoryAccept < Command
     end
     ids_to_accept.each { |id| accept!(id) }
   end
+
+  private
+
+    def api_base
+      'http://www.pivotaltracker.com/services/v3'
+    end
+
+    def story_uri
+      URI.parse("#{api_base}/projects/#{project_id}/stories/#{story_id}")
+    end
 end
