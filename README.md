@@ -125,6 +125,23 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
         -o, --override                   override unfinished story warning
         -h, --help                       this usage guide
 
+### git story-accept
+
+`git story-accept` examines the repository log and changes every **Delivered** story to **Accepted**. This makes it possible to accept a pull request by merging into master and then mark all the associated stories **Accepted**  by running `git story-accept`. This saves having to manually keep track of the correspondences.
+
+The purpose of `git story-accept` is to accept stories that have been merged into `master`, so by default it works only on the master branch. This requirement can be overridden by the `--override` option.
+
+In order to avoid reading the entire Git log every time it's run, by default `git story-accept` stops immediately after finding a story that has already been accepted. The assumption is that `git story-accept` is run immediately after merging a pull request into a master branch that is always up-to-date, so that there are no delivered but unaccepted stories further down in the log.
+
+`git story-accept` requires the existence of `.api_token` and `.project_id` files containing the Pivotal Tracker API token and project id, respectively. The user is prompted to create them if they are not present. (They aren't read from the command line using `gets` due to an incompatibility with options passing.)
+
+#### Options
+
+    Usage: git story-accept
+        -o, --override                   override master branch requirement
+        -a, --all                        process all stories (entire log)
+        -h, --help                       this usage guide
+
 ### story-open
 
 The `story-open` command (no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
@@ -134,13 +151,14 @@ The `story-open` command (no `git`) opens the current story in the default brows
 
 ## Configuration
 
-In order to use the `pivotal-github` gem, you need to configure a post-receive hook for your repository. At GitHub, navigate to `Settings > Service Hooks > Pivotal Tracker` and paste in your Pivotal Tracker API token. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) Be sure to check the **Active** box to activate the post-receive hook. At Bitbucket, click on the gear icon to view the settings, click on `Services`, select `Pivotal Tracker`, and paste in your Pivotal Tracker API key.
+In order to use the `pivotal-github` gem, you need to configure a post-receive hook for your repository. At GitHub, navigate to `Settings > Service Hooks > Pivotal Tracker` and paste in your Pivotal Tracker API token. (To find your Pivotal Tracker API token, go to your user profile and scroll to the bottom.) Be sure to check the **Active** box to activate the post-receive hook. At Bitbucket, click on the gear icon to view the settings, click on `Services`, select `Pivotal Tracker`, and paste in your Pivotal Tracker API key. In addition, the `git story-accept` command requires the existence of `.api_token` and `.project_id` files containing the Pivotal Tracker API token and project id, respectively.
 
 The `pivotal-github` command names follow the Git convention of being verbose (e.g., unlike Subversion, Git doesn't natively support `co` for `checkout`), but I recommend setting up aliases as necessary. Here are some suggestions, formatted so that they can be pasted directly into a terminal window:
 
     git config --global alias.sc story-commit
     git config --global alias.sm story-merge
     git config --global alias.spr story-pull-request
+    git config --global alias.sa story-accept
 
 I also recommend setting up an alias for `git push-branch` from [git-utils](https://github.com/mhartl/git-utils):
 
@@ -161,12 +179,13 @@ A single-developer workflow would then look like this:
     $ git sync
     $ git rebase master
     $ git sm
+    $ git sa
 
-Here `git sync` is also from [git-utils](https://github.com/mhartl/git-utils).
+Here `git sync` is from [git-utils](https://github.com/mhartl/git-utils).
 
 ## Workflow with integrated code reivew
 
-The `pivotal-github` gem is degined to support a workflow involving integrated code review, which has the usual benefits: at least two pairs of eyes see any committed code, and at least two brains know basically what the committed code does. The cost is that having a second developer involved can slow you down. I suggest using your judgment to determine which workflow makes the most sense on a story-by-story basis.
+The `pivotal-github` gem is designed to support a workflow involving integrated code review, which has the usual benefits: at least two pairs of eyes see any committed code, and at least two brains know basically what the committed code does. The cost is that having a second developer involved can slow you down. I suggest using your judgment to determine which workflow makes the most sense on a story-by-story basis.
 
 Here's the process in detail:
 
@@ -192,7 +211,7 @@ Rather than immediately submitting a pull request, Alice can also continue by br
 ### Developer #2 (Bob)
 
 1. Select **Pull Requests** at GitHub and review the pull request diffs
-2. If acceptable, merge the branch by clicking on the button at GitHub, and optionally accept the story at Pivotal Tracker
+2. If acceptable, merge the pull request into master, run `git pull` on `master` to pull in the changes, and run `git story-accept` to mark the corresponding stories accepted
 3. If not acceptable, manually change the state at Pivotal Tracker to **Rejected** and leave a note (at GitHub or at Pivotal Tracker) indicating the reason
 4. If the branch can't be automatically merged, mark the story as **Rejected**
 
