@@ -125,6 +125,15 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
         -o, --override                   override unfinished story warning
         -h, --help                       this usage guide
 
+### git story-accept
+
+When used on the `master` branch, `git story-accept` examines the repository log and changes every **Delivered** story to **Accepted**. This makes it possible to accept a pull request by merging into master and then run `git story-accept` to mark all the associated stories **Accepted** without having to manually keep track of the correspondence.
+
+#### Options
+
+    Usage: git story-accept
+        -h, --help                       this usage guide
+
 ### story-open
 
 The `story-open` command (no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
