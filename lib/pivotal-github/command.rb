@@ -70,7 +70,6 @@ class Command
       puts command.cmd
       return 1
     else
-      check_git_utils
       command.run!
       return 0
     end
@@ -87,15 +86,6 @@ class Command
       args.inject([]) do |opts, opt|
         opts << (opt =~ /^-/ ? opt : opt.inspect)
       end.join(' ')
-    end
-
-    # Exits if the git-utils aren't installed.
-    def self.check_git_utils
-      if `which git-pull-request`.empty?
-        msg = "Install git-utils (https://github.com/mhartl/git-utils)"
-        $stderr.puts msg
-        exit 1
-      end
     end
 
     def finish?
