@@ -24,6 +24,12 @@ class StoryAccept < Command
     end
   end
 
+  # The story_id has a different meaning in this context, so raise an
+  # error if it's called accidentally.
+  def story_id
+    raise 'Invalid reference to Command#story_id'
+  end
+
   # Returns the ids to accept.
   # These ids are of the form [Delivers #<story id>] or
   # [Delivers #<story id> #<another story id>].
@@ -70,7 +76,7 @@ class StoryAccept < Command
   def project_id
     project_id_filename = '.project_id'
     if File.exist?(project_id_filename)
-      @project_id_filename ||= File.read(project_id_filename)
+      @project_id ||= File.read(project_id_filename).strip
     else
       puts "Please create a file called '.project_id'"
       puts "containing the Pivotal Tracker project number."
@@ -82,9 +88,10 @@ class StoryAccept < Command
   def accept!(story_id)
     accepted = "<story><current_state>accepted</current_state></story>"
     data =  { 'X-TrackerToken' => api_token,
-              'Content-type' => "application/xml" }
-    Net::HTTP.start(story_uri.host, story_uri.port) do |http|
-      http.put(story_uri.path, accepted, data)
+              'Content-type'   => "application/xml" }
+    uri = story_uri(story_id)
+    Net::HTTP.start(uri.host, uri.port) do |http|
+      http.put(uri.path, accepted, data)
     end
     puts "Accepted story ##{story_id}" unless options.quiet
   end
@@ -104,7 +111,8 @@ class StoryAccept < Command
       'http://www.pivotaltracker.com/services/v3'
     end
 
-    def story_uri
-      URI.parse("#{api_base}/projects/#{project_id}/stories/#{story_id}")
+    def story_uri(story_id)
+      uri = "#{api_base}/projects/#{project_id}/stories/#{story_id}"
+      URI.parse(uri)
     end
 end
