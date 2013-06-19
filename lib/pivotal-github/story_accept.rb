@@ -70,6 +70,7 @@ class StoryAccept < Command
     else
       puts "Please create a file called '#{api_filename}'"
       puts "containing your Pivotal Tracker API token."
+      add_to_gitignore('.api_token')
       exit 1
     end
   end
@@ -81,7 +82,22 @@ class StoryAccept < Command
     else
       puts "Please create a file called '.project_id'"
       puts "containing the Pivotal Tracker project number."
+      add_to_gitignore('.project_id')
       exit 1
+    end
+  end
+
+  # Adds a filename to the .gitignore file (if necessary).
+  # This is put in as a security precaution, especially to keep the
+  # Pivotal Tracker API key from leaking.
+  def add_to_gitignore(filename)
+    gitignore = '.gitignore'
+    if File.exist?(gitignore)
+      contents = File.read(gitignore)
+      unless contents =~ /#{filename}/
+        File.open(gitignore, 'a') { |f| f.puts(filename) }
+        puts "Added #{filename} to .gitignore"
+      end
     end
   end
 
