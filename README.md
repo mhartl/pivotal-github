@@ -8,7 +8,7 @@ You can install the `pivotal-github` gem directly as follows:
 
     $ gem install pivotal-github
 
-The full workflow described herein requires some of the Git utilities from [git-utils](https://github.com/mhartl/git-utils), so it is recommended to install those as well.
+The full workflow described herein requires some of the Git utilities from [git-utils](https://github.com/mhartl/git-utils), which is included as a gem dependency.
 
 ## Usage
 
