@@ -137,11 +137,11 @@ In order to avoid reading the entire Git log every time it's run, by default `gi
 
 #### Options
 
-    Usage: git story-accept
+    Usage: git story-accept [options]
         -o, --override                   override master branch requirement
+        -q, --quiet                      suppress display of accepted story ids
         -a, --all                        process all stories (entire log)
         -h, --help                       this usage guide
-
 ### story-open
 
 The `story-open` command (no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
