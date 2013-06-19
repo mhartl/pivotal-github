@@ -56,8 +56,9 @@ class StoryAccept < Command
   def already_accepted?(story_id)
     data = { 'X-TrackerToken' => api_token,
              'Content-type' => "application/xml" }
-    response = Net::HTTP.start(story_uri.host, story_uri.port) do |http|
-      http.get(story_uri.path, data)
+    uri = story_uri(story_id)
+    response = Net::HTTP.start(uri.host, uri.port) do |http|
+      http.get(uri.path, data)
     end
     Nokogiri::XML(response.body).at_css('current_state').content == "accepted"
   end
