@@ -22,7 +22,7 @@ class Command
   end
 
   def story_branch
-    `git rev-parse --abbrev-ref HEAD`.strip
+    @story_branch ||= `git rev-parse --abbrev-ref HEAD`.strip
   end
 
   # Returns the story id (or ids).
