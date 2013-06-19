@@ -69,7 +69,7 @@ class StoryAccept < Command
     if File.exist?(project_id_filename)
       @project_id_filename ||= File.read(project_id_filename)
     else
-      puts "Please create a file called '#{project_id}'"
+      puts "Please create a file called '.project_id'"
       puts "containing the Pivotal Tracker project number."
       exit 1
     end
