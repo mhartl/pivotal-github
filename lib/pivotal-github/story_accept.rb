@@ -8,9 +8,12 @@ class StoryAccept < Command
 
   def parser
     OptionParser.new do |opts|
-      opts.banner = "Usage: git story-accept"
+      opts.banner = "Usage: git story-accept [options]"
       opts.on("-o", "--override", "override master branch requirement") do |opt|
         self.options.override = opt
+      end
+      opts.on("-q", "--quiet", "suppress display of accepted story ids") do |opt|
+        self.options.quiet = opt
       end
       opts.on("-a", "--all", "process all stories (entire log)") do |opt|
         self.options.all = opt
@@ -83,6 +86,7 @@ class StoryAccept < Command
     Net::HTTP.start(story_uri.host, story_uri.port) do |http|
       http.put(story_uri.path, accepted, data)
     end
+    puts "Accepted story ##{story_id}" unless options.quiet
   end
 
   def run!
