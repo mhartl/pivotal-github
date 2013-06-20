@@ -115,7 +115,7 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
     $ git story-pull-request
 
-By default, `git story-pull-request` issues a `git push-branch` as well (from [git-utils](https://github.com/mhartl/git-utils)), just in case the local branch hasn't yet been pushed up to the remote repository.
+`git story-pull-request` issues a `git push-branch` as well (from [git-utils](https://github.com/mhartl/git-utils)), just in case the local branch hasn't yet been pushed up to the remote repository. For reference, it then makes a commit containing a message with links to all the delivered story ids. (If you decide you don't want to make the pull request after all, just use `git undo` to restore the previous state.)
 
 As with `git story-merge`, by default `git story-pull-request` exits with a warning if the most recent commit doesn't finish the story.
 
