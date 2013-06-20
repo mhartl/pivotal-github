@@ -3,10 +3,10 @@ require 'git'
 require 'net/http'
 require 'uri'
 require 'nokogiri'
-require 'pivotal-github/delivered'
+require 'pivotal-github/story'
 
 class StoryAccept < Command
-  include Delivered
+  include Story
 
   def parser
     OptionParser.new do |opts|
