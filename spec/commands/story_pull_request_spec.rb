@@ -7,27 +7,15 @@ describe StoryPullRequest do
   before do
     command.stub(:remote_location).
             and_return('https://github.com/mhartl/foo')
+    command.stub(:delivered_ids).and_return(['62831853', '31415926'])
+    command.stub(:write_pr_file).and_return('')
   end
   subject { command }
 
   its(:cmd) { should match /git pull-request/ }
-
-  describe 'origin uri parsing' do
-    let(:correct_origin) { 'https://github.com/mhartl/foo' }
-    subject { command.send :origin_uri }
-
-    context 'https protocol' do
-      it { should eq correct_origin }
-    end
-
-    context 'git protocol' do
-      before do
-        command.stub(:remote_location).
-                and_return('git@github.com:mhartl/foo')
-      end
-
-      it { should eq correct_origin }
-    end
+  its(:commit_message) do
+    should include '[Delivers #62831853]'
+    should include '[Delivers #31415926]'
   end
 
   describe "command-line command" do
