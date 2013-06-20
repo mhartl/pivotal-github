@@ -1,11 +1,16 @@
 require 'pivotal-github/command'
 require 'pivotal-github/finished_command'
+require 'pivotal-github/delivered'
 
 class StoryPullRequest < FinishedCommand
+  include Delivered
 
   def parser
     OptionParser.new do |opts|
       opts.banner = "Usage: git story-pull-request [options]"
+      opts.on("-b", "--base-branch", "base branch for delivered ids") do |opt|
+        self.options.base_branch = opt
+      end
       opts.on("-o", "--override", "override unfinished story warning") do |opt|
         self.options.override = opt
       end
@@ -13,6 +18,10 @@ class StoryPullRequest < FinishedCommand
         puts opts.to_s; exit 0
       end
     end
+  end
+
+  def commit_message
+    delivered_ids(`git log #{base_branch}..HEAD`)
   end
 
   # Returns a command appropriate for executing at the command line
@@ -38,5 +47,9 @@ class StoryPullRequest < FinishedCommand
     # Both https://... and git@... remote formats are supported.
     def origin_uri
       remote_location.sub(/^git@(.+?):(.+)$/, 'https://\1/\2')
+    end
+
+    def base_branch
+      options.base_branch || 'master'
     end
 end

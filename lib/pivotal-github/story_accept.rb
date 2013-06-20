@@ -3,8 +3,10 @@ require 'git'
 require 'net/http'
 require 'uri'
 require 'nokogiri'
+require 'pivotal-github/delivered'
 
 class StoryAccept < Command
+  include Delivered
 
   def parser
     OptionParser.new do |opts|
@@ -34,21 +36,14 @@ class StoryAccept < Command
   # These ids are of the form [Delivers #<story id>] or
   # [Delivers #<story id> #<another story id>].
   def ids_to_accept
-    delivered_regex = /\[Deliver(?:s|ed) (.*?)\]/
     n_commits = `git rev-list HEAD --count`
-    Git.open('.').log(n_commits).inject([]) do |delivered_ids, commit|
-      message = commit.message
-      delivered = message.scan(delivered_regex).flatten
-      commit_ids = delivered.inject([]) do |ids, element|
-        ids.concat(element.scan(/[0-9]{8,}/).flatten)
-        ids
+    Git.open('.').log(n_commits).inject([]) do |accept, commit|
+      delivered_ids(commit.message).each do |commit_id|
+        return accept if already_accepted?(commit_id) && !options.all
+        accept << commit_id
+        accept.uniq!
       end
-      commit_ids.each do |commit_id|
-        return delivered_ids if already_accepted?(commit_id) && !options['all']
-        delivered_ids << commit_id
-        delivered_ids.uniq!
-      end
-      delivered_ids
+      accept
     end
   end
 
