@@ -8,7 +8,7 @@ class StoryPullRequest < FinishedCommand
   def parser
     OptionParser.new do |opts|
       opts.banner = "Usage: git story-pull-request [options]"
-      opts.on("-b <branch>", "--base-branch <branch>",
+      opts.on("-b", "--base-branch BRANCH",
               "base branch for delivered ids") do |opt|
         self.options.base_branch = opt
       end
