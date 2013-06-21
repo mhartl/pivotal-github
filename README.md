@@ -122,7 +122,7 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
 #### Options
 
     Usage: git story-pull-request [options]
-        -b, --base-branch <branch>       base branch for delivered ids
+        -b, --base-branch BRANCH         base branch for delivered ids
         -o, --override                   override unfinished story warning
         -h, --help                       this usage guide
 
