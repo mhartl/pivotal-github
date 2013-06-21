@@ -18,6 +18,11 @@ describe StoryPullRequest do
     should include '[Delivers #31415926]'
   end
 
+  describe "base branch override" do
+    let(:command) { StoryPullRequest.new(['-b', 'development']) }
+    its(:base_branch) { should eq 'development' }
+  end
+
   describe "command-line command" do
     subject { `bin/git-story-pull-request --debug` }
     it { should_not match /\.git/ }

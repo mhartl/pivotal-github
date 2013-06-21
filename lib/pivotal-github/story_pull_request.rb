@@ -8,7 +8,8 @@ class StoryPullRequest < FinishedCommand
   def parser
     OptionParser.new do |opts|
       opts.banner = "Usage: git story-pull-request [options]"
-      opts.on("-b", "--base-branch", "base branch for delivered ids") do |opt|
+      opts.on("-b <branch>", "--base-branch <branch>",
+              "base branch for delivered ids") do |opt|
         self.options.base_branch = opt
       end
       opts.on("-o", "--override", "override unfinished story warning") do |opt|
@@ -23,6 +24,10 @@ class StoryPullRequest < FinishedCommand
   # Returns the (Markdown) link for a delivered story id.
   def delivers_url(id)
     "[Delivers ##{id}](#{story_url(id)})"
+  end
+
+  def base_branch
+    options.base_branch || 'master'
   end
 
   # Returns a commit message with links to all the delivered stories.
@@ -42,8 +47,4 @@ class StoryPullRequest < FinishedCommand
   end
 
   private
-
-    def base_branch
-      options.base_branch || 'master'
-    end
 end
