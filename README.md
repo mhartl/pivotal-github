@@ -115,13 +115,14 @@ Additionally, `git story-merge` accepts any options valid for `git merge`.
 
     $ git story-pull-request
 
-`git story-pull-request` issues a `git push-branch` as well (from [git-utils](https://github.com/mhartl/git-utils)), just in case the local branch hasn't yet been pushed up to the remote repository. For reference, it then makes a commit containing a message with links to all the delivered story ids. (If you decide you don't want to make the pull request after all, just use `git undo` to restore the previous state.)
+`git story-pull-request` issues a `git push-branch` as well (from [git-utils](https://github.com/mhartl/git-utils)), just in case the local branch hasn't yet been pushed up to the remote repository. For reference, it then makes a commit containing a message with links to all the delivered story ids. These ids are determined relative to a base branch; this is `master` by default, but if there have been a series of topic branches then the base branch should be set (using the `-b` option) to the branch of the previous pull request.
 
 As with `git story-merge`, by default `git story-pull-request` exits with a warning if the most recent commit doesn't finish the story.
 
 #### Options
 
     Usage: git story-pull-request [options]
+        -b, --base-branch <branch>       base branch for delivered ids
         -o, --override                   override unfinished story warning
         -h, --help                       this usage guide
 
@@ -202,7 +203,7 @@ Here's the process in detail:
 6. At the GitHub page for the repo, select **Branches** and submit a pull request
 6. (On OS X, replace the previous two steps with `git story-pull-request`)
 6. Assign the pull request to Bob at GitHub
-7. On the Pivotal Tracker story, add a comment with the pull request URL, and optionally change the **Owner** to Bob
+7. On the Pivotal Tracker story, change the **Owner** to Bob
 8. Continue working, taking care to branch off of the current story branch if its changes are required to continue
 
 Rather than immediately submitting a pull request, Alice can also continue by branching off the previous story branch, working on a set of related features, and then issue Bob a pull request for the final branch when she reaches a natural stopping place.
