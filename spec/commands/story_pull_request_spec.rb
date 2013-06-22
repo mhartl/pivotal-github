@@ -13,7 +13,8 @@ describe StoryPullRequest do
   subject { command }
 
   its(:cmd) { should match /git pull-request/ }
-  its(:commit_message) do
+  its(:short_message) { should include command.story_branch }
+  its(:long_message) do
     should include '[Delivers #62831853]'
     should include '[Delivers #31415926]'
   end
