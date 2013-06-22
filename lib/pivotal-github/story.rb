@@ -12,6 +12,6 @@ module Story
     delivered.inject([]) do |ids, element|
       ids.concat(element.scan(/[0-9]{8,}/).flatten)
       ids
-    end
+    end.uniq
   end
 end
