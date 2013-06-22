@@ -30,8 +30,13 @@ class StoryPullRequest < FinishedCommand
     options.base_branch || 'master'
   end
 
+  # Returns a commit message with the branch being used for the pull request.
+  def short_message
+    "Issue pull request for branch #{story_branch}"
+  end
+
   # Returns a commit message with links to all the delivered stories.
-  def commit_message
+  def long_message
     ids = delivered_ids(`git log #{base_branch}..HEAD`)
     ids.map { |id| delivers_url(id) }.join("\n")
   end
@@ -41,10 +46,8 @@ class StoryPullRequest < FinishedCommand
     Dir.mkdir '.pull_requests' unless File.directory?('.pull_requests')
     c =  ["touch .pull_requests/`date '+%s'`"]
     c << "git add ."
-    c << %(git commit -m "Pull request" -m "#{commit_message}")
+    c << %(git commit -m "#{short_message}" -m "#{long_message}")
     c << "git pull-request"
     c.join("\n")
   end
-
-  private
 end
