@@ -58,28 +58,26 @@ class StoryAccept < Command
     Nokogiri::XML(response.body).at_css('current_state').content == "accepted"
   end
 
-  def api_token
-    api_filename = '.api_token'
-    if File.exist?(api_filename)
-      @api_token ||= File.read(api_filename).strip
+  def config_filename(filename, description)
+    if File.exist?(filename)
+      add_to_gitignore(filename)
+      varname = '@' + filename.sub('.', '')
+      value = File.read(filename).strip
+      instance_variable_set(varname, value)
     else
-      puts "Please create a file called '#{api_filename}'"
-      puts "containing your Pivotal Tracker API token."
-      add_to_gitignore('.api_token')
+      puts "Please create a file called '#{filename}'"
+      puts "containing #{description}."
+      add_to_gitignore(filename)
       exit 1
     end
   end
 
+  def api_token
+    config_filename('.api_token', 'your Pivotal tracker API token')
+  end
+
   def project_id
-    project_id_filename = '.project_id'
-    if File.exist?(project_id_filename)
-      @project_id ||= File.read(project_id_filename).strip
-    else
-      puts "Please create a file called '.project_id'"
-      puts "containing the Pivotal Tracker project number."
-      add_to_gitignore('.project_id')
-      exit 1
-    end
+    config_filename('.project_id', 'the Pivotal tracker project id')
   end
 
   # Adds a filename to the .gitignore file (if necessary).
@@ -90,7 +88,9 @@ class StoryAccept < Command
     if File.exist?(gitignore)
       contents = File.read(gitignore)
       unless contents =~ /#{filename}/
-        File.open(gitignore, 'a') { |f| f.puts("\n" + filename) }
+        # Prepend a newline if the file doesn't end in a newline.
+        line = contents == contents.chomp ? "\n#{filename}" : filename
+        File.open(gitignore, 'a') { |f| f.puts(line) }
         puts "Added #{filename} to .gitignore"
       end
     end
