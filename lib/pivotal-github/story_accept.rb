@@ -90,7 +90,7 @@ class StoryAccept < Command
     if File.exist?(gitignore)
       contents = File.read(gitignore)
       unless contents =~ /#{filename}/
-        File.open(gitignore, 'a') { |f| f.puts(filename) }
+        File.open(gitignore, 'a') { |f| f.puts("\n" + filename) }
         puts "Added #{filename} to .gitignore"
       end
     end
