@@ -132,8 +132,6 @@ As with `git story-merge`, by default `git story-pull-request` exits with a warn
 
 The purpose of `git story-accept` is to accept stories that have been merged into `master`, so by default it works only on the master branch. This requirement can be overridden by the `--override` option.
 
-In order to avoid reading the entire Git log every time it's run, by default `git story-accept` stops immediately after finding a story that has already been accepted. The assumption is that `git story-accept` is run immediately after merging a pull request into a master branch that is always up-to-date, so that there are no delivered but unaccepted stories further down in the log.
-
 `git story-accept` requires the existence of `.api_token` and `.project_id` files containing the Pivotal Tracker API token and project id, respectively. The user is prompted to create them if they are not present. (They aren't read from the command line using `gets` due to an incompatibility with options passing.)
 
 #### Options
@@ -141,8 +139,8 @@ In order to avoid reading the entire Git log every time it's run, by default `gi
     Usage: git story-accept [options]
         -o, --override                   override master branch requirement
         -q, --quiet                      suppress display of accepted story ids
-        -a, --all                        process all stories (entire log)
         -h, --help                       this usage guide
+
 ### story-open
 
 The `story-open` command (no `git`) opens the current story in the default browser (OS&nbsp;X&ndash;only):
