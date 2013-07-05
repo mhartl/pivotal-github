@@ -5,7 +5,10 @@ describe StoryAccept do
   let(:command) { StoryAccept.new(['-o', '-a']) }
   before do
     command.stub(:story_branch).and_return('62831853-tau-manifesto')
-    command.stub(:already_accepted?).and_return(false)
+    command.stub(:git_log_delivered_story_ids).
+            and_return(%w[51204529 51106181 50566167 50566179 60566178])
+    command.stub(:pivotal_tracker_delivered_story_ids).
+            and_return(%w[51204529 51106181 50566167 50566178])
   end
   subject { command }
 
@@ -19,6 +22,9 @@ describe StoryAccept do
     it { should include("51204529") }
     it { should include("51106181") }
     it { should include("50566167") }
+    it { should_not include("50566178") }
+    it { should_not include("50566178") }
+    it { should_not include("60566178") }
 
     it "should not have duplicate ids" do
       expect(ids).to eq ids.uniq
@@ -38,19 +44,5 @@ describe StoryAccept do
       command.should_receive(:accept!).exactly(number_accepted).times
       command.run!
     end
-  end
-
-  describe "when stopping upon reading the first accepted id" do
-    let(:command) { StoryAccept.new(['-o']) }
-    before do
-      command.stub(:story_branch).and_return('62831853-tau-manifesto')
-      command.stub(:already_accepted?).and_return(false)
-      command.stub(:already_accepted?).with("50566167").and_return(true)
-    end
-    subject { command }
-
-    its(:ids_to_accept) { should include("51204529") }
-    its(:ids_to_accept) { should include("51106181") }
-    its(:ids_to_accept) { should_not include("50566167") }
   end
 end

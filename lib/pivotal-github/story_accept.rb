@@ -16,9 +16,6 @@ class StoryAccept < Command
       opts.on("-q", "--quiet", "suppress display of accepted story ids") do |opt|
         self.options.quiet = opt
       end
-      opts.on("-a", "--all", "process all stories (entire log)") do |opt|
-        self.options.all = opt
-      end
       opts.on_tail("-h", "--help", "this usage guide") do
         puts opts.to_s; exit 0
       end
@@ -32,24 +29,38 @@ class StoryAccept < Command
   end
 
   # Returns the ids to accept.
-  # These ids are of the form [Delivers #<story id>] or
-  # [Delivers #<story id> #<another story id>].
+  # The stories to accept are the set intersection of the delivered stories
+  # according to the Git log and according to Pivotal Tracker.
   def ids_to_accept
-    delivered_lines = `git log | egrep '\\[Deliver(s|ed) #'`.split("\n")
+    git_log_delivered_story_ids & pivotal_tracker_delivered_story_ids
+  end
+
+  # Returns the ids of delivered stories according to the Git log.
+  # These ids are of the form [Delivers #<story id>] or
+  # [Delivers #<story id> #<another story id>]. The difference is handled
+  # by the delivered_ids method.
+  def git_log_delivered_story_ids
+    delivered_lines = `git log | egrep '\\[Deliver(s|ed) #'`.split("\n").uniq
     delivered_lines.inject([]) do |accept, line|
-      delivered_ids(line).each do |commit_id|
-        return accept if already_accepted?(commit_id) && !options.all
-        accept << commit_id
-        accept.uniq!
-      end
-      accept
+      accept << delivered_ids(line)
+    end.uniq
+  end
+
+  # Returns the ids of delivered stories according to Pivotal Tracker.
+  def pivotal_tracker_delivered_story_ids
+    data = { 'X-TrackerToken' => api_token,
+             'Content-type'   => "application/xml" }
+    uri = URI.parse("#{project_uri}/stories?filter=state%3Adelivered")
+    response = Net::HTTP.start(uri.host, uri.port) do |http|
+      http.get(uri.path, data)
     end
+    Nokogiri::XML(response.body).css('id').map(&:content)
   end
 
   # Returns true if a story has already been accepted.
   def already_accepted?(story_id)
     data = { 'X-TrackerToken' => api_token,
-             'Content-type' => "application/xml" }
+             'Content-type'   => "application/xml" }
     uri = story_uri(story_id)
     response = Net::HTTP.start(uri.host, uri.port) do |http|
       http.get(uri.path, data)
@@ -122,8 +133,11 @@ class StoryAccept < Command
       'http://www.pivotaltracker.com/services/v3'
     end
 
+    def project_uri
+      URI.parse("#{api_base}/projects/#{project_id}")
+    end
+
     def story_uri(story_id)
-      uri = "#{api_base}/projects/#{project_id}/stories/#{story_id}"
-      URI.parse(uri)
+      URI.parse("#{project_uri}/stories/#{story_id}")
     end
 end
