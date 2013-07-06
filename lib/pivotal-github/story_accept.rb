@@ -1,8 +1,8 @@
 require 'pivotal-github/command'
-require 'net/http'
-require 'uri'
-require 'nokogiri'
 require 'pivotal-github/story'
+require 'nokogiri'
+require 'net/http'
+require 'cgi'
 
 class StoryAccept < Command
   include Story
@@ -44,13 +44,20 @@ class StoryAccept < Command
     delivered_ids(delivered_text).uniq
   end
 
-  # Returns the ids of delivered stories according to Pivotal Tracker.
-  def pivotal_tracker_delivered_story_ids
-    uri = URI.parse("#{project_uri}/stories?filter=state%3Adelivered")
+  def pivotal_tracker_ids(filter)
+    uri = URI.parse("#{project_uri}/stories?filter=#{CGI::escape(filter)}")
     response = Net::HTTP.start(uri.host, uri.port) do |http|
       http.get(uri, data)
     end
     Nokogiri::XML(response.body).css('story > id').map(&:content)
+  end
+
+  # Returns the ids of delivered stories according to Pivotal Tracker.
+  def pivotal_tracker_delivered_story_ids
+    # The Pivotal Tracker API won't return delivered bugs by default,
+    # so handle them separately.
+    pivotal_tracker_ids('state:delivered') +
+    pivotal_tracker_ids('state:delivered type:bug')
   end
 
   # Returns true if a story has already been accepted.
