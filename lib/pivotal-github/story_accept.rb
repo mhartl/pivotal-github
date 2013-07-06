@@ -40,7 +40,8 @@ class StoryAccept < Command
   # [Delivers #<story id> #<another story id>]. The difference is handled
   # by the delivered_ids method.
   def git_log_delivered_story_ids
-    delivered_lines = `git log | egrep '\\[Deliver(s|ed) #'`.split("\n").uniq
+    pat = '\\[Deliver(s|ed) #'
+    delivered_lines = `git log --grep='#{pat}' | egrep '#{pat}'`.split("\n")
     delivered_lines.inject([]) do |accept, line|
       accept << delivered_ids(line)
     end.uniq

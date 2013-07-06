@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe StoryAccept do
 
-  let(:command) { StoryAccept.new(['-o', '-a']) }
+  let(:command) { StoryAccept.new(['-o']) }
   before do
     command.stub(:story_branch).and_return('62831853-tau-manifesto')
     command.stub(:git_log_delivered_story_ids).
