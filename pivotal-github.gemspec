@@ -19,5 +19,4 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.add_dependency('git-utils')
   gem.add_dependency('nokogiri')
-  gem.add_dependency('httparty', '~> 0.10.0')
 end
