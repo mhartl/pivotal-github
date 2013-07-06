@@ -54,9 +54,9 @@ class StoryAccept < Command
 
   # Returns the ids of delivered stories according to Pivotal Tracker.
   def pivotal_tracker_delivered_story_ids
-    # The Pivotal Tracker API won't return delivered bugs by default,
-    # so handle them separately.
-    pivotal_tracker_ids('state:delivered') +
+    # The Pivotal Tracker API doesn't seem to want to return stories
+    # with a particular state unless the type is also specified.
+    pivotal_tracker_ids('state:delivered type:feature') +
     pivotal_tracker_ids('state:delivered type:bug')
   end
 
