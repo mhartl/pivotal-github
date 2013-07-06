@@ -40,29 +40,21 @@ class StoryAccept < Command
   # [Delivers #<story id> #<another story id>]. The difference is handled
   # by the delivered_ids method.
   def git_log_delivered_story_ids
-    pat = '\\[Deliver(s|ed) #'
-    delivered_lines = `git log --grep='#{pat}' | egrep '#{pat}'`.split("\n")
-    delivered_lines.inject([]) do |accept, line|
-      accept << delivered_ids(line)
-    end.uniq
+    delivered_text = `git log -E --grep '\\[Deliver(s|ed) #'`
+    delivered_ids(delivered_text).uniq
   end
 
   # Returns the ids of delivered stories according to Pivotal Tracker.
   def pivotal_tracker_delivered_story_ids
-    data = { 'X-TrackerToken' => api_token,
-             'Content-type'   => "application/xml" }
     uri = URI.parse("#{project_uri}/stories?filter=state%3Adelivered")
     response = Net::HTTP.start(uri.host, uri.port) do |http|
-      http.get(uri.path, data)
+      http.get(uri, data)
     end
-    Nokogiri::XML(response.body).css('id').map(&:content)
+    Nokogiri::XML(response.body).css('story > id').map(&:content)
   end
 
   # Returns true if a story has already been accepted.
   def already_accepted?(story_id)
-    data = { 'X-TrackerToken' => api_token,
-             'Content-type'   => "application/xml" }
-    uri = story_uri(story_id)
     response = Net::HTTP.start(uri.host, uri.port) do |http|
       http.get(uri.path, data)
     end
@@ -140,5 +132,11 @@ class StoryAccept < Command
 
     def story_uri(story_id)
       URI.parse("#{project_uri}/stories/#{story_id}")
+    end
+
+    # Returns data for Pivotal Tracker API calls
+    def data
+      { 'X-TrackerToken' => api_token,
+        'Content-type'   => "application/xml" }
     end
 end
