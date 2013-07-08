@@ -13,7 +13,7 @@ class StoryAccept < Command
       opts.on("-o", "--override", "override master branch requirement") do |opt|
         self.options.override = opt
       end
-      opts.on("-q", "--quiet", "suppress display of accepted story ids") do |opt|
+      opts.on("-q", "--quiet", "don't display accepted story ids") do |opt|
         self.options.quiet = opt
       end
       opts.on_tail("-h", "--help", "this usage guide") do
@@ -54,10 +54,9 @@ class StoryAccept < Command
 
   # Returns the ids of delivered stories according to Pivotal Tracker.
   def pivotal_tracker_delivered_story_ids
-    # The Pivotal Tracker API doesn't seem to want to return stories
-    # with a particular state unless the type is also specified.
-    pivotal_tracker_ids('state:delivered type:feature') +
-    pivotal_tracker_ids('state:delivered type:bug')
+    pivotal_tracker_ids('state:delivered').tap do |ids|
+      puts ids
+    end
   end
 
   # Returns true if a story has already been accepted.
