@@ -54,7 +54,11 @@ class StoryAccept < Command
 
   # Returns the ids of delivered stories according to Pivotal Tracker.
   def pivotal_tracker_delivered_story_ids
-    pivotal_tracker_ids('state:delivered')
+    # We include 'includedone:true' to force Pivotal Tracker to return
+    # *all* delivered ids, no matter when the story was finished. This also
+    # appears to be necessary to return the ids of stories marked **Delivered**
+    # by a merge commit, as in `git story-merge -d`.
+    pivotal_tracker_ids('state:delivered includedone:true')
   end
 
   # Returns true if a story has already been accepted.
