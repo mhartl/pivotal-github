@@ -54,9 +54,7 @@ class StoryAccept < Command
 
   # Returns the ids of delivered stories according to Pivotal Tracker.
   def pivotal_tracker_delivered_story_ids
-    pivotal_tracker_ids('state:delivered').tap do |ids|
-      puts ids
-    end
+    pivotal_tracker_ids('state:delivered')
   end
 
   # Returns true if a story has already been accepted.

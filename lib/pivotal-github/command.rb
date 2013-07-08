@@ -57,7 +57,7 @@ class Command
   # '#62831853'. For multiple-id stories, each story id is precede by '#', as in
   # '#62831853 #31415926'
   def message_ids
-    story_ids.map { |id| "##{id}" }.join(' ')
+    @message_ids ||= story_ids.map { |id| "##{id}" }.join(' ')
   end
 
   # Runs a command.

@@ -30,7 +30,7 @@ class StoryMerge < FinishedCommand
   def cmd
     lines = ["git checkout #{target_branch}"]
     c = ["git merge --no-ff --log"]
-    c << %(-m "#{message}")
+    c << %(-m "#{message}") unless story_ids.empty?
     c << argument_string(unknown_options) unless unknown_options.empty?
     c << story_branch
     lines << c.join(' ')
