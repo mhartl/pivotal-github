@@ -1,11 +1,13 @@
 require 'pivotal-github/command'
 require 'pivotal-github/story'
+require 'pivotal-github/config_files'
 require 'nokogiri'
 require 'net/http'
 require 'cgi'
 
 class StoryAccept < Command
   include Story
+  include ConfigFiles
 
   def parser
     OptionParser.new do |opts|
@@ -67,44 +69,6 @@ class StoryAccept < Command
       http.get(uri.path, data)
     end
     Nokogiri::XML(response.body).at_css('current_state').content == "accepted"
-  end
-
-  def config_filename(filename, description)
-    if File.exist?(filename)
-      add_to_gitignore(filename)
-      varname = '@' + filename.sub('.', '')
-      value = File.read(filename).strip
-      instance_variable_set(varname, value)
-    else
-      puts "Please create a file called '#{filename}'"
-      puts "containing #{description}."
-      add_to_gitignore(filename)
-      exit 1
-    end
-  end
-
-  def api_token
-    config_filename('.api_token', 'your Pivotal tracker API token')
-  end
-
-  def project_id
-    config_filename('.project_id', 'the Pivotal tracker project id')
-  end
-
-  # Adds a filename to the .gitignore file (if necessary).
-  # This is put in as a security precaution, especially to keep the
-  # Pivotal Tracker API key from leaking.
-  def add_to_gitignore(filename)
-    gitignore = '.gitignore'
-    if File.exist?(gitignore)
-      contents = File.read(gitignore)
-      unless contents =~ /#{filename}/
-        # Prepend a newline if the file doesn't end in a newline.
-        line = contents == contents.chomp ? "\n#{filename}" : filename
-        File.open(gitignore, 'a') { |f| f.puts(line) }
-        puts "Added #{filename} to .gitignore"
-      end
-    end
   end
 
   # Changes a story's state to **Accepted**.
