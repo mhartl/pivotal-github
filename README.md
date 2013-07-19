@@ -147,6 +147,13 @@ The `story-open` command (no `git`) opens the current story in the default brows
 
     $ story-open
 
+### project-open
+
+The `project-open` command (no `git`) opens the current project in the default browser (OS&nbsp;X&ndash;only):
+
+    $ project-open
+
+`project-open` requires the existence of file containing the project id with filename `.project_id` in the project's root directory. If it doesn't exist, the user is prompted to create it, and for safety it is automatically added to the `.gitignore` file.
 
 ## Configuration
 
