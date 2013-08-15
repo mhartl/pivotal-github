@@ -80,7 +80,8 @@ describe StoryCommit do
 
     describe "when used with branches containing multiple stories" do
       before do
-        command.stub(:story_branch).and_return('62831853-tau-manifesto-31415926')
+        command.stub(:story_branch).
+                and_return('62831853-tau-manifesto-31415926')
       end
       its(:cmd) do
         delivered_ids = '#62831853 #31415926'
@@ -97,7 +98,8 @@ describe StoryCommit do
 
     describe "when used with branches containing multiple stories" do
       before do
-        command.stub(:story_branch).and_return('62831853-tau-manifesto-31415926')
+        command.stub(:story_branch).
+                and_return('62831853-tau-manifesto-31415926')
       end
       its(:cmd) do
         delivered_ids = '#62831853 #31415926'
