@@ -6,8 +6,16 @@ module Story
   end
 
   # Returns the ids of delivered stories found in the given text.
+  # We omit the ids of stories that have already been delivered by a
+  # particular pull request, so that each new PR is only tagged with stories
+  # delivered since the *last* PR.
   def delivered_ids(text)
-    delivered  = text.scan(/\[Deliver(?:s|ed) (.*?)\]/).flatten
+    # Match '[Delivers #6283185]' but *not* '[Delivers #6283185]('.
+    # The latter is the case for deliveries included as part of pull request
+    # commits, which include lines of the form
+    # [Delivers #6283185](https://www.pivotaltracker.com/story/show/6283185)
+    delivered_not_in_pr = /\[Deliver(?:s|ed) (.*?)\](?:$|[^(])/
+    delivered = text.scan(delivered_not_in_pr).flatten
     # Handle multiple ids, i.e., '[Delivers #<id 1> #<id 2>]'
     delivered.inject([]) do |ids, element|
       ids.concat(element.scan(/[0-9]{8,}/).flatten)
