@@ -37,15 +37,6 @@ class StoryAccept < Command
     git_log_delivered_story_ids & pivotal_tracker_delivered_story_ids
   end
 
-  # Returns the ids of delivered stories according to the Git log.
-  # These ids are of the form [Delivers #<story id>] or
-  # [Delivers #<story id> #<another story id>]. The difference is handled
-  # by the delivered_ids method.
-  def git_log_delivered_story_ids
-    delivered_text = `git log -E --grep '\\[Deliver(s|ed) #'`
-    delivered_ids(delivered_text).uniq
-  end
-
   def pivotal_tracker_ids(filter)
     uri = URI.parse("#{project_uri}/stories?filter=#{CGI::escape(filter)}")
     response = Net::HTTP.start(uri.host, uri.port) do |http|
