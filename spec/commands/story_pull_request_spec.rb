@@ -7,7 +7,8 @@ describe StoryPullRequest do
   before do
     command.stub(:remote_location).
             and_return('https://github.com/mhartl/foo')
-    command.stub(:delivered_ids).and_return(['62831853', '31415926'])
+    command.stub(:delivered_ids_since_last_pr).
+            and_return(['62831853', '31415926'])
     command.stub(:write_pr_file).and_return('')
   end
   subject { command }

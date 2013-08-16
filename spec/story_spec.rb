@@ -9,7 +9,7 @@ describe Story do
     it { should include id }
   end
 
-  describe '#delivered_ids' do
+  describe '#delivered_ids_since_last_pr' do
     let(:text) do <<-EOS
       [Delivers #62831853 #31415926]
       [Delivered #27182818]
@@ -20,7 +20,7 @@ describe Story do
       [Delivers #55202656]
       EOS
     end
-    subject { delivered_ids(text) }
+    subject { delivered_ids_since_last_pr(text) }
 
     it { should include '62831853' }
     it { should include '31415926' }
