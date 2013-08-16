@@ -22,4 +22,13 @@ module Story
       ids
     end.uniq
   end
+
+  # Returns the ids of delivered stories according to the Git log.
+  # These ids are of the form [Delivers #<story id>] or
+  # [Delivers #<story id> #<another story id>]. The difference is handled
+  # by the delivered_ids method.
+  def git_log_delivered_story_ids
+    delivered_text = `git log -E --grep '\\[Deliver(s|ed) #'`
+    delivered_ids(delivered_text).uniq
+  end
 end
