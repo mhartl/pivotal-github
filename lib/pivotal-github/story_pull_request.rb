@@ -30,6 +30,7 @@ class StoryPullRequest < FinishedCommand
   # Returns a commit message with links to all the delivered stories.
   def long_message
     ids = git_log_delivered_story_ids
+    raise ids.inspect
     ids.map { |id| delivers_url(id) }.join("\n")
   end
 
