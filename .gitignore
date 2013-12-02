@@ -19,3 +19,4 @@ tmp
 .DS_Store
 .project_id
 .api_token
+.ruby-*
